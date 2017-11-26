@@ -1,2 +1,2 @@
 # bd-webapp
-Digital edition of the lyrics of Bob Dylan
+HS *Digital Humanities und Informatik der Geisteswissenschaften* – Eide
