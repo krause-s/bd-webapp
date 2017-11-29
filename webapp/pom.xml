@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.uni-koeln.dh.bd</groupId>
-	<artifactId>bd-project</artifactId>
+	<artifactId>bd-webapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<!-- <packaging>jar</packaging> -->
 
 	<name>bd-webapp</name>
-	<description>Digital edition of the lyrics of Bob Dylan</description>
+	<description>Web app</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -24,7 +24,7 @@
 		
 		<!-- <java.version>1.8</java.version> -->
 		<lucene.version>7.1.0</lucene.version>
-		<htmlunit.version>2.28</htmlunit.version>
+		<!-- <htmlunit.version>2.28</htmlunit.version> -->
 		<jquery.version>3.2.1</jquery.version>
 		<bootstrap.version>3.3.7-1</bootstrap.version>
 	</properties>
@@ -50,19 +50,9 @@
 			<artifactId>lucene-core</artifactId>
 			<version>${lucene.version}</version>
 		</dependency>
+
+		<!-- TODO WebJars incl. Leaflet, D3.js -->
 		
-		<!-- (Web-)Crawler: HtmlUnit -->
-		<dependency>
-			<groupId>net.sourceforge.htmlunit</groupId>
-			<artifactId>htmlunit</artifactId>
-			<version>${htmlunit.version}</version><!--$NO-MVN-MAN-VER$-->
-		</dependency>			
-
-
-
-
-
-		<!-- TODO WebJars, Leaflet, D3.js -->
 		<!-- JS: jQuery -->
 		<dependency>
 			<groupId>org.webjars</groupId>

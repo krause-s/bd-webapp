@@ -22,5 +22,5 @@
 hs_err_pid*
 
 # custom
-/target/
+target/
 .DS_Store
