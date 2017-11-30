@@ -57,5 +57,12 @@
 			<artifactId>jsoup</artifactId>
 			<version>${jsoup.version}</version>
 		</dependency>
+		
+		<!-- Named Enitity Recognition -->
+		<dependency>
+    		<groupId>edu.stanford.nlp</groupId>
+    		<artifactId>stanford-corenlp</artifactId>
+    		<version>3.8.0</version>
+		</dependency>
 	</dependencies>
 </project>
