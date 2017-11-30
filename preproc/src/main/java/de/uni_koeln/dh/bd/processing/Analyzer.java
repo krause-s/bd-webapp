@@ -28,7 +28,7 @@ public static void analyseCorpusStatistics(List<Song> songs){
 				missingTitles++;
 			
 		}
-		
+		System.out.println("----------------------------------------------");
 		System.out.println("Bei insgesamt " + songs.size() + " fehlen:\n"
 				+ missingLyrics + " Lyrics\n "
 				+ missingTitles + " Titel\n"

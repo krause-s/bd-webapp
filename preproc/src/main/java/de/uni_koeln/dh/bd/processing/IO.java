@@ -19,8 +19,11 @@ import de.uni_koeln.dh.bd.data.Song;
 
 public class IO {
 	public List<Song> getSongsFromURLs(String path) throws IOException {
+		
+		File file = new File(path);
+		System.out.println("Crawl through links from file: " + file.getAbsolutePath());
 
-		Reader reader = new FileReader(path);
+		Reader reader = new FileReader(file);
 		BufferedReader br = new BufferedReader(reader);
 
 		List<Song> songs = new ArrayList<Song>();
@@ -28,8 +31,8 @@ public class IO {
 		String line = "";
 		while ((line = br.readLine()) != null) {
 
-			if (!(line.startsWith("http") || line.startsWith("\n")))
-				System.out.println(line);
+//			if (!(line.startsWith("http") || line.startsWith("\n")))
+//				System.out.println(line);
 
 			Song song;
 			if (line.contains("http")) {
@@ -39,7 +42,7 @@ public class IO {
 
 		}
 		br.close();
-		System.out.println(songs.size() + " Songs");
+		System.out.println("Crawled " + songs.size() + " Songs");
 		return songs;
 	}
 
