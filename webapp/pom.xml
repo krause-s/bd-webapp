@@ -1,4 +1,4 @@
-<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -10,26 +10,36 @@
 
 	<name>bd-webapp</name>
 	<description>Web app</description>
+	<url>https://github.com/krause-s/bd-webapp</url>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.8.RELEASE</version>
-		<relativePath/>
+		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		
-		<!-- <java.version>1.8</java.version> -->
+		<java.version>1.8</java.version>
 		<lucene.version>7.1.0</lucene.version>
-		<!-- <htmlunit.version>2.28</htmlunit.version> -->
 		<jquery.version>3.2.1</jquery.version>
 		<bootstrap.version>3.3.7-1</bootstrap.version>
 	</properties>
 
-	<dependencies>	 
+	<!-- TODO exclude default logging (logback) -->
+	<dependencies>
+		<!-- TODO preprocessing project (problem: logging error) -->	 
+		<!-- 
+		<dependency>
+			<groupId>de.uni-koeln.dh.bd</groupId>
+			<artifactId>bd-preproc</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	 	-->
+	
 		<!-- Testing (JUnit), Logging (SLF4J: log4j)... -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -37,10 +47,17 @@
 			<scope>test</scope>
 		</dependency>
  
- 		<!-- Web: Template engine (Thymeleaf), XML/JSON (Jackson), Server (Tomcat)... -->
+ 		<!-- Web: Template engine (Thymeleaf), JSON (Jackson), Server (Tomcat)... -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		
+		<!-- XML/POJO: Jackson -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+			<!-- <version>2.9.2</version> -->
 		</dependency>
 		
 		<!-- Indexing/Searching: Lucene -->
@@ -50,6 +67,9 @@
 			<artifactId>lucene-core</artifactId>
 			<version>${lucene.version}</version>
 		</dependency>
+
+
+
 
 		<!-- TODO WebJars incl. Leaflet, D3.js -->
 		
@@ -78,10 +98,10 @@
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>webjars-locator</artifactId>
-		</dependency>	
+		</dependency>
 	</dependencies>
 
-	<!-- 
+	<!-- TODO required? -->
 	<build>
 		<plugins>
 			<plugin>
@@ -90,5 +110,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	-->
 </project>

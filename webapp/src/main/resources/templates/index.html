@@ -1,0 +1,36 @@
+<!-- TODO tmp -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<title>bd-webapp</title>
+		<link rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+			integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+			crossorigin="anonymous"/>
+		<link rel="stylesheet" href="/css/style.css"/>
+		<script type="text/javascript" src="/js/script.js"></script>
+	</head>
+
+	<body>
+		<div class="jumbotron text-center">
+			<h1>bd-webapp</h1>
+			<p>Digital edition of the lyrics of Bob Dylan</p>
+		</div>
+		<div class="container">
+			<tr th:each="song,status : ${songs}">
+				<h3 th:text="${status.index}"></h3><br/>
+				<b>title: </b><td th:text="${song.getTitle()}"></td><br/>
+				<b>ref: </b><a th:href="${song.getURL()}"><td th:text="${song.getURL()}"></td></a><br/>
+				<b>lyrics: </b><i><td th:text="${song.getLyrics()}"></td></i><br/>
+				<b>credits: </b><td th:text="${song.getCredits()}"></td><br/>
+				<b>copyright: </b><td th:text="${song.getCopyright()}"></td>
+				<hr/>
+			</tr>
+		</div>
+</body>
+</html>
