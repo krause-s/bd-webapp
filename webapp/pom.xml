@@ -25,7 +25,6 @@
 		
 		<java.version>1.8</java.version>
 		<lucene.version>7.1.0</lucene.version>
-		<jquery.version>3.2.1</jquery.version>
 		<bootstrap.version>3.3.7-1</bootstrap.version>
 	</properties>
 
@@ -67,38 +66,31 @@
 			<artifactId>lucene-core</artifactId>
 			<version>${lucene.version}</version>
 		</dependency>
-
-
-
-
-		<!-- TODO WebJars incl. Leaflet, D3.js -->
 		
-		<!-- JS: jQuery -->
+		<!-- WebJars versioning -->
 		<dependency>
 			<groupId>org.webjars</groupId>
-			<artifactId>jquery</artifactId>
-			<version>${jquery.version}</version>
+			<artifactId>webjars-locator</artifactId>
+			<!-- <version>0.32</version> -->
 		</dependency>
-
-		<!-- CSS/JS: Bootstrap -->
+		
+		<!-- CSS(/JS): Bootstrap -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>${bootstrap.version}</version>
-			<!-- 
-			<exclusions>
-				<exclusion>
-					<groupId>org.webjars</groupId>
-					<artifactId>jquery</artifactId>
-				</exclusion>
-			</exclusions>
-			-->
 		</dependency>
 		
+		<!-- JS: jQuery -->
+		<!-- 
 		<dependency>
 			<groupId>org.webjars</groupId>
-			<artifactId>webjars-locator</artifactId>
+			<artifactId>jquery</artifactId>
+			<version>3.2.1</version>
 		</dependency>
+		 -->
+		 
+		<!-- TODO D3.js? -->
 	</dependencies>
 
 	<!-- TODO required? -->

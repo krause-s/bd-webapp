@@ -1,2 +1,5 @@
-// TODO tmp
-console.log("test");
+// currently ignored
+
+$(document).ready(function() {
+
+});
