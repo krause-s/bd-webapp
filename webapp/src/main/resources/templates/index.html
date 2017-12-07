@@ -28,7 +28,10 @@
 				<b>ref: </b><a th:href="${song.getURL()}"><td th:text="${song.getURL()}"></td></a><br/>
 				<b>lyrics: </b><i><td th:text="${song.getLyrics()}"></td></i><br/>
 				<b>credits: </b><td th:text="${song.getCredits()}"></td><br/>
-				<b>copyright: </b><td th:text="${song.getCopyright()}"></td>
+				<b>copyright: </b><td th:text="${song.getCopyright()}"></td><br/>
+				<b>firstPlayed: </b><a th:href="${song.getFirstPlayed()}"><td th:text="${song.getFirstPlayed()}"></td></a><br/>
+				<b>lastPlayed: </b><a th:href="${song.getLastPlayed()}"><td th:text="${song.getLastPlayed()}"></td></a><br/>
+				<b>timesPlayed: </b><td th:text="${song.getTimesPlayed()}"></td>
 				<hr/>
 			</tr>
 		</div>
