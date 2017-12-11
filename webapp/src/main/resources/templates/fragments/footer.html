@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+<body>
+	<!-- TODO mobile layout, links? -->
+	<footer th:fragment="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-9">
+					<span>
+						Copyright &copy; <span th:text="${#dates.year(#dates.createNow())}"></span>
+					</span>
+					<span>Johanna Binnewitt</span>, 
+					<span>Stefan Krause</span>, 
+					<span>Peter Seipel</span> &bull; 
+					<span>Universität zu Köln</span>
+				</div>
+				
+				<div class="col-md-3 text-right">
+					<a href="#">
+						Back to top <span class="glyphicon glyphicon-chevron-up"></span>
+					</a>
+				</div>
+			</div>	<!-- .row -->
+		</div>	<!-- .container -->
+	</footer>
+</body>
+
+</html>
