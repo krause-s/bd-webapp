@@ -1,1 +1,9 @@
 /export.xml
+
+/songs.xml
+
+/albums.xml
+
+/src/main/resources/album_links.txt
+/src/main/resources/song_links.txt
+/src/main/resources/song_links_old.txt

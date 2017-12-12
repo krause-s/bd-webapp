@@ -7,18 +7,29 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
+import de.uni_koeln.dh.bd.data.Album;
 import de.uni_koeln.dh.bd.data.Song;
+import de.uni_koeln.dh.bd.util.Strings;
 
 public class IO {
+
+	private Map<String, Album> albumsMap = new HashMap<String, Album>();
+
+	private int songCounter = 1;
+	private int albumCounter = 1;
+
 	public List<Song> getSongsFromURLs(String path) throws IOException {
 
 		File file = new File(path);
@@ -47,23 +58,90 @@ public class IO {
 		return songs;
 	}
 
-	public void exportSongsToXML(List<Song> songs) throws IOException {
-		System.out.println("Export to: export.xml");
+	public Map<String, Album> getAlbumsMap() {
+		return albumsMap;
+	}
 
-		File xml = new File("export.xml");
+//	public List<Album> getAlbumsFromURLs(String path) throws IOException {
+//		File file = new File(path);
+//		System.out.println("Crawl through links from file: " + file.getAbsolutePath());
+//
+//		Reader reader = new FileReader(file);
+//		BufferedReader br = new BufferedReader(reader);
+//
+//		List<Album> albums = new ArrayList<Album>();
+//		String line = "";
+//		while ((line = br.readLine()) != null) {
+//
+//			Album album;
+//			if (line.contains("http")) {
+//				album = createAlbumObject(line);
+//				albums.add(album);
+//			}
+//
+//		}
+//		br.close();
+//		System.out.println("Crawled " + albums.size() + " Songs");
+//		return albums;
+//
+//	}
+
+//	private Album createAlbumObject(String url) throws IOException {
+//
+//		// crawl informations
+//		Document doc = null;
+//		doc = Jsoup.connect(url).userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0") // Mozilla/5.0
+//																												// Firefox/57.0
+//				.referrer("http://www.google.com").ignoreHttpErrors(true).maxBodySize(0).get();
+//
+//		Element interior_content = doc.select(
+//				"body > div#variable > div.page-content > div.main-wrapper.page-wrapper > div.content.album-detail > div.interior-content")
+//				.first();
+//
+//		Element album = interior_content.select("div.album > div.information > h2.headline").first();
+//
+//		Element trackslist = interior_content.select("div.tracks-list").first();
+//		List<Node> children = interior_content.childNodes();
+//		for (Node node : children) {
+//			System.out.println(node);
+//			System.out.println("------------");
+//		}
+//		System.out.println();
+//		System.out.println(trackslist.html());
+//
+//		// System.out.println(titleAndYear);
+//		// System.out.println("****");
+//
+//		// set values for new object
+//		String id = "a" + albumCounter++;
+//		String titleAndYear = album.html();
+//		Map<String, String> tracks = new HashMap<String, String>();
+//
+//		return new Album(id, tracks, titleAndYear);
+//	}
+
+	public void exportSongsToXML(List<Song> songs) throws IOException {
+		String path = "songs.xml";
+		System.out.println("Export to: " + path);
+
+		File xml = new File(path);
 
 		FileWriter fw = new FileWriter(xml);
 		fw.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n");
 
 		fw.write("<songs>\n");
 		for (Song song : songs) {
-			fw.write("\t<song ref=\"" + song.getURL() + "\">\n");
+			fw.write("\t<song id=\"" + song.getID() + "\" ref=\"" + song.getURL() + "\">\n");
 			fw.write("\t\t<title>" + song.getTitle() + "</title>\n" + "\t\t<lyrics>" + song.getLyrics() + "</lyrics>\n"
 					+ "\t\t<credits>" + song.getCredits() + "</credits>\n" + "\t\t<copyright>" + song.getCopyright()
-					+ "</copyright>\n" 
-					+ "\t\t<firstplayed ref=\"" + song.getFirstPlayed() + "\" />\n"
-					+ "\t\t<lastplayed ref=\"" + song.getLastPlayed() + "\" />\n"
-					+ "\t\t<timesplayed>" + song.getTimesPlayed() + "</timesplayed>\n");
+					+ "</copyright>\n" + "\t\t<firstplayed ref=\"" + song.getFirstPlayed() + "\" />\n"
+					+ "\t\t<lastplayed ref=\"" + song.getLastPlayed() + "\" />\n" + "\t\t<timesplayed>"
+					+ song.getTimesPlayed() + "</timesplayed>\n");
+			fw.write("\t\t<albums>\n");
+			for (Album album : song.getAlbums()) {
+				fw.write("\t\t\t<album id=\"" + album.getID() + "\">" + album.getTitle() + "</album>\n");
+			}
+			fw.write("\t\t</albums>");
 			fw.write("\t</song>\n");
 		}
 
@@ -72,7 +150,34 @@ public class IO {
 		fw.close();
 	}
 
+	public void exportAlbumsToXML(List<Album> albums) throws IOException {
+		String path = "albums.xml";
+		System.out.println("Export to: " + path);
+
+		File xml = new File(path);
+
+		FileWriter fw = new FileWriter(xml);
+		fw.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n");
+
+		fw.write("<albums>\n");
+		for (Album album : albums) {
+			fw.write("\t<album id=\"" + album.getID() + "\" ref=\"" + album.getLink() + "\">\n");
+			fw.write("\t\t<title>" + album.getTitle() + "</title>\n" + "\t\t<year>" + album.getYear() + "</year>\n"
+					+ "\t\t<tracklist>\n");
+			for (Song song : album.getTracklist()) {
+				fw.write("\t\t\t<track id=\"" + song.getID() + "\">" + song.getTitle() + "</track>\n");
+			}
+			fw.write("\t\t</tracklist>\n");
+			fw.write("\t</album>\n");
+		}
+
+		fw.write("</albums>");
+		fw.flush();
+		fw.close();
+	}
+
 	private Song createSongObject(String url) throws IOException {
+
 		Document doc = null;
 
 		doc = Jsoup.connect(url)
@@ -80,13 +185,22 @@ public class IO {
 				.referrer("http://www.google.com").ignoreHttpErrors(true).get();
 
 		Element article = doc
-				.select("body > div#variable > div.page-content > div.main-wrapper.page-wrapper > div.content"
-						+ " > div.interior-content > article")
-				.first();
+				.selectFirst("body > div#variable > div.page-content > div.main-wrapper.page-wrapper > div.content"
+						+ " > div.interior-content > article");
 
 		Elements playInfos = doc
 				.select("body > div#variable > div.page-content > div.main-wrapper.page-wrapper > div.content"
 						+ " > div.interior-content > aside.blocks > div.played-stats > div.played");
+
+		Elements albums = doc
+				.select("body > div#variable > div.page-content > div.main-wrapper.page-wrapper > div.content"
+						+ " > div.interior-content > aside.blocks > div.item.album.secondary");
+
+		Element newAlbum = doc
+				.selectFirst("body > div#variable > div.page-content > div.main-wrapper.page-wrapper > div.content"
+						+ " > div.interior-content > aside.blocks > div.item.album");
+
+		albums.add(newAlbum); // contains all albums presented in html
 
 		Element h2 = article.selectFirst("h2");
 		Element credit = article.selectFirst("div.credit");
@@ -119,7 +233,46 @@ public class IO {
 			lp = concerts.get(1);
 		}
 
-		Song song = new Song(url, t, l, copy, cr, fp, lp, tp);
+		String sID = "s" + songCounter++;
+		Song song = new Song(sID, url, t, l, copy, cr, fp, lp, tp);
+
+		for (Element element : albums) {
+
+			Element link = element.selectFirst("div.caption > div.actions.double > a.buy");
+
+			Element infos = element.selectFirst("div.caption > div.information > small");
+			String title = "";
+			String href = "";
+			String year = "";
+			try {
+				title = Strings.getTitle(infos.html());
+				href = link.attr("href");
+				year = Strings.getYear(infos.html());
+			} catch (NullPointerException e) { // might be that there is no album attached to the song
+				title = "none";
+				href = "none";
+			}
+
+			Album currentAlbum = null;
+
+			if (albumsMap.containsKey(title)) {
+				currentAlbum = albumsMap.get(title);
+				if(currentAlbum.getYear().equals(""))
+					currentAlbum.setYear(year);
+			} else {
+				currentAlbum = new Album("a" + (albumsMap.size() + 1));
+				currentAlbum.setTitle(title);
+				currentAlbum.setYear(year);
+				currentAlbum.setLink(href);
+	
+			}
+				
+			song.addAlbum(currentAlbum);
+			currentAlbum.addTrack(song);
+			albumsMap.put(title, currentAlbum);
+			// TODO add song to Album
+			
+		}
 
 		return song;
 	}
@@ -133,21 +286,10 @@ public class IO {
 		String firstTime = parts[0];
 		String lastTime = parts[1];
 
-		toReturn.add(findLink(firstTime));
-		toReturn.add(findLink(lastTime));
+		toReturn.add(Strings.findConcertLink(firstTime));
+		toReturn.add(Strings.findConcertLink(lastTime));
 
 		return toReturn;
 	}
 
-	private String findLink(String html) {
-
-		String regex = "(http:\\/\\/www\\.[a-z\\d-]+\\.com\\/date\\/[a-z\\d%-]+\\/)";
-		Pattern pattern = Pattern.compile(regex);
-
-		Matcher match = pattern.matcher(html);
-		if (match.find())
-			return html.substring(match.start(), match.end());
-		else
-			return "";
-	}
 }
