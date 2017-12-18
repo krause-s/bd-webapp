@@ -11,16 +11,25 @@
 	
 		<nav th:replace="../fragments/filter :: filter"></nav>
 		
-		<tr th:each="song,status : ${songs}">
-			<h3 th:text="${status.index}"></h3><br/>
+		<tr th:each="song : ${songs}">
+			<h3 th:text="${song.getId()}"></h3><br/>
 			<b>title: </b><td th:text="${song.getTitle()}"></td><br/>
 			<b>ref: </b><a th:href="${song.getURL()}"><td th:text="${song.getURL()}"></td></a><br/>
 			<b>lyrics: </b><i><td th:text="${song.getLyrics()}"></td></i><br/>
 			<b>credits: </b><td th:text="${song.getCredits()}"></td><br/>
 			<b>copyright: </b><td th:text="${song.getCopyright()}"></td><br/>
-			<b>firstPlayed: </b><a th:href="${song.getFirstPlayed()}"><td th:text="${song.getFirstPlayed()}"></td></a><br/>
-			<b>lastPlayed: </b><a th:href="${song.getLastPlayed()}"><td th:text="${song.getLastPlayed()}"></td></a><br/>
-			<b>timesPlayed: </b><td th:text="${song.getTimesPlayed()}"></td>
+			<b>firstPlayed: </b><a th:href="${song.getFirstPlayedURL()}"><td th:text="${song.getFirstPlayedURL()}"></td></a><br/>
+			<b>lastPlayed: </b><a th:href="${song.getLastPlayedURL()}"><td th:text="${song.getLastPlayedURL()}"></td></a><br/>
+			<b>timesPlayed: </b><td th:text="${song.getTimesPlayed()}"></td><br/>
+			<b>albums: </b>
+			<td>
+				<ul th:each="album : ${song.getAlbums()}">
+					<li>
+						<span th:text="${album.getId()}"></span>: 
+						<span th:text="${album.getValue()}"></span>
+					</li>
+				</ul>
+			</td>
 			<hr/>
 		</tr>
 	</div>	<!-- .container -->

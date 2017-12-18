@@ -8,8 +8,23 @@
 
 	<div class="container">
 		<h1 th:text="${title}"></h1>
-		<!-- TODO tmp -->
-		<p class="text-justify">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+		
+		<tr th:each="album : ${albums}">
+			<h3 th:text="${album.getId()}"></h3><br/>
+			<b>title: </b><td th:text="${album.getTitle()}"></td><br/>
+			<b>ref: </b><a th:href="${album.getURL()}"><td th:text="${album.getURL()}"></td></a><br/>
+			<b>year: </b><td th:text="${album.getYear()}"></td><br/>
+			<b>tracklist: </b>
+			<td>
+				<ul th:each="track : ${album.getTracklist()}">
+					<li>
+						<span th:text="${track.getId()}"></span>: 
+						<span th:text="${track.getValue()}"></span>
+					</li>
+				</ul>
+			</td>
+			<hr/>
+		</tr>
 	</div>
 
 	<footer th:replace="../fragments/footer :: footer"></footer>

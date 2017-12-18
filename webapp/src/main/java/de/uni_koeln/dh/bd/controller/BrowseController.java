@@ -8,7 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import de.uni_koeln.dh.bd.data.Song;
+import de.uni_koeln.dh.bd.data.albums.Album;
+import de.uni_koeln.dh.bd.data.songs.Song;
 import de.uni_koeln.dh.bd.service.CorpusService;
 
 @Controller
@@ -16,13 +17,20 @@ import de.uni_koeln.dh.bd.service.CorpusService;
 public class BrowseController {
 
 		private Logger logger = LoggerFactory.getLogger(getClass());
-		private List<Song> songs;
 	
+		private CorpusService service;
+		
+		private List<Song> songs;
+		private List<Album> albums;
+		
+	public BrowseController() {
+		service = new CorpusService();
+	}	
+		
 	@RequestMapping(value = "/songs")
 	public String listSongs(Model model) {
 		logger.info("Listing songs...");
 		
-		CorpusService service = new CorpusService();
 		char[] alphabet = service.getAlphabet();
 		
 		if (songs == null) {
@@ -36,10 +44,16 @@ public class BrowseController {
 	    return "songs";
 	}
 	
-	// TODO albums
 	@RequestMapping(value = "/albums")
 	public String listAlbums(Model model) {
-//		logger.info("Listing albums...");
+		logger.info("Listing albums...");
+		
+		if (albums == null) {
+			logger.info("Loading albums...");
+			albums = service.getAlbums();
+		}
+		
+		model.addAttribute("albums", albums);		
 		return "albums";
 	}
 	
