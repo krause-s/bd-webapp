@@ -1,10 +1,5 @@
 $(document).ready(function($){
-	console.log("ready");
 	setDimensions();
-});
-
-$("nav .btn-main").click(function(){
-	window.location = "/";
 });
 
 $("footer a").click(function(){
@@ -36,20 +31,4 @@ $('.collapse').on('hide.bs.collapse', function () {
 function dropCollapse(str) {
 	$("#collapse").html(str);
 }
-*/
-
-/*
-var lastWrap;
-
-$(".nav a").click(function(event){
-	var wrap = $(event.target).parent();
-	
-	if (lastWrap != null) 
-		lastWrap.removeClass('active');
-	
-	wrap.addClass('active');
-	lastWrap = wrap;
-
-	$("#title").html(this.text)
-});
 */

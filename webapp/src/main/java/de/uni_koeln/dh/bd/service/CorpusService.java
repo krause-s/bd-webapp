@@ -20,7 +20,6 @@ import de.uni_koeln.dh.bd.util.OS;
 public class CorpusService {
 	
 		private Logger logger = LoggerFactory.getLogger(getClass());
-	
 		private File file;
 	
 	public CorpusService() {
@@ -40,8 +39,8 @@ public class CorpusService {
 				content = content.replaceAll("<br />", "");
 	
 				ObjectMapper mapper = new XmlMapper();
-				
 				List<Song> songs = mapper.readValue(content, new TypeReference<List<Song>>(){});
+				
 				return songs;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -49,6 +48,11 @@ public class CorpusService {
 		} 		
 
 		return null;
+	}
+
+	// TODO move?
+	public char[] getAlphabet() {
+		return "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 	}
 	
 }

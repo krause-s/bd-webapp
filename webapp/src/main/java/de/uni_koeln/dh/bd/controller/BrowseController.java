@@ -16,29 +16,37 @@ import de.uni_koeln.dh.bd.service.CorpusService;
 public class BrowseController {
 
 		private Logger logger = LoggerFactory.getLogger(getClass());
+		private List<Song> songs;
 	
 	@RequestMapping(value = "/songs")
 	public String listSongs(Model model) {
 		logger.info("Listing songs...");
 		
 		CorpusService service = new CorpusService();
-		List<Song> songList = service.getSongs();
-
-		model.addAttribute("songList", songList);
+		char[] alphabet = service.getAlphabet();
+		
+		if (songs == null) {
+			logger.info("Loading songs...");
+			songs = service.getSongs();
+		}
+		
+		model.addAttribute("alphabet", alphabet);
+		model.addAttribute("songs", songs);
+		
 	    return "songs";
 	}
 	
 	// TODO albums
 	@RequestMapping(value = "/albums")
-	public String listAlbums() {
-		logger.info("Listing albums...");
+	public String listAlbums(Model model) {
+//		logger.info("Listing albums...");
 		return "albums";
 	}
 	
 	// TODO setlists
 	@RequestMapping(value = "/setlists")
-	public String listSetlists() {
-		logger.info("Listing setlists...");
+	public String listSetlists(Model model) {
+//		logger.info("Listing setlists...");
 		return "setlists";
 	}
 	

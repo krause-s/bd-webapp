@@ -3,23 +3,8 @@ html {
 	min-height: 100%;
 }
 
-footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	background-color: #f5f5f5;
-}
-
-footer .container {
-	position: relative;
-	top: 50%;
-	transform: translateY(-50%);
-}
-
-footer a, footer a:hover, footer a:focus, footer a:active {
-	color: #333333;	
-}
-
+/* TODO not required? */
+/*
 .btn-main, .btn-main:hover, .btn-main:focus, .btn-main:active {
 	color: #fff;
 }
@@ -38,13 +23,34 @@ footer a, footer a:hover, footer a:focus, footer a:active {
     background-color: #AF3F3F;
     border-color: #742A2A;
 }
-
-/*
-.col-md-9 {
-	background-color: yellow;		
-}
-
-.col-md-3 {
-	background-color: red;		
-}
 */
+
+.dropdown-menu > .active > a {
+	background: #d9534f !important;	/* bootstrap btn-danger */
+}
+
+footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	background-color: #f5f5f5;
+}
+
+footer .container {
+	font-size: smaller;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+footer a, footer a:hover, footer a:focus, footer a:active {
+	color: #333333;	
+}
+
+/* TODO */
+@media(max-width:583px){
+	.col-xs-3 {
+		position: relative;
+		transform: translateY(50%);
+	}
+}

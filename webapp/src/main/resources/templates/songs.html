@@ -1,99 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='Songs'">
 
-<head th:replace="/fragments/header :: header (title='Songs')"></head>
+<head th:replace="../fragments/header :: header(${title})"></head>
 
 <body>
-	<nav th:replace="/fragments/navbar :: navbar"></nav>	
+	<nav th:replace="../fragments/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>	
 
 	<div class="container">
-		<h1>Songs</h1>
+		<h1 th:text="${title}"></h1>
 	
-		<!-- TODO style, mobile-dropdown (.pre-scrollable) -->
-		<nav class="text-center">
-			<div class="row">
-				<div class="btn-group btn-group-justified">
-					<div class="btn-group"><button type="button" class="btn btn-primary active">All</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-primary">0-9</button></div>
-					<div class="btn-group">
-						<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#alphabet">
-							A-Z <span id="collapse"><span class="caret"></span></span>
-						</button>
-					</div>
-				</div>	<!-- .btn-group-justified -->
-			</div> <!-- .row -->
+		<nav th:replace="../fragments/filter :: filter"></nav>
 		
-			<div id="alphabet" class="row collapse demo">
-				<div class="btn-group btn-group-justified hidden-xs hidden-sm">
-					<div class="btn-group"><button type="button" class="btn btn-default">&laquo;</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">A</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">B</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">C</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">D</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">E</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">F</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">G</button></div>		
-					<div class="btn-group"><button type="button" class="btn btn-default">H</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">I</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">J</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">K</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">L</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">M</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">N</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">O</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">P</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">Q</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">R</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">S</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">T</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">U</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">V</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">W</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">X</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">Y</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">Z</button></div>
-					<div class="btn-group"><button type="button" class="btn btn-default">&raquo;</button></div>
-				</div>	<!-- .hidden-xs .hidden-sm -->
-	
-				<div class="btn-group btn-group-justified visible-xs visible-sm">
-					<div class="btn-group"><button type="button" class="btn btn-default">&laquo;</button></div>
-					<div class="btn-group">
-			    		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">A</button>
-			    		<ul class="dropdown-menu pre-scrollable" role="menu">
-							<li><a href="#">A</a></li>
-							<li><a href="#">B</a></li>
-							<li><a href="#">C</a></li>
-							<li><a href="#">D</a></li>
-							<li><a href="#">E</a></li>
-							<li><a href="#">F</a></li>
-							<li><a href="#">G</a></li>
-							<li><a href="#">H</a></li>
-							<li><a href="#">I</a></li>
-							<li><a href="#">J</a></li>
-							<li><a href="#">K</a></li>
-							<li><a href="#">L</a></li>
-							<li><a href="#">M</a></li>
-							<li><a href="#">N</a></li>
-							<li><a href="#">O</a></li>
-							<li><a href="#">P</a></li>
-							<li><a href="#">Q</a></li>
-							<li><a href="#">R</a></li>
-							<li><a href="#">S</a></li>
-							<li><a href="#">T</a></li>
-							<li><a href="#">U</a></li>
-							<li><a href="#">V</a></li>
-							<li><a href="#">W</a></li>
-							<li><a href="#">X</a></li>
-							<li><a href="#">Y</a></li>
-							<li><a href="#">Z</a></li>
-						</ul>
-					</div>
-					<div class="btn-group"><button type="button" class="btn btn-default">&raquo;</button></div>
-				</div>	<!-- .visible-xs .visible-sm -->
-			</div>	<!-- #alphabet -->
-		</nav>	
-		
-		<tr th:each="song,status : ${songList}">
+		<tr th:each="song,status : ${songs}">
 			<h3 th:text="${status.index}"></h3><br/>
 			<b>title: </b><td th:text="${song.getTitle()}"></td><br/>
 			<b>ref: </b><a th:href="${song.getURL()}"><td th:text="${song.getURL()}"></td></a><br/>
@@ -107,8 +25,8 @@
 		</tr>
 	</div>	<!-- .container -->
 
-	<footer th:replace="/fragments/footer :: footer"></footer>
-	<div th:replace="/fragments/scripts :: scripts"></div>
+	<footer th:replace="../fragments/footer :: footer"></footer>
+	<div th:replace="../fragments/scripts :: scripts"></div>
 </body>
 
 </html>
