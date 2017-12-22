@@ -16,6 +16,7 @@ public class Song extends Reference {
 
 		private String title,
 			lyrics,
+			annotatedLyrics,
 			credits,
 			copyright;
 		
@@ -105,6 +106,10 @@ public class Song extends Reference {
 	@Override
 	public String toString() {
 		return "[" + getId() + "]\t" + title;
+	}
+
+	public void setAnnotated(String annotated) {
+		annotatedLyrics = annotated;
 	}
 	
 }

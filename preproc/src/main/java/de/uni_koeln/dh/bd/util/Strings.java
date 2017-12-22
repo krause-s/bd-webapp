@@ -10,19 +10,20 @@ public class Strings {
 		String title = "";
 		title = info.split("\\(")[0];
 		title = title.replaceAll("<br>", "");
+		title = title.trim();
 //		System.out.println(title);
 		return title;
 	}
 
-	public static String getYear(String info) {
+	public static int getYear(String info) {
 //		System.out.println(info);
 		Pattern pattern = Pattern.compile("\\(\\d{4}");
 		
 		Matcher match = pattern.matcher(info);
 		if (match.find())
-			return info.substring(match.start() + 1, match.end());
+			return Integer.parseInt(info.substring(match.start() + 1, match.end()));
 		else
-			return "";
+			return 0;
 
 	}
 	

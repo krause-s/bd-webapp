@@ -4,6 +4,15 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
 
 public class Entry {
+	
+	public Entry(String id, String value) {
+		this.id = id;
+		this.value = value;
+	}
+	
+	public Entry() {
+		
+	}
 
 		private String id;
 	

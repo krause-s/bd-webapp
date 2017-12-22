@@ -43,6 +43,10 @@ public class Album extends Reference {
 		this.tracklist = tracklist;
 	}
 	
+	public void addTrack(Entry track) {
+		tracklist.add(track);
+	}
+	
 	@Override
 	public String toString() {
 		return "[" + getId() + "]\t" + title;

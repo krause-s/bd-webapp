@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.slf4j.Logger;
@@ -63,6 +64,24 @@ public class CorpusService {
 		return null;
 	}
 	
+	public void exportSongs(List<Song> songList, String path) {
+		File export = new File(path);
+		Songs songs = new Songs();
+		songs.setList(songList);
+		JAXBContext jaxbContext;
+		try {
+			jaxbContext = JAXBContext.newInstance(Songs.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			
+			jaxbMarshaller.marshal(songs, export);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public List<Album> getAlbums() {
 		if (albumFile.exists()) {
 			try {
@@ -80,10 +99,30 @@ public class CorpusService {
 		
 		return null;
 	}
+	
+	public void exportAlbums(List<Album> albumList, String path) {
+		File export = new File(path);
+		Albums albums = new Albums();
+		albums.setList(albumList);
+		JAXBContext jaxbContext;
+		try {
+			jaxbContext = JAXBContext.newInstance(Albums.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			
+			jaxbMarshaller.marshal(albums, export);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	// TODO move?
 	public char[] getAlphabet() {
 		return "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 	}
+
+	
 	
 }

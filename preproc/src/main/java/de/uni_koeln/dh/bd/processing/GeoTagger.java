@@ -2,8 +2,10 @@ package de.uni_koeln.dh.bd.processing;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import org.jsoup.Jsoup;
 
@@ -11,21 +13,25 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
+import de.uni_koeln.dh.bd.data.Location;
+
 public class GeoTagger {
 
-	public HashMap<String, Double[]> getGeoDatesFromList(List<String> placesList) throws InterruptedException, IOException {
+	public Set<Location> getGeoDatesFromList(List<String> placesList) throws InterruptedException, IOException {
 		HashMap<String, Double[]> geoDatesPlacesMap = new HashMap<String, Double[]>();
+		Set<Location> locationsSet = new HashSet<Location>();
 		for(String currentToken : placesList) {
 			if(!geoDatesPlacesMap.containsKey(currentToken)){
 				Double[] latLon = findGeoData(currentToken);
 				if(latLon != null){
+					locationsSet.add(new Location(currentToken, latLon[0], latLon[1]));
 					System.out.println(currentToken + " " + latLon[0] + latLon[1]);
 				geoDatesPlacesMap.put(currentToken, latLon);
 				}
 				Thread.sleep(1000);
 			}
 		}
-		return geoDatesPlacesMap;
+		return locationsSet;
 	}
 	
 	public HashMap<String, Double[]> getGeoDatesFromString(String text) throws InterruptedException, IOException {
