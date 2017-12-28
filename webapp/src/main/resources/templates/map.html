@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:with="title='Map'">
+<head th:replace="../fragments/header :: header(${title})"></head>
+
+<body>
+	<nav
+		th:replace="../fragments/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
+	<div th:replace="../fragments/scripts :: scripts"></div>
+	<div id="mapid" style='width: 100%; height: 800px;'></div>
+	<script th:inline="javascript">
+	
+		var mymap = L.map('mapid').setView([ 51.505, -0.09 ], 13);
+		L.tileLayer(
+						'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+						{
+							attribution : 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+							maxZoom : 18,
+							id : 'mapbox.streets',
+							accessToken : 'pk.eyJ1IjoicHNlaXBlbCIsImEiOiJjamJxaXdnb3MwNHBkMzJyNjQ1c3F1eHd3In0.XeYHykHhoy2uuXv0GqD6Og'
+						}).addTo(mymap);
+		/*<![CDATA[*/
+			var coordinates = /*[[${coordinates}]]*/;
+			for (i = 0; i < coordinates.length; i++) {
+				var marker = L
+				.marker([coordinates[i].longitude, coordinates[i].latitude])
+				.addTo(mymap);
+				marker.bindPopup("<b>" + coordinates[i].placeName + "</b></br>" + coordinates[i].texts);
+			} 
+		/*]]>*/
+		
+		
+	</script>
+	<footer th:replace="../fragments/footer :: footer"></footer>
+</body>
+</html>

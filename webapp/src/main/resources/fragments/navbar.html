@@ -43,6 +43,9 @@
 					<li th:class="${active == 'places'} ? 'active'">
 						<a th:href="@{/places}">Places</a>
 					</li>
+					<li th:class="${active == 'map'} ? 'active'">
+						<a th:href="@{/map}">Map</a>
+					</li>
 				</ul>
 				
 				<form class="navbar-form navbar-right" th:action="@{/}">
