@@ -20,16 +20,75 @@
 							accessToken : 'pk.eyJ1IjoicHNlaXBlbCIsImEiOiJjamJxaXdnb3MwNHBkMzJyNjQ1c3F1eHd3In0.XeYHykHhoy2uuXv0GqD6Og'
 						}).addTo(mymap);
 		/*<![CDATA[*/
-			var coordinates = /*[[${coordinates}]]*/;
-			for (i = 0; i < coordinates.length; i++) {
+			var places = /*[[${places}]]*/;
+			for (i = 0; i < places.length; i++) {
 				var marker = L
-				.marker([coordinates[i].longitude, coordinates[i].latitude])
+				.marker([places[i].longitude, places[i].latitude])
 				.addTo(mymap);
-				marker.bindPopup("<b>" + coordinates[i].placeName + "</b></br>" + coordinates[i].texts);
+				var place = places[i];
+				var tabs = buildTabs(place);
+				var content = buildPopUpContent(place);
+				marker.bindPopup(
+						tabs + content
+					);
 			} 
+			
+			function buildTabs(place){
+				if(place.texts.length == 1){
+					return "";
+				}
+				var tabs = "<div class='tab'>";
+				for(j = 0; j < place.texts.length; j++){
+					if (j == 0) {
+						active = " active";
+					}else{
+						active = "";
+					}
+					tabs += "<button class=\"tablinks " + active + "\" onclick=\"openPopUpContent(event, '" + place.placeName[0] + j
+					+ "')\">" + (j + 1) + "</button>"
+				}
+				tabs += "</div>";
+				return tabs;
+			}
+			
+			function buildPopUpContent(place) {
+				var content = "";
+				var active = "";
+				var currentPlaceName = place.placeName[0];
+				for (k = 0; k < place.texts.length; k++){
+					if (k == 0) {
+						active = " active\" style=\"display: block;";
+					}else{
+						active = "";
+					}
+					if(place.placeName[k]){
+						currentPlaceName = place.placeName[k];
+					}
+					
+					content += "<div class=\"tabcontent" + active + "\" id=\"" + place.placeName[0] + k + "\">"
+					+ "<h3>"
+					+ currentPlaceName
+					+ "</h3>"
+					+ "<p>" + place.texts[k] + "</p>"
+					+ "</div>"
+				}
+				return content;
+			}
+		
+		function openPopUpContent(evt, index) {
+		    var i, tabcontent, tablinks;
+		    tabcontent = document.getElementsByClassName("tabcontent");
+		    for (i = 0; i < tabcontent.length; i++) {
+		        tabcontent[i].style.display = "none";
+		    }
+		    tablinks = document.getElementsByClassName("tablinks");
+		    for (i = 0; i < tablinks.length; i++) {
+		        tablinks[i].className = tablinks[i].className.replace(" active", "");
+		    }
+		    document.getElementById(index).style.display = "block";
+		    evt.currentTarget.className += " active";
+		}
 		/*]]>*/
-		
-		
 	</script>
 	<footer th:replace="../fragments/footer :: footer"></footer>
 </body>

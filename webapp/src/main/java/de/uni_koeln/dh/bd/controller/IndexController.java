@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import de.uni_koeln.dh.bd.model.coordinate.Coordinate;
+import de.uni_koeln.dh.bd.model.place.Place;
 
 @Controller
 public class IndexController {
@@ -26,15 +26,18 @@ public class IndexController {
 	// TODO map
 	@RequestMapping(value = "/map")
 	public String map(Model model) {
-		List<Coordinate> coordinates = new ArrayList<Coordinate>();
-		Coordinate coordinateLondon = new Coordinate(51.508, -0.11, "London");
-		coordinateLondon.addTexts("London is a big City in the North!");
-		coordinateLondon.addTexts("London is a bigger than the most other cities!");
-		coordinates.add(coordinateLondon);
-		Coordinate coordinateColonia = new Coordinate(50.945312, 6.945928, "Köln");
-		coordinateColonia.addTexts("Very popular city. especially in febraury!");
-		coordinates.add(coordinateColonia);
-		model.addAttribute("coordinates", coordinates);
+		List<Place> places = new ArrayList<Place>();
+		Place london = new Place(51.508, -0.11);
+		london.addPlaceName("London");
+		london.addPlaceName("London City");
+		london.addTexts("London is a big City in the North!");
+		london.addTexts("London is a bigger than the most other cities!");
+		places.add(london);
+		Place colonia = new Place(50.945312, 6.945928);
+		colonia.addPlaceName("Köln");
+		colonia.addTexts("Very popular city. especially in febraury!");
+		places.add(colonia);
+		model.addAttribute("places", places);
 		return "map";
 	}
 

@@ -1,26 +1,31 @@
-package de.uni_koeln.dh.bd.model.coordinate;
+package de.uni_koeln.dh.bd.model.place;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Coordinate {
+public class Place {
 
 	double longitude;
 	double latitude;
-	String placeName;
+	List<String> placeNames;
 	List<String> texts;
 	
-	public Coordinate(double longitude, double latitude, String placeName, List<String> texts) {
+	public Place(double longitude, double latitude, List<String> placeName, List<String> texts) {
 		this.longitude = longitude;
 		this.latitude = latitude;
-		this.placeName = placeName;
+		this.placeNames = placeName;
 		this.texts = texts;
 	}
 	
-	public Coordinate(double longitude, double latitude, String placeName) {
+	public Place(double longitude, double latitude, List<String> placeName) {
 		this.longitude = longitude;
 		this.latitude = latitude;
-		this.placeName = placeName;
+		this.placeNames = placeName;
+	}
+	
+	public Place(double longitude, double latitude) {
+		this.longitude = longitude;
+		this.latitude = latitude;
 	}
 
 	public double getLongitude() {
@@ -39,12 +44,19 @@ public class Coordinate {
 		this.latitude = latitude;
 	}
 	
-	public String getPlaceName() {
-		return placeName;
+	public List<String> getPlaceName() {
+		return placeNames;
 	}
 	
-	public void setPlaceName(String placeName) {
-		this.placeName = placeName;
+	public void setPlaceName(List<String> placeName) {
+		this.placeNames = placeName;
+	}
+	
+	public void addPlaceName(String placeName) {
+		if(this.placeNames == null) {
+			this.placeNames = new ArrayList<String>();
+		}
+		this.placeNames.add(placeName);
 	}
 	
 	public List<String> getTexts() {
