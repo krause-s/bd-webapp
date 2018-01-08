@@ -3,7 +3,7 @@ package de.uni_koeln.dh.bd.data;
 import java.util.ArrayList;
 import java.util.List;
 
-
+// TODO deprecated?
 public class Song {
 
 	 private String id;
