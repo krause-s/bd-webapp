@@ -35,7 +35,7 @@ public class IndexController {
 		places.add(london);
 		Place colonia = new Place(50.945312, 6.945928);
 		colonia.addPlaceName("Köln");
-		colonia.addTexts("Very popular city. especially in febraury!");
+		colonia.addTexts("Very popular city. especially in february!");
 		places.add(colonia);
 		model.addAttribute("places", places);
 		return "map";

@@ -4,10 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import de.uni_koeln.dh.bd.data.Song;
 import opennlp.tools.tokenize.TokenizerME;

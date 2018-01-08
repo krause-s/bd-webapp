@@ -66,20 +66,21 @@ public class CorpusService {
 	
 	public void exportSongs(List<Song> songList, String path) {
 		File export = new File(path);
+		
 		Songs songs = new Songs();
 		songs.setList(songList);
+		
 		JAXBContext jaxbContext;
+		
 		try {
 			jaxbContext = JAXBContext.newInstance(Songs.class);
+			
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-			
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			
 			jaxbMarshaller.marshal(songs, export);
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public List<Album> getAlbums() {
@@ -102,20 +103,21 @@ public class CorpusService {
 	
 	public void exportAlbums(List<Album> albumList, String path) {
 		File export = new File(path);
+		
 		Albums albums = new Albums();
 		albums.setList(albumList);
+		
 		JAXBContext jaxbContext;
+		
 		try {
 			jaxbContext = JAXBContext.newInstance(Albums.class);
+		
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-			
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			
 			jaxbMarshaller.marshal(albums, export);
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	// TODO move?

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+//TODO deprecated?
 public class Album {
 	
 	private String id;
