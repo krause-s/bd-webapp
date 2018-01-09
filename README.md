@@ -1,2 +1,2 @@
-# bd-webapp
+# lyra
 HS *Digital Humanities und Informatik der Geisteswissenschaften* – Eide
