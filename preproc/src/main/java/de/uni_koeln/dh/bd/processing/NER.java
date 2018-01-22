@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import de.uni_koeln.dh.bd.data.songs.Song;
 import opennlp.tools.namefind.NameFinderME;
@@ -18,7 +19,7 @@ import opennlp.tools.util.Span;
 public class NER {
 	
 	// TODO logger in preproc 
-	//private Logger logger = LoggerFactory.getLogger(getClass());
+//	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	private TokenizerME tokenizer;
 	private Set<String> places = new HashSet<String>(); //TODO Map (value: geokoordinaten)

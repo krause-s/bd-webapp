@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.uni_koeln.dh.bd.data.Song;
+import de.uni_koeln.dh.bd.data.songs.Song;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 
