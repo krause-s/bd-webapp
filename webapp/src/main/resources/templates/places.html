@@ -13,110 +13,175 @@
 	<script th:inline="javascript">
 	
 	/*<![CDATA[*/
-	var places = /*[[${places}]]*/;
-	var metaPlaces = /*[[${metaPlaces}]]*/;
+	var artistPlacesMap = /*[[${map}]]*/;
 	
-	var lyricsMarkers = [];
-	for (i = 0; i < places.length; i++) {
-		var marker = L.marker([places[i].longitude, places[i].latitude]);
-		var place = places[i];
-		var tabs = buildTabs(place);
-		var content = buildPopUpContent(place);
-		marker.bindPopup(tabs + content);
-		lyricsMarkers.push(marker);
-	} 
+	/* input map keys (i.e. names of the artists)*/
+	var keys = Object.keys(artistPlacesMap);
+	var places;
+	var currentLyricsLayers;
+	var currentMetaLayers; 
+	var color;
 	
-	var metaMarkers = [];
-	for (i = 0; i < metaPlaces.length; i++) {
-		var marker = L.marker([metaPlaces[i].longitude, metaPlaces[i].latitude]);
-		var place = metaPlaces[i];
-		var tabs = buildTabs(place);
-		var content = buildPopUpContent(place);
-		marker.bindPopup(tabs + content);
-		metaMarkers.push(marker);
-	} 
-	
-	var lyricsLayer = L.layerGroup(lyricsMarkers);
-	var metaLayer = L.layerGroup(metaMarkers);
-	
+	/* leaflet components start */
 	var map = L.map('map', {center: [ 51.505, -0.09 ],
-			zoom: 13, 
-			layers: [lyricsLayer, metaLayer]
+		zoom: 13
+	});
+	
+	L.tileLayer(
+			'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+			{
+				attribution : 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+				maxZoom : 18,
+				id : 'mapbox.streets',
+				accessToken : ''
+			}).addTo(map);
+
+	var layerControl = new L.control.layers();
+	/* leaflet components end */
+	
+	/* iterating over artists as keys retrieving the places */
+	for (var j = 0; j < keys.length; j++) {
+		
+		/* Every artist gets one specific color and two kinds of layers (meta and lyrics) */
+		currentLyricsLayers = [];
+		currentMetaLayers = [];
+		color = getRandomColor();
+		
+		/* all meta and lyrics places by artist */
+		places = artistPlacesMap[keys[j]];
+		
+		/* prototype: markup for lyrics marker */
+	    var lyricsMarkerHtmlStyles = `
+			  background-color: ${color};
+			  width: 3rem;
+			  height: 3rem;
+			  display: block;
+			  left: -1.5rem;
+			  top: -1.5rem;
+			  position: relative;
+			  border-radius: 3rem 3rem 0;
+			  transform: rotate(45deg);
+			  border: 1px solid #FFFFFF;`
+		  
+		/* prototype: markup for meta marker */
+		var metaMarkerHtmlStyles = `
+			  background-color: ${color};
+			  width: 3rem;
+			  height: 3rem;
+			  display: block;
+			  left: -1.5rem;
+			  top: -1.5rem;
+			  position: relative;
+			  border-radius: 3rem 0 0;
+			  transform: rotate(45deg);
+			  border: 1px solid #FFFFFF;`
+    
+		var metaIcon = new L.divIcon({
+			  className: "metaIcon",
+			  iconAnchor: [0, 24],
+			  labelAnchor: [-6, 0],
+			  popupAnchor: [0, -36],
+			  html: `<span style="${metaMarkerHtmlStyles}"></span>`
+			});
+	
+		var lyricsIcon = L.divIcon({
+			  className: "LyricsIcon",
+			  iconAnchor: [0, 24],
+			  labelAnchor: [-6, 0],
+			  popupAnchor: [0, -36],
+			  html: `<span style="${lyricsMarkerHtmlStyles}"></span>`
+			})
+		
+		/* all places get their attributes */
+		for (var k = 0; k < places.length; k++) {
+			var currentPlace = places[k]; 
+			var currIcon = currentPlace.isMeta ? metaIcon : lyricsIcon;
+			var marker = L.marker([currentPlace.longitude, currentPlace.latitude], {icon: currIcon});
+			var tabs = buildTabs(currentPlace);
+			var content = buildPopUpContent(currentPlace);
+			marker.bindPopup(tabs + content);
+			currentPlace.isMeta ? currentMetaLayers.push(marker) : currentLyricsLayers.push(marker);
+			}
+		
+		console.log("currentMetaLayers.length:" ,currentMetaLayers.length);
+		console.log("currentLyricsLayers.length:" ,currentLyricsLayers.length);
+		
+		/* adds the Layers to map and control (checkboxes for selection) */
+		map.addLayer(L.layerGroup(currentLyricsLayers));
+		layerControl.addOverlay(L.layerGroup(currentLyricsLayers).addTo(map), keys[j] + ' (Lyrics)');
+		map.addLayer(L.layerGroup(currentMetaLayers));
+		layerControl.addOverlay(L.layerGroup(currentMetaLayers).addTo(map), keys[j] + ' (Meta)');
+	}
+	
+	layerControl.addTo(map);
+	
+	/* Building the tabs inside the popup */
+	function buildTabs(place){
+		if(place.popUps.length == 1){
+			return "";
 		}
-	);
-		
-		var baseMaps = {
-			    "MetaInfos": metaLayer,
-			    "LyriscLayer": lyricsLayer
-			};
-		
-		L.control.layers(null, baseMaps).addTo(map);
-		
-		L.tileLayer(
-				'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
-				{
-					attribution : 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-					maxZoom : 18,
-					id : 'mapbox.streets',
-					accessToken : 'pk.eyJ1IjoicHNlaXBlbCIsImEiOiJjamJxaXdnb3MwNHBkMzJyNjQ1c3F1eHd3In0.XeYHykHhoy2uuXv0GqD6Og'
-				}).addTo(map);
-			
-			function buildTabs(place){
-				if(place.popUps.length == 1){
-					return "";
-				}
-				var tabs = "<div class='tab'>";
-				for(j = 0; j < place.popUps.length; j++){
-					if (j == 0) {
-						active = " active";
-					}else{
-						active = "";
-					}
-					tabs += "<button class=\"tablinks " + active + "\" onclick=\"openPopUpContent(event, '" + place.popUps[0].placeName + j
-					+ "')\">" + (j + 1) + "</button>"
-				}
-				tabs += "</div>";
-				return tabs;
+		var tabs = "<div class='tab'>";
+		for(var j = 0; j < place.popUps.length; j++){
+			if (j == 0) {
+				active = " active";
+			}else{
+				active = "";
+			}
+			tabs += "<button class=\"tablinks " + active + "\" onclick=\"openPopUpContent(event, '" + place.popUps[0].placeName + j
+			+ "')\">" + (j + 1) + "</button>"
+		}
+		tabs += "</div>";
+		return tabs;
+	}
+	
+	/* Building the content inside the popup */
+	function buildPopUpContent(place) {
+		var content = "";
+		var active = "";
+		var currentPlaceName = place.popUps[0].placeName;
+		for (var m = 0; m < place.popUps.length; m++){
+			if (m == 0) {
+				active = " active\" style=\"display: block;";
+			}else{
+				active = "";
+			}
+			if(place.popUps[m].placeName){
+				currentPlaceName = place.popUps[m].placeName;
 			}
 			
-			function buildPopUpContent(place) {
-				var content = "";
-				var active = "";
-				var currentPlaceName = place.popUps[0].placeName;
-				for (k = 0; k < place.popUps.length; k++){
-					if (k == 0) {
-						active = " active\" style=\"display: block;";
-					}else{
-						active = "";
-					}
-					if(place.popUps[k].placeName){
-						currentPlaceName = place.popUps[k].placeName;
-					}
-					
-					content += "<div class=\"tabcontent" + active + "\" id=\"" + place.popUps[0].placeName + k + "\">"
-					+ "<h3>"
-					+ currentPlaceName
-					+ "</h3>"
-					+ "<p>" + place.popUps[k].content + "</p>"
-					+ "</div>"
-				}
-				return content;
-			}
-		
-		function openPopUpContent(evt, index) {
-		    var i, tabcontent, tablinks;
-		    tabcontent = document.getElementsByClassName("tabcontent");
-		    for (i = 0; i < tabcontent.length; i++) {
-		        tabcontent[i].style.display = "none";
-		    }
-		    tablinks = document.getElementsByClassName("tablinks");
-		    for (i = 0; i < tablinks.length; i++) {
-		        tablinks[i].className = tablinks[i].className.replace(" active", "");
-		    }
-		    document.getElementById(index).style.display = "block";
-		    evt.currentTarget.className += " active";
+			content += "<div class=\"tabcontent" + active + "\" id=\"" + place.popUps[0].placeName + m + "\">"
+			+ "<h3>"
+			+ currentPlaceName
+			+ "</h3>"
+			+ "<p>" + place.popUps[m].content + "</p>"
+			+ "</div>"
 		}
-		
+		return content;
+	}
+	
+	/* popUpController */
+	function openPopUpContent(evt, index) {
+	    var i, tabcontent, tablinks;
+	    tabcontent = document.getElementsByClassName("tabcontent");
+	    for (i = 0; i < tabcontent.length; i++) {
+	        tabcontent[i].style.display = "none";
+	    }
+	    tablinks = document.getElementsByClassName("tablinks");
+	    for (i = 0; i < tablinks.length; i++) {
+	        tablinks[i].className = tablinks[i].className.replace(" active", "");
+	    }
+	    document.getElementById(index).style.display = "block";
+	    evt.currentTarget.className += " active";
+	}
+
+	function getRandomColor() {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++ ) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
 		/*]]>*/
 		
 	</script>
