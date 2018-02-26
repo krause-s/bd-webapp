@@ -28,7 +28,14 @@ public class PreprocessingApp {
 		try {
 			songs = io.getSongsFromXLSX(songPath);
 			albums = io.getAlbumsFromXLSX(albumPath);
+			
+			for (Album album : albums) {
+				album = AlbumSongConnector.connectSongsToAlbum(album, songs);
+				
+			}
 
+			io.exportToNewXLSX(songs, albums);
+			
 			for (Song song : songs) {
 				// System.out.println(song.getTitle());
 				//// System.out.println(song.getLyrics());
@@ -43,22 +50,22 @@ public class PreprocessingApp {
 		}
 
 		// TODO tokenFreq pro Album
-		for (Album album : albums) {
-			album = AlbumSongConnector.connectSongsToAlbum(album, songs);
-			List<Entry<String, Integer>> tokenFreq = Analyzer.countAlbumTokenFreq(album);
-			tokenFreqByAlbum.put(album, tokenFreq);
-		}
-
-		for (Entry<Album, List<Entry<String, Integer>>> e : tokenFreqByAlbum.entrySet()) {
-			System.out.println(e.getKey().getTitle() + " - " + e.getKey().getYear());
-			List<Entry<String, Integer>> freqs = e.getValue();
-			int iterator = 0;
-			for (Entry<String, Integer> f : freqs) {
-				System.out.println(f.getKey() + " - " + f.getValue());
-				if(iterator++ > 10)
-					break;
-			}
-		}
+//		for (Album album : albums) {
+//			album = AlbumSongConnector.connectSongsToAlbum(album, songs);
+//			List<Entry<String, Integer>> tokenFreq = Analyzer.countAlbumTokenFreq(album);
+//			tokenFreqByAlbum.put(album, tokenFreq);
+//		}
+//
+//		for (Entry<Album, List<Entry<String, Integer>>> e : tokenFreqByAlbum.entrySet()) {
+//			System.out.println(e.getKey().getTitle() + " - " + e.getKey().getYear());
+//			List<Entry<String, Integer>> freqs = e.getValue();
+//			int iterator = 0;
+//			for (Entry<String, Integer> f : freqs) {
+//				System.out.println(f.getKey() + " - " + f.getValue());
+//				if(iterator++ > 10)
+//					break;
+//			}
+//		}
 
 	}
 

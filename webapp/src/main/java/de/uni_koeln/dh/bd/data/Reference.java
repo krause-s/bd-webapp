@@ -4,6 +4,7 @@ import java.net.URL;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
+@Deprecated
 public class Reference {
 	
 		private String id;

@@ -1,7 +1,6 @@
 
 package de.uni_koeln.dh.bd.processing;
 
-import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -13,7 +12,24 @@ import java.util.Map.Entry;
 import de.uni_koeln.dh.bd.data.albums.Album;
 import de.uni_koeln.dh.bd.data.songs.Song;
 
+@Deprecated
 public class Analyzer {
+	
+	public static Map<String, Integer> sumTokenFreqs(Map<Album, Map<String, Integer>> tokensOfAlbums){
+		//TODO relativieren anhand der anzahl der alben
+		Map<String, Integer> tokenFreq = new HashMap<String, Integer>();
+		for(Map<String, Integer> entry : tokensOfAlbums.values()) {
+			for(Map.Entry<String, Integer> e : entry.entrySet()) {
+				Integer freq = 0;
+				if(tokenFreq.containsKey(e.getKey()))
+					freq = tokenFreq.get(e.getKey());
+				tokenFreq.put(e.getKey(), (freq + e.getValue()));
+			}
+		}
+		
+		
+		return tokenFreq;
+	}
 
 	public static List<Entry<String, Integer>> countAlbumTokenFreq(Album album) {
 

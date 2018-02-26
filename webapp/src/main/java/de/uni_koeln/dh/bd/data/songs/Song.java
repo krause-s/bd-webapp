@@ -14,9 +14,12 @@ import de.uni_koeln.dh.bd.data.Reference;
 
 @XmlType(propOrder = { "title", "artist", "lyrics", "tokens", "credits", "copyright", "firstPlayed", "lastPlayed", "timesPlayed",
 		"albums" })
+@Deprecated
 public class Song extends Reference {
 
-	private String title, lyrics, artist, annotatedLyrics, credits, copyright;
+	private String title, lyrics, artist, annotatedLyrics, credits, copyright, comment;
+	private boolean firstEdition;
+	private int year;
 
 	private DateLocation firstPlayed, lastPlayed;
 
@@ -126,6 +129,20 @@ public class Song extends Reference {
 	@Override
 	public String toString() {
 		return "[" + getId() + "]\t" + title;
+	}
+
+	public void setYear(String stringCellValue) {
+		
+	}
+
+	public void setFirstEdition(String stringCellValue) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setComment(String stringCellValue) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

@@ -2,11 +2,19 @@ package de.uni_koeln.dh.bd.processing;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -75,32 +83,6 @@ public class IO {
 		return toReturn;
 	}
 
-//	public List<Song> getSongsFromURLs(String path) throws IOException {
-//
-//		File file = new File(path);
-//		System.out.println("Crawl through links from file: " + file.getAbsolutePath());
-//
-//		Reader reader = new FileReader(file);
-//		BufferedReader br = new BufferedReader(reader);
-//
-//		List<Song> songs = new ArrayList<Song>();
-//
-//		String line = "";
-//		while ((line = br.readLine()) != null) {
-//
-//			Song song;
-//			if (line.contains("http")) {
-//				System.out.println(line);
-//				String id = "s" + songCounter++;
-//				song = createSongObject(line, id);
-//				songs.add(song);
-//			}
-//
-//		}
-//		br.close();
-//		System.out.println("Crawled " + songs.size() + " Songs");
-//		return songs;
-//	}
 
 	public Map<String, Album> getAlbumsMap() {
 		return albumsMap;
@@ -156,6 +138,98 @@ List<Album> toReturn = new ArrayList<Album>();
 		wb.close();
 		
 		return toReturn;
+	}
+	
+	public void exportToNewXLSX(List<Song> songs, List<Album> albums) throws IOException {
+		Map<String, Song> songMap = new HashMap<String, Song>();
+		for(Song song : songs) {
+			songMap.put(song.getTitle(), song);
+		}
+		
+		String[] headRow = new String[7];
+		headRow[0] = "artist";
+		headRow[1] = "title";
+		headRow[2] = "release";
+		headRow[3] = "year";
+		headRow[4] = "compilation";
+		headRow[5] = "lyrics";
+		headRow[6] = "comment";
+		
+		Set<String> firstEdition = new HashSet<String>();
+		
+		File export = new File("src/main/resources/20180225_lyrics_database.xlsx");
+		if (!export.exists())
+			export.createNewFile();
+		
+		XSSFWorkbook wb = new XSSFWorkbook();
+		XSSFSheet sheet = wb.createSheet("songs");
+		int r = 0;
+
+		Row row = sheet.createRow(r++);
+		Cell cell;
+		for (int i = 0; i < headRow.length; i++) {
+			cell = row.createCell(i);
+			cell.setCellValue(headRow[i]);
+		}
+		//sort albums by publishing year
+		Collections.sort(albums, new Comparator<Album>() {
+
+			public int compare(Album o1, Album o2) {
+				Integer i1 = o1.getYear();
+				Integer i2 = o2.getYear();
+				return i1.compareTo(i2);
+			}		
+		});
+		
+		for(Album album : albums) {
+			List<Song> currentSongs = album.getSongElements();
+
+			int currentYear = album.getYear();
+			String albumTitle = album.getTitle();
+			String first = "";
+			
+			Set<String> albumSongsSet = new HashSet<String>();
+			for(Song song : currentSongs) {
+				Song currentSong = songMap.get(song.getTitle());
+				String title = currentSong.getTitle();
+				if(!albumSongsSet.add(title)) //if set already contains title
+					continue;
+				row = sheet.createRow(r++);
+				
+				//create song to add to xlsx //TODO compilation markiert alle Songs, die nicht zum ersten mal erscheinen
+				if(!firstEdition.add(song.getTitle())) //true if song haven't been in set yet
+						first = "x";
+				
+				String lyrics = currentSong.getLyrics();
+				String artist = currentSong.getArtist();
+				
+				//artist
+				cell = row.createCell(0);
+				cell.setCellValue(artist);
+				//title
+				cell = row.createCell(1);
+				cell.setCellValue(title);
+				//release
+				cell = row.createCell(2);
+				cell.setCellValue(albumTitle);
+				//year
+				cell = row.createCell(3);
+				cell.setCellValue(currentYear);
+				//firstedition
+				cell = row.createCell(4);
+				cell.setCellValue(first);
+				//lyrics
+				cell = row.createCell(5);
+				cell.setCellValue(lyrics);
+				//comment
+				cell = row.createCell(6);
+				cell.setCellValue("");
+				
+			}
+		}
+		FileOutputStream fos = new FileOutputStream(export);
+		wb.write(fos);
+		wb.close();
 	}
 
 //	private Song createSongObject(String url, String songID) throws IOException {

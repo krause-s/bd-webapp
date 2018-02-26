@@ -14,6 +14,7 @@ import java.util.List;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 
+@Deprecated
 public class Tokenizer {
 	
 	public List<String> stopwords = new ArrayList<String>();
@@ -39,7 +40,7 @@ public class Tokenizer {
 		//TODO delete .," .....
 		InputStream modelIn = null;
 
-		modelIn = new FileInputStream("classifiers/en-token.bin");
+		modelIn = new FileInputStream("NOclassifiers/en-token.bin");
 		TokenizerModel model = new TokenizerModel(modelIn);
 		tokenizer = new TokenizerME(model);
 		

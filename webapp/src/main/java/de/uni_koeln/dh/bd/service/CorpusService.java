@@ -22,6 +22,7 @@ import de.uni_koeln.dh.bd.util.IO;
 import de.uni_koeln.dh.bd.util.OS;
 
 @Service
+@Deprecated
 public class CorpusService {
 	
 		private Logger logger = LoggerFactory.getLogger(getClass());

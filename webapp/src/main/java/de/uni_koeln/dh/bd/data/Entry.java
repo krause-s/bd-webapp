@@ -3,6 +3,7 @@ package de.uni_koeln.dh.bd.data;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
 
+@Deprecated
 public class Entry {
 	
 	public Entry(String id, String value) {

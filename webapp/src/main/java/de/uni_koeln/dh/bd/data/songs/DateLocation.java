@@ -5,6 +5,7 @@ import java.net.URL;
 import javax.xml.bind.annotation.XmlAttribute;
 
 // TODO convert URL
+@Deprecated
 public class DateLocation {
 
 		private URL url;
