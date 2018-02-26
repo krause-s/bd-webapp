@@ -16,9 +16,10 @@ import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 import opennlp.tools.util.Span;
 
+@Deprecated
 public class NER {
 	
-	// TODO logger in preproc 
+
 //	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	private TokenizerME tokenizer;

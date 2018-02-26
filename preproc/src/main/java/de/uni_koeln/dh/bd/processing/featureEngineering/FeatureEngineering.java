@@ -11,6 +11,7 @@ import de.uni_koeln.dh.bd.data.songs.Song;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 
+@Deprecated
 public class FeatureEngineering {
 	
 	Map<String,Integer> docFreq = new HashMap<String, Integer>();
