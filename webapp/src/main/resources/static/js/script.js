@@ -17,7 +17,7 @@ function setDimensions() {
 	$("footer").css("height", topBottomHeight);
 
 	var margin = topBottomHeight + "px 0px " + topBottomHeight + "px";
-//	console.log("margin: " + margin)
+	//	console.log("margin: " + margin)
 	$("body").css("margin", margin);
 }
 
@@ -27,8 +27,10 @@ function getTopBottomHeight() {
 }
 
 function getInnerHeight() {
-	var docHeight = $(document).height();
-	topBottomHeight = getTopBottomHeight();
+	var winHeight = $(window).height();
+	
+	if (topBottomHeight == null)
+		topBottomHeight = getTopBottomHeight();
 
-	return docHeight - (2 * topBottomHeight);
+	return winHeight - (2 * topBottomHeight);
 }

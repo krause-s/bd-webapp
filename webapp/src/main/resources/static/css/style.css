@@ -43,7 +43,8 @@ html {
 	transform: translateY(-50%);
 }
 
-#copyright a, #copyright a:hover, #copyright a:focus, #copyright a:active {
+/* TODO change class to ID? */
+.col-xs-3 a, .col-xs-3 a:hover, .col-xs-3 a:focus, .col-xs-3 a:active {
 	color: #333333;	
 }
 
