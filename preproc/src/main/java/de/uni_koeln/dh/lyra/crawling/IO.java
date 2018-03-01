@@ -3,6 +3,8 @@ package de.uni_koeln.dh.lyra.crawling;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -14,35 +16,29 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import de.uni_koeln.dh.lyra.data.Entry;
-import de.uni_koeln.dh.lyra.data.albums.Album;
-import de.uni_koeln.dh.lyra.data.songs.Song;
-import de.uni_koeln.dh.lyra.service.CorpusService;
+import de.uni_koeln.dh.lyra.data.Song;
 
 public class IO {
 	
-	public void exportSongsToXML(List<Song> songs) throws IOException {
-
-		CorpusService cs = new CorpusService();
-		cs.exportSongs(songs, "songs.xml");
-
-	}
-
-	public void exportAlbumsToXML(List<Album> albums) throws IOException {
-
-		CorpusService cs = new CorpusService();
-		cs.exportAlbums(albums, "albums.xml");
-
-	}
-
-	public void exportSongsToXLSX(List<Song> songs) throws IOException {
-		String[] headRow = new String[4];
-		headRow[0] = "title";
-		headRow[1] = "artist";
-		headRow[2] = "lyrics";
-		headRow[3] = "albums";
+public void exportSongsToXLSX(List<Song> songs) throws IOException {
 		
-		File export = new File("songs.xlsx");
+		Map<String, Song> songMap = new HashMap<String, Song>();
+		for(Song song : songs) {
+			songMap.put(song.getTitle(), song);
+		}
+		
+		String[] headRow = new String[7];
+		headRow[0] = "artist";
+		headRow[1] = "title";
+		headRow[2] = "release";
+		headRow[3] = "year";
+		headRow[4] = "compilation";
+		headRow[5] = "lyrics";
+		headRow[6] = "comment";
+		
+		Set<String> firstEdition = new HashSet<String>();
+		
+		File export = new File("src/main/resources/lyrics_database.xlsx");
 		if (!export.exists())
 			export.createNewFile();
 		
@@ -56,99 +52,67 @@ public class IO {
 			cell = row.createCell(i);
 			cell.setCellValue(headRow[i]);
 		}
+		//sort songs by publishing year
+		Collections.sort(songs, new Comparator<Song>() {
+
+
+			public int compare(Song o1, Song o2) {
+				Integer i1 = o1.getYear();
+				Integer i2 = o2.getYear();
+				return i1.compareTo(i2);
+			}		
+		});
 		
-		for (Song song : songs) {
-			row = sheet.createRow(r++);
+		for (Song currentSong : songs) {
+			row = sheet.createRow(r++);		
 			
-			//title 
-			cell = row.createCell(0);
-			cell.setCellValue(song.getTitle());
+			int currentYear = currentSong.getYear();
+			String release = currentSong.getRelease();
+			String comp = "";
+			String title = currentSong.getTitle();
+
+					
+			//create song to add to xlsx 
+			if(!firstEdition.add(currentSong.getTitle())) //true if song has already been added
+					comp = "x";
+			
+			String lyrics = currentSong.getLyrics();
+			if(lyrics.equals(""))
+				continue;
+			String artist = currentSong.getArtist();
+			
+			
+			row = sheet.createRow(r++);		
 			
 			//artist
-			cell = row.createCell(1);
-			cell.setCellValue("Bob Dylan");// TODO dynamisieren? auch crawlen?
-			
-			//lyrics
-			cell = row.createCell(2);
-			cell.setCellValue(song.getLyrics());
-			
-			//albums
-			cell = row.createCell(3);
-			cell.setCellValue(createString(song.getAlbums()));
-		}
-		
-		FileOutputStream fos = new FileOutputStream(export);
-		wb.write(fos);
-		wb.close();
-		
-		
-	}
-	
-	
-
-	private String createString(List<Entry> entries) {
-		StringBuilder sb = new StringBuilder();
-		String separator = "";
-		for (Entry entry : entries) {
-			sb.append(separator + entry.getValue());
-			separator = "\n";
-		}
-		return sb.toString();
-	}
-
-	public void exportAlbumsToXLSX(List<Album> albums) throws IOException {
-		String[] headRow = new String[4];
-		headRow[0] = "title";
-		headRow[1] = "artist";
-		headRow[2] = "year";
-		headRow[3] = "songs";
-		
-		File export = new File("albums.xlsx");
-		if (!export.exists())
-			export.createNewFile();
-		
-		XSSFWorkbook wb = new XSSFWorkbook();
-		XSSFSheet sheet = wb.createSheet("albums");
-		int r = 0;
-
-		Row row = sheet.createRow(r++);
-		Cell cell;
-		for (int i = 0; i < headRow.length; i++) {
-			cell = row.createCell(i);
-			cell.setCellValue(headRow[i]);
-		}
-		
-		for (Album album : albums) {
-			
-			if(album.getYear()!= 0){
-				System.out.println(album.getYear());
-			}
-			
-			row = sheet.createRow(r++);
-			
+			cell = row.createCell(0);
+			cell.setCellValue(artist);
 			//title
-			cell = row.createCell(0);
-			cell.setCellValue(album.getTitle());
-			
-			//artist
 			cell = row.createCell(1);
-			cell.setCellValue("Bob Dylan");
-			
-			//year
+			cell.setCellValue(title);
+			//release
 			cell = row.createCell(2);
-			cell.setCellValue(album.getYear());
-			
-			//songs
+			cell.setCellValue(release);
+			//year
 			cell = row.createCell(3);
-			cell.setCellValue(createString(album.getTracklist()));
-			
+			cell.setCellValue(currentYear);
+			//firstedition
+			cell = row.createCell(4);
+			cell.setCellValue(comp);
+			//lyrics
+			cell = row.createCell(5);
+			cell.setCellValue(lyrics);
+			//comment
+			cell = row.createCell(6);
+			cell.setCellValue("");
 		}
 		
 		FileOutputStream fos = new FileOutputStream(export);
 		wb.write(fos);
 		wb.close();
-		
+	
 	}
+
 	
 	
 

@@ -11,8 +11,9 @@ public class Song {
 	private String title, lyrics, artist, release, comment;
 	private int year;
 	private boolean compilation;
-	private List<Place> places = new ArrayList<Place>();
 	private UUID uuid;
+	private String[] tokens;
+	private double[] weights;
 	
 	/**
 	 * initialized a song object with the given data and generates a
@@ -68,20 +69,22 @@ public class Song {
 	public boolean isCompilation() {
 		return compilation;
 	}
-
-	public List<Place> getPlaces() {
-		return places;
+	
+	public void setTokens(String[] tokens) {
+		this.tokens = tokens;
+	}
+	
+	public String[] getTokens() {
+		return tokens;
 	}
 
-	public void setPlaces(List<Place> places) {
-		this.places = places;
+	public void setWeights(double[] weights) {
+		this.weights = weights;
 	}
 	
-	public void addPlace(Place place) {
-		this.places.add(place);
+	public double[] getWeights() {
+		return weights;
 	}
-	
-	
-	
+
 
 }

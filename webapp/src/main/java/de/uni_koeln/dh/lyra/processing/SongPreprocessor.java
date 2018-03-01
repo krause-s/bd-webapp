@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,11 +55,37 @@ public class SongPreprocessor {
 		for (Song song : songs) {
 			searchPlaces(song);
 		}
+		
+		// TEST
+				logger.info("analyze token freq");
+
+				LyricsAnalyzer analyzer = new LyricsAnalyzer();
+				songs = analyzer.getWeights(songs);
+				List<Entry<String, Double>> weightsOfYear = analyzer.getWeightsForYear(songs, 1980);
+				logger.info(1980 + "");
+				for (int i = 0; i < 10; i++) {
+					Double weight = weightsOfYear.get(i).getValue();
+					String feature = weightsOfYear.get(i).getKey();
+					logger.info(feature + " " + weight);
+
+				}
+				logger.info(1990 + "");
+				weightsOfYear = analyzer.getWeightsForYear(songs, 1990);
+
+				for (int i = 0; i < 10; i++) {
+					Double weight = weightsOfYear.get(i).getValue();
+					String feature = weightsOfYear.get(i).getKey();
+					logger.info(feature + " " + weight);
+
+				}
+
+				System.exit(0);
+				// ENDE
 
 
 		GeoTagger tagger = new GeoTagger();
 		try {
-			Map<Location, List<Song>> tagged = tagger.getGeoDatesFromList(places);
+			Map<Place, List<Song>> tagged = tagger.getGeoDatesFromList(places);
 
 		} catch (InterruptedException e) {
 
@@ -77,6 +104,11 @@ public class SongPreprocessor {
 
 		if (lyricsWithPlaces.containsKey(lyrics)) { //lyrics are already processed with NER
 
+			String tokens[] = null;
+			tokens = tokenizer.tokenize(lyrics);
+			// TODO stemmer, satzzeichen entfernen,....
+			song.setTokens(tokens);
+
 			List<String> annotatedPlaces = lyricsWithPlaces.get(lyrics);
 			for (String placeName : annotatedPlaces) {
 				List<Song> currentSongs = new ArrayList<Song>();
@@ -91,6 +123,7 @@ public class SongPreprocessor {
 			
 			String tokens[] = null;
 			tokens = tokenizer.tokenize(lyrics);
+			song.setTokens(tokens);
 
 			InputStream modelIn = new FileInputStream("src/main/resources/nlp/classifiers/en-ner-location.bin");
 			TokenNameFinderModel NFmodel = new TokenNameFinderModel(modelIn);
@@ -106,6 +139,7 @@ public class SongPreprocessor {
 				for (int index = s.getStart(); index < s.getEnd(); index++) {
 					placeName += (tokens[index] + " ");
 				}
+				// TODO index of place name
 
 				// logger.info(placeName + " - " + s.getProb());
 				placeName = placeName.trim().toLowerCase();

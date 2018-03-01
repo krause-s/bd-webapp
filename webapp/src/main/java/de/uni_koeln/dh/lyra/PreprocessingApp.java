@@ -21,7 +21,7 @@ public class PreprocessingApp {
 		
 		IO io = new IO();
 		try {
-			songs = io.getSongs(dataPath);
+			songs = io.getDataFromXLSX(dataPath);
 			SongPreprocessor prep = new SongPreprocessor();
 			Map<Place, List<Song>>	foundPlaces = prep.detectNamedEntities(songs);
 			

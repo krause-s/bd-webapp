@@ -18,6 +18,7 @@ import com.fasterxml.jackson.core.JsonToken;
 
 import de.uni_koeln.dh.lyra.data.Location;
 import de.uni_koeln.dh.lyra.data.Song;
+import de.uni_koeln.dh.lyra.model.place.Place;
 
 public class GeoTagger {
 
@@ -28,11 +29,11 @@ public class GeoTagger {
 
 	HashMap<String, Double[]> geoDatesPlacesMap = new HashMap<String, Double[]>();
 
-	public Map<Location, List<Song>> getGeoDatesFromList(Map<String, List<Song>> places)
+	public Map<Place, List<Song>> getGeoDatesFromList(Map<String, List<Song>> places)
 			throws InterruptedException, IOException {
 
 		// Set<Location> locationsSet = new HashSet<Location>();
-		Map<Location, List<Song>> locationsMap = new HashMap<Location, List<Song>>();
+		Map<Place, List<Song>> locationsMap = new HashMap<Place, List<Song>>();
 		for (Map.Entry<String, List<Song>> e : places.entrySet()) {
 			String currentToken = e.getKey();
 			Double[] latLon;
@@ -53,7 +54,10 @@ public class GeoTagger {
 			}
 
 			logger.info(currentToken + " - " + latLon[0] + " - " + latLon[1]);
-			locationsMap.put(new Location(currentToken, latLon[0], latLon[1]), e.getValue());
+			//TODO new Place
+			new Place(latLon[0], latLon[1]);
+			//TODO e.getValue()?
+			locationsMap.put(new Place(latLon[0], latLon[1]), e.getValue());
 
 		}
 
