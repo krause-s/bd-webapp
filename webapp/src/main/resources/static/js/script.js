@@ -10,12 +10,14 @@ $("footer a").click(function(){
 
 function setDimensions() {
 	var navHeight = $("nav").css("height");
-	var margin = parseInt(navHeight) + 10;
+	var top = parseInt(navHeight);
+	var bottom = top + 10;
 	
+	var margin = top + "px 0px " + bottom + "px";
 	console.log("margin: " + margin)
 	
 	$("footer").css("height", navHeight);
-	$("body").css("margin", margin + "px 0px");
+	$("body").css("margin", margin);
 }
 
 /*

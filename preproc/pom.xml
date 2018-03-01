@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>de.uni-koeln.dh.bd</groupId>
-	<artifactId>bd-preproc</artifactId>
+	<groupId>de.uni-koeln.dh.lyra</groupId>
+	<artifactId>lyra-preproc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<!-- <packaging>jar</packaging> -->
 
@@ -74,30 +74,30 @@
 		<!-- XLSX read/write: Apache POI -->
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-examples -->
 		<dependency>
-    		<groupId>org.apache.poi</groupId>
-    		<artifactId>poi-examples</artifactId>
-    		<version>${apachepoi.version}</version>
+	    		<groupId>org.apache.poi</groupId>
+	    		<artifactId>poi-examples</artifactId>
+	    		<version>${apachepoi.version}</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-excelant -->
 		<dependency>
-    		<groupId>org.apache.poi</groupId>
-    		<artifactId>poi-excelant</artifactId>
-    		<version>${apachepoi.version}</version>
+	    		<groupId>org.apache.poi</groupId>
+	    		<artifactId>poi-excelant</artifactId>
+	    		<version>${apachepoi.version}</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas -->
 		<dependency>
-    		<groupId>org.apache.poi</groupId>
-    		<artifactId>poi-ooxml-schemas</artifactId>
-    		<version>${apachepoi.version}</version>
+	    		<groupId>org.apache.poi</groupId>
+	    		<artifactId>poi-ooxml-schemas</artifactId>
+	    		<version>${apachepoi.version}</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-scratchpad -->
 		<dependency>
-    		<groupId>org.apache.poi</groupId>
-    		<artifactId>poi-scratchpad</artifactId>
-    		<version>${apachepoi.version}</version>
+	    		<groupId>org.apache.poi</groupId>
+	    		<artifactId>poi-scratchpad</artifactId>
+	    		<version>${apachepoi.version}</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -12,7 +12,6 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<!-- TODO name, see header.html -->
 				<a class="navbar-brand" th:href="@{/}">lyra</a>
 			</div>
 			
@@ -21,31 +20,37 @@
 					<li th:class="${active == 'about'} ? 'active'">
 						<a th:href="@{/about}">About</a>
 					</li>
-					<li class="dropdown" th:class="${active == 'songs'} OR ${active == 'albums'} OR ${active == 'setlists'} ? 'active'">
+					
+					<li class="dropdown" th:class="${active == 'artists'} OR ${active == 'songs'} ? 'active'">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 							Browse<span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu">
+							<li th:class="${active == 'artists'} ? 'active'">
+								<a th:href="@{/browse/artists}">Artists</a>
+							</li>
 							<li th:class="${active == 'songs'} ? 'active'">
 								<a th:href="@{/browse/songs}">Songs</a>
 							</li>
-							<li th:class="${active == 'albums'} ? 'active'">
-								<a th:href="@{/browse/albums}">Albums</a>
+						</ul>
+					</li>	<!-- .dropdown -->
+					
+					<li class="dropdown" th:class="${active == 'places'} OR ${active == 'frequencies'} ? 'active'">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+							Analytics<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li th:class="${active == 'places'} ? 'active'">
+								<a th:href="@{/analytics/places}">Places</a>
 							</li>
-							<li th:class="${active == 'setlists'} ? 'active'">
-								<a th:href="@{/browse/setlists}">Setlists</a>
+							<li th:class="${active == 'frequencies'} ? 'active'">
+								<a th:href="@{/analytics/frequencies}">Frequencies</a>
 							</li>
 						</ul>
 					</li>	<!-- .dropdown -->
-					<li th:class="${active == 'analytics'} ? 'active'">
-						<a th:href="@{/analytics}">Analytics</a>
-					</li>
-					<li th:class="${active == 'places'} ? 'active'">
-						<a th:href="@{/places}">Places</a>
-					</li>
 				</ul>
 				
-				<form class="navbar-form navbar-right" th:action="@{/}">
+				<form class="navbar-form navbar-right" th:action="@{/search}">
 					<button class="btn btn-danger">
 						<span class="glyphicon glyphicon-search"></span> Search
 					</button>

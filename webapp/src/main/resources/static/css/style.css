@@ -3,6 +3,11 @@ html {
 	min-height: 100%;
 }
 
+blockquote h5 {
+	/*background-color: #eee;*/
+	font-weight: bold;
+}
+
 /* TODO not required? */
 /*
 .btn-main, .btn-main:hover, .btn-main:focus, .btn-main:active {
@@ -29,21 +34,21 @@ html {
 	background: #d9534f !important;	/* bootstrap btn-danger */
 }
 
-footer {
+#copyright {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
 	background-color: #f5f5f5;
 }
 
-footer .container {
+#copyright .container {
 	font-size: smaller;
 	position: relative;
 	top: 50%;
 	transform: translateY(-50%);
 }
 
-footer a, footer a:hover, footer a:focus, footer a:active {
+#copyright a, #copyright a:hover, #copyright a:focus, #copyright a:active {
 	color: #333333;	
 }
 
