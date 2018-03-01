@@ -3,11 +3,6 @@ html {
 	min-height: 100%;
 }
 
-blockquote h5 {
-	/*background-color: #eee;*/
-	font-weight: bold;
-}
-
 /* TODO not required? */
 /*
 .btn-main, .btn-main:hover, .btn-main:focus, .btn-main:active {
@@ -50,6 +45,11 @@ blockquote h5 {
 
 #copyright a, #copyright a:hover, #copyright a:focus, #copyright a:active {
 	color: #333333;	
+}
+
+blockquote h5 {
+	/*background-color: #eee;*/
+	font-weight: bold;
 }
 
 /* TODO */
