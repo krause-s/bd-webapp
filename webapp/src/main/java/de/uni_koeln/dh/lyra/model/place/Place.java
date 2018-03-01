@@ -8,6 +8,7 @@ public class Place {
 	double longitude;
 	double latitude;
 	List<PopUp> popUps = new ArrayList<PopUp>();
+	// TODO: not necessary
 	boolean isMeta;
 
 	public Place(double longitude, double latitude, List<PopUp> popUps, boolean isMeta) {
@@ -37,8 +38,8 @@ public class Place {
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
-	
-	public List<PopUp> getPopUps(){
+
+	public List<PopUp> getPopUps() {
 		return popUps;
 	}
 
@@ -49,13 +50,13 @@ public class Place {
 	public void addPopUp(PopUp popUp) {
 		this.popUps.add(popUp);
 	}
-	
-	public void setIsMeta(boolean isMeta){
+
+	public void setIsMeta(boolean isMeta) {
 		this.isMeta = isMeta;
 	}
-	
-	public boolean getIsMeta(){
+
+	public boolean getIsMeta() {
 		return isMeta;
 	}
-	
+
 }

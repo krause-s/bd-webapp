@@ -1,12 +1,17 @@
 package de.uni_koeln.dh.lyra.data;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+
+import de.uni_koeln.dh.lyra.model.place.Place;
 
 public class Song {
 	
 	private String title, lyrics, artist, release, comment;
 	private int year;
 	private boolean compilation;
+	private List<Place> places = new ArrayList<Place>();
 	private UUID uuid;
 	
 	/**
@@ -63,6 +68,19 @@ public class Song {
 	public boolean isCompilation() {
 		return compilation;
 	}
+
+	public List<Place> getPlaces() {
+		return places;
+	}
+
+	public void setPlaces(List<Place> places) {
+		this.places = places;
+	}
+	
+	public void addPlace(Place place) {
+		this.places.add(place);
+	}
+	
 	
 	
 

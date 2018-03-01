@@ -19,7 +19,6 @@ public class PopUp {
 		this.placeName = placeName;
 	}
 	
-	
 	public String getPlaceName() {
 		return placeName;
 	}

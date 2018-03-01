@@ -23,8 +23,8 @@
 	var color;
 	
 	/* leaflet components start */
-	var map = L.map('map', {center: [ 51.505, -0.09 ],
-		zoom: 13
+	var map = L.map('map', {center: [ 36.754187, 3.058785 ],
+		zoom: 2
 	});
 	
 	L.tileLayer(
@@ -33,7 +33,7 @@
 				attribution : 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 				maxZoom : 18,
 				id : 'mapbox.streets',
-				accessToken : ''
+				accessToken : 'pk.eyJ1IjoicHNlaXBlbCIsImEiOiJjamJxaXdnb3MwNHBkMzJyNjQ1c3F1eHd3In0.XeYHykHhoy2uuXv0GqD6Og'
 			}).addTo(map);
 
 	var layerControl = new L.control.layers();
@@ -64,7 +64,7 @@
 			  border: 1px solid #FFFFFF;`
 		  
 		/* prototype: markup for meta marker */
-		var metaMarkerHtmlStyles = `
+		var bioMarkerHtmlStyles = `
 			  background-color: ${color};
 			  width: 3rem;
 			  height: 3rem;
@@ -75,13 +75,37 @@
 			  border-radius: 3rem 0 0;
 			  transform: rotate(45deg);
 			  border: 1px solid #FFFFFF;`
+			  
+		var smallLyricsMarkerHtmlStyles = `
+			  background-color: ${color};
+			  width: 1rem;
+			  height: 1rem;
+			  display: block;
+			  left: -0.5rem;
+			  top: -0.5rem;
+			  border-radius: 1rem 1rem 0;
+			  transform: rotate(45deg);
+			  border: 1px solid #FFFFFF;
+			  display: inline-block;`
+			  
+		var smallBioMarkerHtmlStyles = `
+			  background-color: ${color};
+			  width: 1rem;
+			  height: 1rem;
+			  display: block;
+			  left: -10.5rem;
+			  top: -0.5rem;
+			  border-radius: 1rem 0 0;
+			  transform: rotate(45deg);
+			  border: 1px solid #FFFFFF;
+			  display: inline-block;`
     
 		var metaIcon = new L.divIcon({
 			  className: "metaIcon",
 			  iconAnchor: [0, 24],
 			  labelAnchor: [-6, 0],
 			  popupAnchor: [0, -36],
-			  html: `<span style="${metaMarkerHtmlStyles}"></span>`
+			  html: `<span style="${bioMarkerHtmlStyles}"></span>`
 			});
 	
 		var lyricsIcon = L.divIcon({
@@ -108,9 +132,9 @@
 		
 		/* adds the Layers to map and control (checkboxes for selection) */
 		map.addLayer(L.layerGroup(currentLyricsLayers));
-		layerControl.addOverlay(L.layerGroup(currentLyricsLayers).addTo(map), keys[j] + ' (Lyrics)');
+		layerControl.addOverlay(L.layerGroup(currentLyricsLayers).addTo(map), `<div style='display: inline-block;'>` + keys[j] + `<span style="${smallLyricsMarkerHtmlStyles}"</span></div>`);
 		map.addLayer(L.layerGroup(currentMetaLayers));
-		layerControl.addOverlay(L.layerGroup(currentMetaLayers).addTo(map), keys[j] + ' (Meta)');
+		layerControl.addOverlay(L.layerGroup(currentMetaLayers).addTo(map), `<div style='display: inline-block;'>` + keys[j] + `(Bio)<div style="${smallBioMarkerHtmlStyles}"></div></div>`);
 	}
 	
 	layerControl.addTo(map);
