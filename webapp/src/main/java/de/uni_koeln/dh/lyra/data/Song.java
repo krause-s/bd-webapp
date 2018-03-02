@@ -38,6 +38,11 @@ public class Song {
 		this.comment = comment;
 	}
 	
+	public Song(String lyrics) {
+		this.lyrics = lyrics;
+		this.uuid = UUID.randomUUID();
+	}
+
 	public UUID getID() {
 		return uuid;
 	}

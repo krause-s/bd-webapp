@@ -23,6 +23,10 @@ public class Place {
 		this.latitude = latitude;
 	}
 
+	public Place(String event, String placeString) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public double getLongitude() {
 		return longitude;
 	}
@@ -57,6 +61,15 @@ public class Place {
 
 	public boolean getIsMeta() {
 		return isMeta;
+	}
+	
+	//TODO define equals
+	@Override
+	public boolean equals(Object obj) {
+		Place place = (Place) obj;
+		
+		return (place.getLatitude() == this.getLatitude() &&
+				place.getLongitude() == this.getLongitude());
 	}
 
 }
