@@ -116,13 +116,27 @@ public class IO {
 		List<Place> evaluatedPlaces = PlaceEvaluator.evaluatePlaces(placesToEvaluate);
 		//TODO sort the pop ups to the right artist
 		
-		for(Place place : placesToEvaluate) {
-			logger.info("------------------");
-			logger.info(place.getLatitude() + " - " + place.getLongitude());
+		for(Place place : evaluatedPlaces) {
+
 			for(PopUp popUp : place.getPopUps()) {
-				logger.info(popUp.getContent() + " (" + popUp.getReferredSong().getArtist() + ")");
+				String artistName = popUp.getReferredSong().getArtist();
+				Artist currArtist = artists.get(artistName);
+				if(currArtist.getLyricsPlaces().contains(place)) {
+					Place artistPlace = currArtist.getLyricsPlaces()
+							.get(currArtist.getLyricsPlaces().indexOf(place));
+					artistPlace.addPopUp(popUp);
+				} else {
+					Place artistPlace = new Place(place.getLongitude(), place.getLatitude());
+					artistPlace.addPopUp(popUp);
+					currArtist.addLyricsPlace(artistPlace);
+				}
 			}
 		}
+		
+		for(Map.Entry<String, Artist> e : artists.entrySet()) {
+			logger.info(e.getValue().getLyricsPlaces().size() + " annotated Places");
+		}
+		logger.info(evaluatedPlaces.size() + " evaluated Places");
 
 	}
 

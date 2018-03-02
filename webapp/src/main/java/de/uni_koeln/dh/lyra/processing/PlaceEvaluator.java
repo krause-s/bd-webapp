@@ -8,8 +8,8 @@ public class PlaceEvaluator {
 	
 	public static List<Place> evaluatePlaces(List<Place> placesToEvaluate) {
 		
-		
-		return null;
+		//TODO UI to evaluate
+		return placesToEvaluate;
 	}
 
 }
