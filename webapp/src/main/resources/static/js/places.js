@@ -1,7 +1,11 @@
 function buildMap(artistPlacesMap) {
-	// TODO resize: update height
-	$("#map").css("height", 
-			getInnerHeight());	// see script.js
+	// TODO height specific?
+	$(window).on('resize', function() {
+		$("#map").css("height", 
+				getInnerHeight());	// see script.js
+	});
+	
+	$(window).trigger('resize');
 	
 	/* input map keys (i.e. names of the artists) */
 	var keys = Object.keys(artistPlacesMap);
