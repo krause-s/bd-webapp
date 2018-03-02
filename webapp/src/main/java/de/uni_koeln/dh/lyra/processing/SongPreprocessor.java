@@ -23,6 +23,7 @@ import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 import opennlp.tools.util.Span;
 
+//TODO class name? processes bio places too
 public class SongPreprocessor {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -64,6 +65,21 @@ public class SongPreprocessor {
 	
 	public List<Place> getPlacesToEvaluate() {
 		return placesToEvaluate;
+	}
+	
+	public Double[] getCoordinates(String placeName) {
+		Double[] toReturn = new Double[2];
+		if(placeNameCoordinates.containsKey(placeName))
+			toReturn = placeNameCoordinates.get(placeName);
+		else
+			try {
+				toReturn = tagger.findGeoData(placeName);
+				placeNameCoordinates.put(placeName, toReturn);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		
+		return toReturn;
 	}
 	
 	public Song tokenizeSong(Song song) {		
@@ -109,17 +125,7 @@ public class SongPreprocessor {
 		//proofs for each pop up if nominatim founds coordinates
 		for (PopUp popUp : foundPopUps) {
 			String placeName = popUp.getPlaceName();
-			Double[] latLon = new Double[2];
-			if(placeNameCoordinates.containsKey(placeName))
-				latLon = placeNameCoordinates.get(placeName);
-			else {
-				try {
-					latLon = tagger.findGeoData(placeName);
-					placeNameCoordinates.put(placeName, latLon);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+			Double[] latLon = getCoordinates(placeName);
 			if(latLon == null)
 				continue;
 			Place currPlace = new Place(latLon[0], latLon[1]); //TODO right order?

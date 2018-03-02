@@ -23,10 +23,6 @@ public class Place {
 		this.latitude = latitude;
 	}
 
-	public Place(String event, String placeString) {
-		// TODO Auto-generated constructor stub
-	}
-
 	public double getLongitude() {
 		return longitude;
 	}

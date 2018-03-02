@@ -31,8 +31,12 @@ public class IO {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	private Map<String, Artist> artists = new HashMap<String, Artist>();
+	List<Place> placesToEvaluate = new ArrayList<Place>();
 	SongPreprocessor prep;
 	
+	public List<Place> getPlacesToEvaluate() {
+		return placesToEvaluate;
+	}
 
 	/**
 	 * reads .xlsx-File with the following columns: arist, title, release, year,
@@ -43,7 +47,7 @@ public class IO {
 	 * @return
 	 * @throws IOException
 	 */
-	public List<Artist> getDataFromXLSX(String dataPath) throws IOException {
+	public Map<String, Artist> getDataFromXLSX(String dataPath) throws IOException {
 
 		prep = new SongPreprocessor();
 
@@ -51,13 +55,13 @@ public class IO {
 		XSSFWorkbook wb = new XSSFWorkbook(fis);
 		XSSFSheet songSheet = wb.getSheetAt(0);
 
-		readSongs(songSheet);
+		placesToEvaluate = readSongs(songSheet);
 		generateBio(wb.getSheetAt(1));
 
 		wb.close();
 
-		List<Artist> toReturn = new ArrayList<Artist>(artists.values());
-		return toReturn;
+//		List<Artist> toReturn = new ArrayList<Artist>(artists.values());
+		return artists;
 	}
 
 	private void generateBio(XSSFSheet bioSheet) {
@@ -67,20 +71,35 @@ public class IO {
 			XSSFRow r = bioSheet.getRow(row++);
 			String artistName = r.getCell(0).getStringCellValue();
 			String event = r.getCell(1).getStringCellValue();
-			String placeString = r.getCell(2).getStringCellValue();
+			String placeName = r.getCell(2).getStringCellValue();
 
-			Place bioPlace = new Place(event, placeString);
+			PopUp popUp = new PopUp(placeName, event);
+			Double[] latLon = prep.getCoordinates(placeName);
+			Place place = new Place(latLon[1], latLon[0]);
 
-			Artist artist = new Artist(artistName);
-			if (artists.containsKey(artistName))
+			Artist artist;
+
+			if (artists.containsKey(artistName)) {
 				artist = artists.get(artistName);
-			artist.addBioPlace(bioPlace);
+				if(artist.getBioPlaces().contains(place)) {
+					place = artist.getBioPlaces().get(artist.getBioPlaces().indexOf(place));
+					place.addPopUp(popUp);
+
+				} else {
+					place.addPopUp(popUp);
+					artist.addBioPlace(place);
+				}
+			}  else {
+				artist = new Artist(artistName);
+				place.addPopUp(popUp);
+				artist.addBioPlace(place);
+			}
 			artists.put(artistName, artist);
 
 		}
 	}
 
-	private void readSongs(XSSFSheet songSheet) {
+	private List<Place> readSongs(XSSFSheet songSheet) {
 
 		int row = 1;
 		while (row <= songSheet.getLastRowNum()) {
@@ -111,32 +130,9 @@ public class IO {
 
 		}
 		List<Place> placesToEvaluate = prep.getPlacesToEvaluate();
+		return placesToEvaluate;
 		
-		//TODO UI to evaluate songs
-		List<Place> evaluatedPlaces = PlaceEvaluator.evaluatePlaces(placesToEvaluate);
-		//TODO sort the pop ups to the right artist
 		
-		for(Place place : evaluatedPlaces) {
-
-			for(PopUp popUp : place.getPopUps()) {
-				String artistName = popUp.getReferredSong().getArtist();
-				Artist currArtist = artists.get(artistName);
-				if(currArtist.getLyricsPlaces().contains(place)) {
-					Place artistPlace = currArtist.getLyricsPlaces()
-							.get(currArtist.getLyricsPlaces().indexOf(place));
-					artistPlace.addPopUp(popUp);
-				} else {
-					Place artistPlace = new Place(place.getLongitude(), place.getLatitude());
-					artistPlace.addPopUp(popUp);
-					currArtist.addLyricsPlace(artistPlace);
-				}
-			}
-		}
-		
-		for(Map.Entry<String, Artist> e : artists.entrySet()) {
-			logger.info(e.getValue().getLyricsPlaces().size() + " annotated Places");
-		}
-		logger.info(evaluatedPlaces.size() + " evaluated Places");
 
 	}
 
@@ -158,5 +154,7 @@ public class IO {
 		bfr.close();
 		return sb.toString();
 	}
+
+	
 
 }
