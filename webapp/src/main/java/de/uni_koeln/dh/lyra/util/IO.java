@@ -23,6 +23,7 @@ import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.data.Song;
 import de.uni_koeln.dh.lyra.model.place.Place;
 import de.uni_koeln.dh.lyra.model.place.PopUp;
+import de.uni_koeln.dh.lyra.processing.PlaceEvaluator;
 import de.uni_koeln.dh.lyra.processing.SongPreprocessor;
 
 public class IO {
@@ -112,7 +113,7 @@ public class IO {
 		List<Place> placesToEvaluate = prep.getPlacesToEvaluate();
 		
 		//TODO UI to evaluate songs
-		
+		List<Place> evaluatedPlaces = PlaceEvaluator.evaluatePlaces(placesToEvaluate);
 		//TODO sort the pop ups to the right artist
 		
 		for(Place place : placesToEvaluate) {
