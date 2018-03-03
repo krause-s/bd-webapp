@@ -2,19 +2,23 @@ var topBottomHeight;
 
 $(document).ready(function($) {
 	setDimensions();
-});
-
-$("footer a").click(function() {
-	$("html, body").animate({
-		scrollTop : 0
-	}, "slow");
+	
+	$("footer a").click(function() {
+		$("html, body").animate({
+			scrollTop : 0
+		}, "slow");
+	});
+	
+	$("tr").click(function() {
+	    window.location = $(this).data("href");
+	});
 });
 
 function setDimensions() {
 	if (topBottomHeight == null)
 		topBottomHeight = getTopBottomHeight();
 
-	$("footer").css("height", topBottomHeight);
+	$("footer").height(topBottomHeight);
 
 	var margin = topBottomHeight + "px 0px " + topBottomHeight + "px";
 	//	console.log("margin: " + margin)
@@ -22,7 +26,7 @@ function setDimensions() {
 }
 
 function getTopBottomHeight() {
-	var navHeight = $("nav").css("height");
+	var navHeight = $("nav").height();
 	return parseInt(navHeight);
 }
 

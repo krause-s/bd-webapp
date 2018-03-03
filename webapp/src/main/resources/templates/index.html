@@ -6,13 +6,15 @@
 <head th:replace="../fragments/header :: header(${title})"></head>
 
 <body>
+	<div th:replace="../fragments/scripts :: scripts"></div>
+	<script type="text/javascript" th:src="@{/js/index.js}"></script>
+
 	<nav th:replace="../fragments/navbar :: navbar('')"></nav>
 
 	<div class="jumbotron">
 		<div class="container">
 			<h1>
-				<span>lyra </span>
-				<small><b>lyr</b>ics-<b>a</b>nalyzer</small>
+				<span>lyra </span> <small><b>lyr</b>ics-<b>a</b>nalyzer</small>
 			</h1>
 			<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
 				diam nonumy eirmod tempor invidunt ut labore.</p>
@@ -20,88 +22,80 @@
 	</div>
 
 	<div class="container">
-		<h3>Random lyrics</h3>
-		<hr />
 		<div class="row">
-			<a href="#">
-				<div class="col-sm-6">
+			<!-- LEFT -->
+			<div class="col-md-7">
+				<!-- ************** INSTRUCTIONS ************** -->
+				<h3>Instructions</h3>
+				<hr />
+				<p class="text-justify">Lorem ipsum dolor sit amet, consetetur
+					sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
+					et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
+					accusam et justo duo dolores et ea rebum. Stet clita kasd
+					gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+					Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+					nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+					erat, sed diam voluptua.</p>
+				<p class="text-justify">At vero eos et accusam et justo duo
+					dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+					sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+					consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+					ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+
+				<!-- ************** STOCK ************** -->
+				<h3>Stock</h3>
+				<hr />
+				<div th:replace="../fragments/stock :: stock"></div>
+			</div>
+			<!-- .col-md-7 -->
+
+			<!-- RIGHT -->
+			<div class="col-md-5">
+				<!-- ************** RANDOM LYRICS ************** -->
+				<h3>Random lyrics</h3>
+				<hr />
+				<a th:href="@{/search}">
 					<blockquote>
-						<h5>A Hard Rain’s A-Gonna Fall (1963)</h5>
+						<h5>
+							<b>A Hard Rain’s A-Gonna Fall</b> (1963)
+						</h5>
 						<p>
 							Oh, where have you been, my blue-eyed son?<br />Oh, where have
 							you been, my darling young one?
 						</p>
 						<footer>Bob Dylan</footer>
 					</blockquote>
-				</div>
-			</a> <a href="#">
-				<div class="col-sm-6">
+				</a> <a th:href="@{/search}">
 					<blockquote>
-						<h5>Oops!... I Did It Again (2000)</h5>
+						<h5>
+							<b>Oops!... I Did It Again</b> (2000)
+						</h5>
 						<p>
 							I think I did it again<br />I made you believe we're more than
 							just friends
 						</p>
 						<footer>Britney Spears</footer>
 					</blockquote>
-				</div>
-			</a>
-		</div>
-		<div class="row">
-			<a href="#">
-				<div class="col-sm-6">
+				</a> <a th:href="@{/search}">
 					<blockquote>
-						<h5>Pocahontas (1976)</h5>
-						<p>
-							Aurora borealis<br />The icy sky at night
-						</p>
-						<footer>Neil Young</footer>
-					</blockquote>
-				</div>
-			</a> <a href="#">
-				<div class="col-sm-6">
-
-					<blockquote>
-						<h5>Early Roman Kings (2012)</h5>
+						<h5>
+							<b>Early Roman Kings</b> (2012)
+						</h5>
 						<p>
 							All the early Roman Kings in their sharkskin suits<br />Bowties
 							and buttons, high top boots
 						</p>
 						<footer>Bob Dylan</footer>
 					</blockquote>
-
-				</div>
-			</a>
+				</a>
+			</div>
+			<!-- .col-md-5 -->
 		</div>
-		<div class="row">
-			<a href="#">
-				<div class="col-sm-6">
-					<blockquote>
-						<h5>Poker Face (2008)</h5>
-						<p>
-							I wanna hold 'em like they do in Texas plays<br />Fold 'em, let
-							'em, hit me, raise it baby stay with me (I love it)
-						</p>
-						<footer>Lady Gaga</footer>
-					</blockquote>
-				</div>
-			</a> <a href="#">
-				<div class="col-sm-6">
-					<blockquote>
-						<h5>Queen Jane Approximately (1965)</h5>
-						<p>
-							When your mother sends back all your invitations<br />And your
-							father to your sister he explains
-						</p>
-						<footer>Bob Dylan</footer>
-					</blockquote>
-				</div>
-			</a>
-		</div>
+		<!-- .row -->
 	</div>
+	<!-- .container -->
 
 	<footer th:replace="../fragments/footer :: footer"></footer>
-	<div th:replace="../fragments/scripts :: scripts"></div>
 </body>
 
 </html>
