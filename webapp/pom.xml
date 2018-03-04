@@ -16,13 +16,13 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.8.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		
+
 		<java.version>1.8</java.version>
 		<lucene.version>7.1.0</lucene.version>
 		<jsoup.version>1.11.2</jsoup.version>
@@ -33,28 +33,23 @@
 
 	<!-- TODO exclude default logging (logback) -->
 	<dependencies>
-		<!-- TODO preprocessing project (problem: logging error) -->	 
-		<!-- 
-		<dependency>
-			<groupId>de.uni-koeln.dh.bd</groupId>
-			<artifactId>bd-preproc</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-	 	-->
-	
+		<!-- TODO preprocessing project (problem: logging error) -->
+		<!-- <dependency> <groupId>de.uni-koeln.dh.bd</groupId> <artifactId>bd-preproc</artifactId> 
+			<version>0.0.1-SNAPSHOT</version> </dependency> -->
+
 		<!-- Testing (JUnit), Logging (SLF4J: log4j)... -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
- 
- 		<!-- Web: Template engine (Thymeleaf), JSON (Jackson), Server (Tomcat)... -->
+
+		<!-- Web: Template engine (Thymeleaf), JSON (Jackson), Server (Tomcat)... -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
-		
+
 		<!-- Indexing/Searching: Lucene -->
 		<!-- TODO add libs -->
 		<dependency>
@@ -62,64 +57,72 @@
 			<artifactId>lucene-core</artifactId>
 			<version>${lucene.version}</version>
 		</dependency>
-		
+
+		<!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-queryparser -->
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-queryparser</artifactId>
+			<version>7.2.1</version>
+		</dependency>
+
+
 		<!-- WebJars versioning -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>webjars-locator</artifactId>
 			<!-- <version>0.32</version> -->
 		</dependency>
-		
+
 		<!-- CSS(/JS): Bootstrap -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>${bootstrap.version}</version>
 		</dependency>
-		
+
 		<!-- Named Entity Recognition -->
 		<dependency>
 			<groupId>org.apache.opennlp</groupId>
 			<artifactId>opennlp-tools</artifactId>
 			<version>${opennlp.version}</version>
 		</dependency>
-		
+
 		<!-- HTML-Parsing: jsoup -->
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
 			<version>${jsoup.version}</version>
 		</dependency>
-		
+
 		<!-- XLSX read/write: Apache POI -->
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-examples -->
 		<dependency>
-	    		<groupId>org.apache.poi</groupId>
-	    		<artifactId>poi-examples</artifactId>
-	    		<version>${apachepoi.version}</version>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-examples</artifactId>
+			<version>${apachepoi.version}</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-excelant -->
 		<dependency>
-	    		<groupId>org.apache.poi</groupId>
-	    		<artifactId>poi-excelant</artifactId>
-	    		<version>${apachepoi.version}</version>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-excelant</artifactId>
+			<version>${apachepoi.version}</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas -->
 		<dependency>
-	    		<groupId>org.apache.poi</groupId>
-	    		<artifactId>poi-ooxml-schemas</artifactId>
-	    		<version>${apachepoi.version}</version>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>${apachepoi.version}</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-scratchpad -->
 		<dependency>
-	    		<groupId>org.apache.poi</groupId>
-	    		<artifactId>poi-scratchpad</artifactId>
-	    		<version>${apachepoi.version}</version>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-scratchpad</artifactId>
+			<version>${apachepoi.version}</version>
 		</dependency>
-		 
+
 		<!-- TODO D3.js? -->
 	</dependencies>
 

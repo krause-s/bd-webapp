@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import de.uni_koeln.dh.lyra.data.Artist;
+import de.uni_koeln.dh.lyra.lucene.index.SearchService;
 import de.uni_koeln.dh.lyra.model.place.Place;
 import de.uni_koeln.dh.lyra.processing.PlaceEvaluator;
 import de.uni_koeln.dh.lyra.util.IO;
@@ -32,8 +33,14 @@ public class AnalysisController {
 				List<Place> placesToEvaluate = io.getPlacesToEvaluate();
 				List<Place> evaluatedPlaces = PlaceEvaluator.evaluatePlaces(placesToEvaluate);
 				artists = PlaceEvaluator.sortPopUpsToArtists(evaluatedPlaces, artists);
+				List<Artist> artistsList = new ArrayList<>();
+				for(String artistKey : artists.keySet()){
+					artistsList.add(artists.get(artistKey));
+				}
+				SearchService li = new SearchService();
+//				li.setIndexDirPath("/data/index/000001/");
+				li.initIndex(artistsList);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
