@@ -1,7 +1,5 @@
 package de.uni_koeln.dh.lyra.model.place;
 
-import java.util.Date;
-
 import de.uni_koeln.dh.lyra.data.Song;
 
 public class PopUp {

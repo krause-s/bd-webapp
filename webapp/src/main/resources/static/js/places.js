@@ -1,4 +1,4 @@
-function buildMap(artistPlacesMap) {
+function buildMap(artistsList) {
 	// TODO height specific?
 	$(window).on('resize', function() {
 		$("#map").css("height", 
@@ -8,8 +8,6 @@ function buildMap(artistPlacesMap) {
 	$(window).trigger('resize');
 	
 	/* input map keys (i.e. names of the artists) */
-	var keys = Object.keys(artistPlacesMap);
-	var places;
 	var currentLyricsLayers;
 	var currentMetaLayers;
 	var color;
@@ -32,18 +30,16 @@ function buildMap(artistPlacesMap) {
 	/* leaflet components end */
 	
 	/* iterating over artists as keys retrieving the places */
-	for (var j = 0; j < keys.length; j++) {
+	for (var j = 0; j < artistsList.length; j++) {
 		
 		/*
 		 * Every artist gets one specific color and two kinds of layers (meta
 		 * and lyrics)
 		 */
+		var currArtist = artistsList[j];
 		currentLyricsLayers = [];
 		currentMetaLayers = [];
 		color = getRandomColor();
-		
-		/* all meta and lyrics places by artist */
-		places = artistPlacesMap[keys[j]];
 		
 		/* prototype: markup for lyrics marker */
 	    var lyricsMarkerHtmlStyles = `
@@ -95,8 +91,8 @@ function buildMap(artistPlacesMap) {
 			  border: 1px solid #FFFFFF;
 			  display: inline-block;`
     
-		var metaIcon = new L.divIcon({
-			  className: "metaIcon",
+		var bioIcon = new L.divIcon({
+			  className: "bioIcon",
 			  iconAnchor: [0, 24],
 			  labelAnchor: [-6, 0],
 			  popupAnchor: [0, -36],
@@ -104,7 +100,7 @@ function buildMap(artistPlacesMap) {
 			});
 	
 		var lyricsIcon = L.divIcon({
-			  className: "LyricsIcon",
+			  className: "lyricsIcon",
 			  iconAnchor: [0, 24],
 			  labelAnchor: [-6, 0],
 			  popupAnchor: [0, -36],
@@ -112,24 +108,31 @@ function buildMap(artistPlacesMap) {
 			})
 		
 		/* all places get their attributes */
-		for (var k = 0; k < places.length; k++) {
+		for (var k = 0; k < currArtist.lyricsPlaces.length; k++) {
+			var places = currArtist.lyricsPlaces;
 			var currentPlace = places[k]; 
-			var currIcon = currentPlace.isMeta ? metaIcon : lyricsIcon;
-			var marker = L.marker([currentPlace.longitude, currentPlace.latitude], {icon: currIcon});
+			var marker = L.marker([currentPlace.longitude, currentPlace.latitude], {icon: lyricsIcon});
 			var tabs = buildTabs(currentPlace);
 			var content = buildPopUpContent(currentPlace);
 			marker.bindPopup(tabs + content);
-			currentPlace.isMeta ? currentMetaLayers.push(marker) : currentLyricsLayers.push(marker);
+			currentLyricsLayers.push(marker);
 			}
 		
-		console.log("currentMetaLayers.length:" ,currentMetaLayers.length);
-		console.log("currentLyricsLayers.length:" ,currentLyricsLayers.length);
+		for (var l = 0; l < currArtist.bioPlaces.length; l++) {
+			var places = currArtist.bioPlaces;
+			var currentPlace = places[l]; 
+			var marker = L.marker([currentPlace.longitude, currentPlace.latitude], {icon: bioIcon});
+			var tabs = buildTabs(currentPlace);
+			var content = buildPopUpContent(currentPlace);
+			marker.bindPopup(tabs + content);
+			currentMetaLayers.push(marker);
+			}
 		
 		/* adds the Layers to map and control (checkboxes for selection) */
 		map.addLayer(L.layerGroup(currentLyricsLayers));
-		layerControl.addOverlay(L.layerGroup(currentLyricsLayers).addTo(map), `<div style='display: inline-block;'>` + keys[j] + `<span style="${smallLyricsMarkerHtmlStyles}"</span></div>`);
+		layerControl.addOverlay(L.layerGroup(currentLyricsLayers).addTo(map), `<div style='display: inline-block;'>` + currArtist.name + `<span style="${smallLyricsMarkerHtmlStyles}"</span></div>`);
 		map.addLayer(L.layerGroup(currentMetaLayers));
-		layerControl.addOverlay(L.layerGroup(currentMetaLayers).addTo(map), `<div style='display: inline-block;'>` + keys[j] + ` (Bio)<div style="${smallBioMarkerHtmlStyles}"></div></div>`);
+		layerControl.addOverlay(L.layerGroup(currentMetaLayers).addTo(map), `<div style='display: inline-block;'>` + currArtist.name + ` (Bio)<div style="${smallBioMarkerHtmlStyles}"></div></div>`);
 	}
 	
 	layerControl.addTo(map);

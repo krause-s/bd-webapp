@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.model.place.Place;
 import de.uni_koeln.dh.lyra.model.place.PopUp;
 
@@ -20,12 +21,18 @@ public class AnalysisController {
 	// Just prototyping.
 	@RequestMapping(value = "/places")
 	public String places(Model model) {
-		// Map: key = artistname, value = list of all places (lyrics and meta)
-		Map<String, List<Place>> artistPlacesMap = new HashMap<String, List<Place>>();
+		List<Artist> artistList = new ArrayList<>();
+		
+		Artist bob = new Artist("bob dylan");
+		Artist frank = new Artist("frank zappa");
 
-		List<Place> places = new ArrayList<Place>();
-		List<Place> morePlaces = new ArrayList<Place>();
+		List<Place> bobsLyricPlaces = new ArrayList<Place>();
+		List<Place> bobsBioPlaces = new ArrayList<Place>();
 
+		List<Place> frankLyricPlaces = new ArrayList<Place>();
+		List<Place> frankBioPlaces = new ArrayList<Place>();
+
+		
 		// one Place has n >=1 PopUps and two coordinates
 		Place london = new Place(51.508, -0.11);
 
@@ -47,8 +54,8 @@ public class AnalysisController {
 		colonia.setIsMeta(false);
 
 		// add places to ArrayList
-		places.add(london);
-		places.add(colonia);
+		bobsLyricPlaces.add(london);
+		bobsLyricPlaces.add(colonia);
 
 		Place metaOne = new Place(55.508, 0.00);
 
@@ -67,30 +74,35 @@ public class AnalysisController {
 		metaTwo.addPopUp(metaTwoPopUp);
 		metaTwo.setIsMeta(true);
 
-		places.add(metaOne);
-		places.add(metaTwo);
+		bobsBioPlaces.add(metaOne);
+		bobsBioPlaces.add(metaTwo);
 
-		// add list of places as value and artist name as key
-		artistPlacesMap.put("Bob Dylan", places);
-
+		bob.setBioPlaces(bobsBioPlaces);
+		bob.setLyricsPlaces(bobsLyricPlaces);
+		
 		Place lyricsTestZappa = new Place(74.945312, 4.945928);
 		PopUp lyricsTestPopUp = new PopUp("Not Köln");
 		lyricsTestPopUp.setContent("not meta at all");
 		lyricsTestZappa.addPopUp(lyricsTestPopUp);
 		lyricsTestZappa.setIsMeta(false);
-		morePlaces.add(lyricsTestZappa);
+		frankLyricPlaces.add(lyricsTestZappa);
 
 		Place metaTestTwo = new Place(70.945312, 4.945928);
 		PopUp metaTestTwoPopUp = new PopUp("Not Köln");
 		metaTestTwoPopUp.setContent("test test hahaha");
 		metaTestTwo.addPopUp(metaTestTwoPopUp);
 		metaTestTwo.setIsMeta(true);
-		morePlaces.add(metaTestTwo);
-
-		artistPlacesMap.put("Frank Zapper", morePlaces);
-
+		frankBioPlaces.add(metaTestTwo);
+		
+		frank.setBioPlaces(frankBioPlaces);
+		frank.setLyricsPlaces(frankLyricPlaces);
+		
+		artistList.add(frank);
+		artistList.add(bob);
+		
 		// artist places hashmap as model for map
-		model.addAttribute("map", artistPlacesMap);
+		
+		model.addAttribute("artistsList", artistList);
 
 		return "places";
 	}

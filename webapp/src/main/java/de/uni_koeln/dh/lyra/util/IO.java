@@ -8,10 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -23,7 +21,6 @@ import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.data.Song;
 import de.uni_koeln.dh.lyra.model.place.Place;
 import de.uni_koeln.dh.lyra.model.place.PopUp;
-import de.uni_koeln.dh.lyra.processing.PlaceEvaluator;
 import de.uni_koeln.dh.lyra.processing.SongPreprocessor;
 
 public class IO {
