@@ -127,6 +127,7 @@ public class SongPreprocessor {
 			if(latLon == null)
 				continue;
 			Place currPlace = new Place(latLon[0], latLon[1]); //TODO right order?
+			currPlace.setIsMeta(false);
 			if(placesToEvaluate.contains(currPlace)) {
 				currPlace = placesToEvaluate.get(placesToEvaluate.indexOf(currPlace));
 				currPlace.addPopUp(popUp);

@@ -72,7 +72,8 @@ public class IO {
 
 			PopUp popUp = new PopUp(placeName, event);
 			Double[] latLon = prep.getCoordinates(placeName);
-			Place place = new Place(latLon[1], latLon[0]);
+			Place place = new Place(latLon[0], latLon[1]);
+			place.setIsMeta(true);
 
 			Artist artist;
 
@@ -98,6 +99,7 @@ public class IO {
 
 	private List<Place> readSongs(XSSFSheet songSheet) {
 
+		logger.info("read songs");
 		int row = 1;
 		while (row <= songSheet.getLastRowNum()) {
 			XSSFRow r = songSheet.getRow(row++);
