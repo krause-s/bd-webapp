@@ -11,7 +11,7 @@ public class Song {
 	private String title, lyrics, artist, release, comment;
 	private int year;
 	private boolean compilation;
-	private UUID uuid;
+	private String uuid;
 	private String[] tokens;
 	private double[] weights;
 	
@@ -28,7 +28,7 @@ public class Song {
 	 */
 	public Song(String title, String lyrics, String artist,
 			String release, int year, boolean compilation, String comment) {
-		this.uuid = UUID.randomUUID(); //TODO Generierung der ID so ok?
+		this.uuid = UUID.randomUUID().toString(); //TODO Generierung der ID so ok?
 		this.title = title;
 		this.lyrics = lyrics;
 		this.artist = artist;
@@ -40,11 +40,15 @@ public class Song {
 	
 	public Song(String lyrics) {
 		this.lyrics = lyrics;
-		this.uuid = UUID.randomUUID();
+		this.uuid = UUID.randomUUID().toString();
 	}
 
-	public UUID getID() {
+	public String getUuid() {
 		return uuid;
+	}
+	
+	public void setUuid(String uuid){
+		this.uuid = uuid;
 	}
 
 	public String getTitle() {
