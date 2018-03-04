@@ -155,9 +155,9 @@ public class SongPreprocessor {
 
 		List<PopUp> annotatedPopUps;
 
-		if (lyricsWithPopUps.containsKey(lyrics)) { // lyrics are already
+		if (lyricsWithPopUps.containsKey(song.getUuid())) { // lyrics are already
 													// processed with NER
-			annotatedPopUps = lyricsWithPopUps.get(lyrics);
+			annotatedPopUps = lyricsWithPopUps.get(song.getUuid());
 		} else { // process lyrics with NER
 
 			annotatedPopUps = new ArrayList<PopUp>();
@@ -198,7 +198,7 @@ public class SongPreprocessor {
 				// logger.info(placeName + ": " + quote);
 
 			}
-			lyricsWithPopUps.put(lyrics, annotatedPopUps);
+			lyricsWithPopUps.put(song.getUuid(), annotatedPopUps);
 		}
 
 		return annotatedPopUps;

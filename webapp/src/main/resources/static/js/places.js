@@ -171,7 +171,6 @@ function buildPopUpContent(place) {
 		if(place.popUps[m].placeName){
 			currentPlaceName = place.popUps[m].placeName;
 		}
-		place.popUps[m].referredSong ? console.log(place.popUps[m].referredSong.uuid) : console.log('keine uuid');
 		content += "<div class=\"tabcontent" + active + "\" id=\"" + place.popUps[0].placeName + m + "\">"
 		+ "<h3>"
 		+ currentPlaceName
