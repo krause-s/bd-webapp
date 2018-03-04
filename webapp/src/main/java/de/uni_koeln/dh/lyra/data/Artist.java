@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_koeln.dh.lyra.model.place.Place;
+import de.uni_koeln.dh.lyra.util.ColorGenerator;
 
 public class Artist {
 
@@ -11,12 +12,22 @@ public class Artist {
 	private List<Place> bioPlaces;
 	private List<Place> lyricsPlaces;
 	private List<Song> songs;
+	private String color;
 	
 	public Artist(String name) {
 		this.name = name;
 		this.bioPlaces = new ArrayList<Place>();
 		this.lyricsPlaces = new ArrayList<Place>();
 		this.songs = new ArrayList<Song>();
+		this.color = ColorGenerator.randomColor();
+	}
+	
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 	public String getName() {

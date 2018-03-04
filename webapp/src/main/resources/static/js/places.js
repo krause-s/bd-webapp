@@ -39,7 +39,7 @@ function buildMap(artistsList) {
 		var currArtist = artistsList[j];
 		currentLyricsLayers = [];
 		currentMetaLayers = [];
-		color = getRandomColor();
+		color = currArtist.color;
 		
 		/* prototype: markup for lyrics marker */
 	    var lyricsMarkerHtmlStyles = `
@@ -171,13 +171,14 @@ function buildPopUpContent(place) {
 		if(place.popUps[m].placeName){
 			currentPlaceName = place.popUps[m].placeName;
 		}
-		
+		place.popUps[m].referredSong ? console.log(place.popUps[m].referredSong.uuid) : console.log('keine uuid');
 		content += "<div class=\"tabcontent" + active + "\" id=\"" + place.popUps[0].placeName + m + "\">"
 		+ "<h3>"
 		+ currentPlaceName
 		+ "</h3>"
-		+ "<p>" + place.popUps[m].content + "</p>"
-		+ "</div>"
+		+ "<p>" + place.popUps[m].content + "</p>";
+		content += place.popUps[m].referredSong ? '<p><a href="/browse/songs/' + place.popUps[m].referredSong.uuid + '">' + place.popUps[m].referredSong.title + "</a>(" + place.popUps[m].referredSong.year + ")</p>" : "";
+		content += "</div>";
 	}
 	return content;
 }
@@ -195,13 +196,4 @@ function openPopUpContent(evt, index) {
     }
     document.getElementById(index).style.display = "block";
     evt.currentTarget.className += " active";
-}
-
-function getRandomColor() {
-    var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
 }
