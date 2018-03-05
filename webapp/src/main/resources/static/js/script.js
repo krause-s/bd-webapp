@@ -8,10 +8,6 @@ $(document).ready(function($) {
 			scrollTop : 0
 		}, "slow");
 	});
-	
-	$("tr").click(function() {
-	    window.location = $(this).data("href");
-	});
 });
 
 function setDimensions() {

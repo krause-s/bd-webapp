@@ -6,7 +6,6 @@
 <head th:replace="../fragments/header :: header(${title})"></head>
 
 <body>
-	<div th:replace="../fragments/scripts :: scripts"></div>
 	<script type="text/javascript" th:src="@{/js/index.js}"></script>
 
 	<nav th:replace="../fragments/navbar :: navbar('')"></nav>
@@ -45,7 +44,7 @@
 				<!-- ************** STOCK ************** -->
 				<h3>Stock</h3>
 				<hr />
-				<div th:replace="../fragments/stock :: stock"></div>
+				<div th:replace="../fragments/index/stock :: stock"></div>
 			</div>
 			<!-- .col-md-7 -->
 
@@ -54,40 +53,7 @@
 				<!-- ************** RANDOM LYRICS ************** -->
 				<h3>Random lyrics</h3>
 				<hr />
-				<a th:href="@{/search}">
-					<blockquote>
-						<h5>
-							<b>A Hard Rain’s A-Gonna Fall</b> (1963)
-						</h5>
-						<p>
-							Oh, where have you been, my blue-eyed son?<br />Oh, where have
-							you been, my darling young one?
-						</p>
-						<footer>Bob Dylan</footer>
-					</blockquote>
-				</a> <a th:href="@{/search}">
-					<blockquote>
-						<h5>
-							<b>Oops!... I Did It Again</b> (2000)
-						</h5>
-						<p>
-							I think I did it again<br />I made you believe we're more than
-							just friends
-						</p>
-						<footer>Britney Spears</footer>
-					</blockquote>
-				</a> <a th:href="@{/search}">
-					<blockquote>
-						<h5>
-							<b>Early Roman Kings</b> (2012)
-						</h5>
-						<p>
-							All the early Roman Kings in their sharkskin suits<br />Bowties
-							and buttons, high top boots
-						</p>
-						<footer>Bob Dylan</footer>
-					</blockquote>
-				</a>
+				<div th:replace="../fragments/index/quotes :: quotes"></div>
 			</div>
 			<!-- .col-md-5 -->
 		</div>

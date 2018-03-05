@@ -33,7 +33,7 @@ public class AnalysisController {
 				List<Place> placesToEvaluate = io.getPlacesToEvaluate();
 				List<Place> evaluatedPlaces = PlaceEvaluator.evaluatePlaces(placesToEvaluate);
 				artists = PlaceEvaluator.sortPopUpsToArtists(evaluatedPlaces, artists);
-				List<Artist> artistsList = new ArrayList<>();
+				List<Artist> artistsList = new ArrayList<Artist>();
 				for(String artistKey : artists.keySet()){
 					artistsList.add(artists.get(artistKey));
 				}

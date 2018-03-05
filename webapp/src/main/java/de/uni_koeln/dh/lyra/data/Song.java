@@ -1,10 +1,6 @@
 package de.uni_koeln.dh.lyra.data;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-
-import de.uni_koeln.dh.lyra.model.place.Place;
 
 public class Song {
 	

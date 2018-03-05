@@ -24,19 +24,17 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<java.version>1.8</java.version>
-		<lucene.version>7.1.0</lucene.version>
+		<lucene.version>7.2.1</lucene.version>
 		<jsoup.version>1.11.2</jsoup.version>
 		<bootstrap.version>3.3.7-1</bootstrap.version>
+		<leaflet.version>1.2.0</leaflet.version>
+		<datatables.version>1.10.16</datatables.version>
 		<opennlp.version>1.8.3</opennlp.version>
 		<apachepoi.version>3.16</apachepoi.version>
 	</properties>
 
 	<!-- TODO exclude default logging (logback) -->
 	<dependencies>
-		<!-- TODO preprocessing project (problem: logging error) -->
-		<!-- <dependency> <groupId>de.uni-koeln.dh.bd</groupId> <artifactId>bd-preproc</artifactId> 
-			<version>0.0.1-SNAPSHOT</version> </dependency> -->
-
 		<!-- Testing (JUnit), Logging (SLF4J: log4j)... -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -51,7 +49,6 @@
 		</dependency>
 
 		<!-- Indexing/Searching: Lucene -->
-		<!-- TODO add libs -->
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
@@ -62,9 +59,8 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
-			<version>7.2.1</version>
+			<version>${lucene.version}</version>
 		</dependency>
-
 
 		<!-- WebJars versioning -->
 		<dependency>
@@ -78,6 +74,20 @@
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>${bootstrap.version}</version>
+		</dependency>
+
+		<!-- Table: DataTables -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>datatables</artifactId>
+			<version>${datatables.version}</version>
+		</dependency>
+
+		<!-- Map: Leaflet -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>leaflet</artifactId>
+			<version>${leaflet.version}</version>
 		</dependency>
 
 		<!-- Named Entity Recognition -->

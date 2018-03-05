@@ -1,103 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='Browse'">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:with="title='Browse'">
 
 <head th:replace="../fragments/header :: header(${title})"></head>
 
-<body>
-	<div th:replace="../fragments/scripts :: scripts"></div>
-	<nav th:replace="../fragments/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>	
+<body th:with="webjars='/webjars/datatables/js/'">
+	<script th:src="@{${webjars} + 'jquery.dataTables.min.js'}"></script>
+	<script th:src="@{${webjars} + 'dataTables.bootstrap.min.js'}"></script>
+
+	<script type="text/javascript" th:src="@{/js/browse.js}"></script>
+
+	<nav
+		th:replace="../fragments/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
 
 	<div class="container">
-		<h1 th:text="${title}"></h1>
-		
-		<!-- TODO condensed? -->
-		<table class="table table-hover table-condensed">
-			<thead>
-				<tr>
-					<th>Artist</th>
-					<th>Title</th>
-					<th>Release</th>
-					<th>Year</th>
-					<th>Compilation</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Bob Dylan</td>
-					<td>A Hard Rain’s A-Gonna Fall</td>
-					<td>The Freewheelin' Bob Dylan</td>
-					<td>1963</td>
-					<td></td> 
-				</tr>
-				<tr>
-					<td>Bob Dylan</td>
-					<td>A Hard Rain’s A-Gonna Fall</td>
-					<td>DYLAN</td>
-					<td>2007</td>
-					<td>&#10003;</td> 
-				</tr>
-				<tr>
-					<td>Bob Dylan</td>
-					<td>Early Roman Kings</td>
-					<td>Tempest</td>
-					<td>2012</td>
-					<td></td> 
-				</tr>
-				<tr>
-					<td>Bob Dylan</td>
-					<td>Queen Jane Approximately</td>
-					<td>Highway 61 Revisited</td>
-					<td>1965</td>
-					<td></td> 
-				</tr>
-				<tr>
-					<td>Britney Spears</td>
-					<td>Oops!... I Did It Again</td>
-					<td>Oops!... I Did It Again</td>
-					<td>2000</td>
-					<td></td> 
-				</tr>
-				<tr>
-					<td>Lady Gaga</td>
-					<td>Poker Face</td>
-					<td>The Fame</td>
-					<td>2008</td>
-					<td></td> 
-				</tr>
-				<tr>
-					<td>Neil Young</td>
-					<td>Pocahontas</td>
-					<td>Hitchhiker</td>
-					<td>1976</td>
-					<td></td> 
-				</tr>
-			</tbody>
-		</table>
-		
-		<!--
-		<tr th:each="song : ${songs}">
-			<h3 th:text="${song.getId()}"></h3><br/>
-			<b>title: </b><td th:text="${song.getTitle()}"></td><br/>
-			<b>ref: </b><a th:href="${song.getURL()}"><td th:text="${song.getURL()}"></td></a><br/>
-			<b>lyrics: </b><i><td th:text="${song.getLyrics()}"></td></i><br/>
-			<b>credits: </b><td th:text="${song.getCredits()}"></td><br/>
-			<b>copyright: </b><td th:text="${song.getCopyright()}"></td><br/>
-			<b>firstPlayed: </b><a th:href="${song.getFirstPlayedURL()}"><td th:text="${song.getFirstPlayedURL()}"></td></a><br/>
-			<b>lastPlayed: </b><a th:href="${song.getLastPlayedURL()}"><td th:text="${song.getLastPlayedURL()}"></td></a><br/>
-			<b>timesPlayed: </b><td th:text="${song.getTimesPlayed()}"></td><br/>
-			<b>albums: </b>
-			<td>
-				<ul th:each="album : ${song.getAlbums()}">
-					<li>
-						<span th:text="${album.getId()}"></span>: 
-						<span th:text="${album.getValue()}"></span>
-					</li>
-				</ul>
-			</td>
-			<hr/>
-		</tr>
-		-->
-	</div>	<!-- .container -->
+		<div th:replace="../fragments/heading :: heading(${title})"></div>
+		<table th:replace="../fragments/songs :: songs"></table>
+	</div>
 
 	<footer th:replace="../fragments/footer :: footer"></footer>
 </body>

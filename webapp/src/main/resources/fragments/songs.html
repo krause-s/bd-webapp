@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+<body>
+	<table th:fragment="songs" id="testTable" class="table table-hover"
+		width="100%">
+		<thead>
+			<tr>
+				<th rowspan="2">Artist</th>
+				<th rowspan="2">Title</th>
+				<th colspan="3" class="text-center">Release</th>
+			</tr>
+			<tr>
+				<th>Medium</th>
+				<th>Year</th>
+				<th>Compilation</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><a th:href="@{/search}">Neil Young</a></td>
+				<td><a th:href="@{/search}">Pocahontas</a></td>
+				<td><a th:href="@{/search}">Hitchhiker</a></td>
+				<td><a th:href="@{/search}">1976</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">A Hard Rain’s A-Gonna Fall</a></td>
+				<td><a th:href="@{/search}">The Freewheelin' Bob Dylan</a></td>
+				<td><a th:href="@{/search}">1963</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Lady Gaga</a></td>
+				<td><a th:href="@{/search}">Poker Face</a></td>
+				<td><a th:href="@{/search}">The Fame</a></td>
+				<td><a th:href="@{/search}">2008</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">A Hard Rain’s A-Gonna Fall</a></td>
+				<td><a th:href="@{/search}">DYLAN</a></td>
+				<td><a th:href="@{/search}">2007</a></td>
+				<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">Early Roman Kings</a></td>
+				<td><a th:href="@{/search}">Tempest</a></td>
+				<td><a th:href="@{/search}">2012</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">Queen Jane Approximately</a></td>
+				<td><a th:href="@{/search}">Highway 61 Revisited</a></td>
+				<td><a th:href="@{/search}">1965</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Britney Spears</a></td>
+				<td><a th:href="@{/search}">Oops!... I Did It Again</a></td>
+				<td><a th:href="@{/search}">Oops!... I Did It Again</a></td>
+				<td><a th:href="@{/search}">2000</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Metallica</a></td>
+				<td><a th:href="@{/search}">Frantic</a></td>
+				<td><a th:href="@{/search}">The Metallica Collection</a></td>
+				<td><a th:href="@{/search}">2009</a></td>
+				<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Neil Young</a></td>
+				<td><a th:href="@{/search}">Pocahontas</a></td>
+				<td><a th:href="@{/search}">Hitchhiker</a></td>
+				<td><a th:href="@{/search}">1976</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">A Hard Rain’s A-Gonna Fall</a></td>
+				<td><a th:href="@{/search}">The Freewheelin' Bob Dylan</a></td>
+				<td><a th:href="@{/search}">1963</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Lady Gaga</a></td>
+				<td><a th:href="@{/search}">Poker Face</a></td>
+				<td><a th:href="@{/search}">The Fame</a></td>
+				<td><a th:href="@{/search}">2008</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">A Hard Rain’s A-Gonna Fall</a></td>
+				<td><a th:href="@{/search}">DYLAN</a></td>
+				<td><a th:href="@{/search}">2007</a></td>
+				<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">Early Roman Kings</a></td>
+				<td><a th:href="@{/search}">Tempest</a></td>
+				<td><a th:href="@{/search}">2012</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">Queen Jane Approximately</a></td>
+				<td><a th:href="@{/search}">Highway 61 Revisited</a></td>
+				<td><a th:href="@{/search}">1965</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Britney Spears</a></td>
+				<td><a th:href="@{/search}">Oops!... I Did It Again</a></td>
+				<td><a th:href="@{/search}">Oops!... I Did It Again</a></td>
+				<td><a th:href="@{/search}">2000</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Metallica</a></td>
+				<td><a th:href="@{/search}">Frantic</a></td>
+				<td><a th:href="@{/search}">The Metallica Collection</a></td>
+				<td><a th:href="@{/search}">2009</a></td>
+				<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Neil Young</a></td>
+				<td><a th:href="@{/search}">Pocahontas</a></td>
+				<td><a th:href="@{/search}">Hitchhiker</a></td>
+				<td><a th:href="@{/search}">1976</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">A Hard Rain’s A-Gonna Fall</a></td>
+				<td><a th:href="@{/search}">The Freewheelin' Bob Dylan</a></td>
+				<td><a th:href="@{/search}">1963</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Lady Gaga</a></td>
+				<td><a th:href="@{/search}">Poker Face</a></td>
+				<td><a th:href="@{/search}">The Fame</a></td>
+				<td><a th:href="@{/search}">2008</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">A Hard Rain’s A-Gonna Fall</a></td>
+				<td><a th:href="@{/search}">DYLAN</a></td>
+				<td><a th:href="@{/search}">2007</a></td>
+				<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">Early Roman Kings</a></td>
+				<td><a th:href="@{/search}">Tempest</a></td>
+				<td><a th:href="@{/search}">2012</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">Queen Jane Approximately</a></td>
+				<td><a th:href="@{/search}">Highway 61 Revisited</a></td>
+				<td><a th:href="@{/search}">1965</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Britney Spears</a></td>
+				<td><a th:href="@{/search}">Oops!... I Did It Again</a></td>
+				<td><a th:href="@{/search}">Oops!... I Did It Again</a></td>
+				<td><a th:href="@{/search}">2000</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Metallica</a></td>
+				<td><a th:href="@{/search}">Frantic</a></td>
+				<td><a th:href="@{/search}">The Metallica Collection</a></td>
+				<td><a th:href="@{/search}">2009</a></td>
+				<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Neil Young</a></td>
+				<td><a th:href="@{/search}">Pocahontas</a></td>
+				<td><a th:href="@{/search}">Hitchhiker</a></td>
+				<td><a th:href="@{/search}">1976</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">A Hard Rain’s A-Gonna Fall</a></td>
+				<td><a th:href="@{/search}">The Freewheelin' Bob Dylan</a></td>
+				<td><a th:href="@{/search}">1963</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Lady Gaga</a></td>
+				<td><a th:href="@{/search}">Poker Face</a></td>
+				<td><a th:href="@{/search}">The Fame</a></td>
+				<td><a th:href="@{/search}">2008</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">A Hard Rain’s A-Gonna Fall</a></td>
+				<td><a th:href="@{/search}">DYLAN</a></td>
+				<td><a th:href="@{/search}">2007</a></td>
+				<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">Early Roman Kings</a></td>
+				<td><a th:href="@{/search}">Tempest</a></td>
+				<td><a th:href="@{/search}">2012</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">Queen Jane Approximately</a></td>
+				<td><a th:href="@{/search}">Highway 61 Revisited</a></td>
+				<td><a th:href="@{/search}">1965</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Britney Spears</a></td>
+				<td><a th:href="@{/search}">Oops!... I Did It Again</a></td>
+				<td><a th:href="@{/search}">Oops!... I Did It Again</a></td>
+				<td><a th:href="@{/search}">2000</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Metallica</a></td>
+				<td><a th:href="@{/search}">Frantic</a></td>
+				<td><a th:href="@{/search}">The Metallica Collection</a></td>
+				<td><a th:href="@{/search}">2009</a></td>
+				<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Neil Young</a></td>
+				<td><a th:href="@{/search}">Pocahontas</a></td>
+				<td><a th:href="@{/search}">Hitchhiker</a></td>
+				<td><a th:href="@{/search}">1976</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">A Hard Rain’s A-Gonna Fall</a></td>
+				<td><a th:href="@{/search}">The Freewheelin' Bob Dylan</a></td>
+				<td><a th:href="@{/search}">1963</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Lady Gaga</a></td>
+				<td><a th:href="@{/search}">Poker Face</a></td>
+				<td><a th:href="@{/search}">The Fame</a></td>
+				<td><a th:href="@{/search}">2008</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">A Hard Rain’s A-Gonna Fall</a></td>
+				<td><a th:href="@{/search}">DYLAN</a></td>
+				<td><a th:href="@{/search}">2007</a></td>
+				<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">Early Roman Kings</a></td>
+				<td><a th:href="@{/search}">Tempest</a></td>
+				<td><a th:href="@{/search}">2012</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">Queen Jane Approximately</a></td>
+				<td><a th:href="@{/search}">Highway 61 Revisited</a></td>
+				<td><a th:href="@{/search}">1965</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Britney Spears</a></td>
+				<td><a th:href="@{/search}">Oops!... I Did It Again</a></td>
+				<td><a th:href="@{/search}">Oops!... I Did It Again</a></td>
+				<td><a th:href="@{/search}">2000</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Metallica</a></td>
+				<td><a th:href="@{/search}">Frantic</a></td>
+				<td><a th:href="@{/search}">The Metallica Collection</a></td>
+				<td><a th:href="@{/search}">2009</a></td>
+				<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Neil Young</a></td>
+				<td><a th:href="@{/search}">Pocahontas</a></td>
+				<td><a th:href="@{/search}">Hitchhiker</a></td>
+				<td><a th:href="@{/search}">1976</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">A Hard Rain’s A-Gonna Fall</a></td>
+				<td><a th:href="@{/search}">The Freewheelin' Bob Dylan</a></td>
+				<td><a th:href="@{/search}">1963</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Lady Gaga</a></td>
+				<td><a th:href="@{/search}">Poker Face</a></td>
+				<td><a th:href="@{/search}">The Fame</a></td>
+				<td><a th:href="@{/search}">2008</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">A Hard Rain’s A-Gonna Fall</a></td>
+				<td><a th:href="@{/search}">DYLAN</a></td>
+				<td><a th:href="@{/search}">2007</a></td>
+				<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">Early Roman Kings</a></td>
+				<td><a th:href="@{/search}">Tempest</a></td>
+				<td><a th:href="@{/search}">2012</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">Queen Jane Approximately</a></td>
+				<td><a th:href="@{/search}">Highway 61 Revisited</a></td>
+				<td><a th:href="@{/search}">1965</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Britney Spears</a></td>
+				<td><a th:href="@{/search}">Oops!... I Did It Again</a></td>
+				<td><a th:href="@{/search}">Oops!... I Did It Again</a></td>
+				<td><a th:href="@{/search}">2000</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Metallica</a></td>
+				<td><a th:href="@{/search}">Frantic</a></td>
+				<td><a th:href="@{/search}">The Metallica Collection</a></td>
+				<td><a th:href="@{/search}">2009</a></td>
+				<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Neil Young</a></td>
+				<td><a th:href="@{/search}">Pocahontas</a></td>
+				<td><a th:href="@{/search}">Hitchhiker</a></td>
+				<td><a th:href="@{/search}">1976</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">A Hard Rain’s A-Gonna Fall</a></td>
+				<td><a th:href="@{/search}">The Freewheelin' Bob Dylan</a></td>
+				<td><a th:href="@{/search}">1963</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Lady Gaga</a></td>
+				<td><a th:href="@{/search}">Poker Face</a></td>
+				<td><a th:href="@{/search}">The Fame</a></td>
+				<td><a th:href="@{/search}">2008</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">A Hard Rain’s A-Gonna Fall</a></td>
+				<td><a th:href="@{/search}">DYLAN</a></td>
+				<td><a th:href="@{/search}">2007</a></td>
+				<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">Early Roman Kings</a></td>
+				<td><a th:href="@{/search}">Tempest</a></td>
+				<td><a th:href="@{/search}">2012</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">Queen Jane Approximately</a></td>
+				<td><a th:href="@{/search}">Highway 61 Revisited</a></td>
+				<td><a th:href="@{/search}">1965</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Britney Spears</a></td>
+				<td><a th:href="@{/search}">Oops!... I Did It Again</a></td>
+				<td><a th:href="@{/search}">Oops!... I Did It Again</a></td>
+				<td><a th:href="@{/search}">2000</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Metallica</a></td>
+				<td><a th:href="@{/search}">Frantic</a></td>
+				<td><a th:href="@{/search}">The Metallica Collection</a></td>
+				<td><a th:href="@{/search}">2009</a></td>
+				<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Neil Young</a></td>
+				<td><a th:href="@{/search}">Pocahontas</a></td>
+				<td><a th:href="@{/search}">Hitchhiker</a></td>
+				<td><a th:href="@{/search}">1976</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">A Hard Rain’s A-Gonna Fall</a></td>
+				<td><a th:href="@{/search}">The Freewheelin' Bob Dylan</a></td>
+				<td><a th:href="@{/search}">1963</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Lady Gaga</a></td>
+				<td><a th:href="@{/search}">Poker Face</a></td>
+				<td><a th:href="@{/search}">The Fame</a></td>
+				<td><a th:href="@{/search}">2008</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><a th:href="@{/search}">Bob Dylan</a></td>
+				<td><a th:href="@{/search}">A Hard Rain’s A-Gonna Fall</a></td>
+				<td><a th:href="@{/search}">DYLAN</a></td>
+				<td><a th:href="@{/search}">2007</a></td>
+				<td class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+
+</html>

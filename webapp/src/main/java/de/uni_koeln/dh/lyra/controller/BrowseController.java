@@ -36,7 +36,7 @@ public class BrowseController {
 	@RequestMapping(value = { "/result" })
 	public String search(@RequestParam("searchForm") String searchPhrase, Model model)
 			throws IOException, ParseException {
-		List<Song> songs = new ArrayList<>();
+		List<Song> songs = new ArrayList<Song>();
 		for (Document doc : searchService.search(searchPhrase)) {
 			int year = 0;
 			if (doc.get("year") != null) {

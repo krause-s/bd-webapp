@@ -3,8 +3,20 @@ html {
 	min-height: 100%;
 }
 
+th, td {
+	white-space: nowrap;
+}
+
 .dropdown-menu > .active > a {
 	background: #d9534f !important;	/* bootstrap btn-danger */
+}
+
+.progress {
+	margin-bottom: 0;
+}
+
+.panel-body {
+	padding: 0;
 }
 
 #pageFooter {
@@ -12,9 +24,9 @@ html {
 	bottom: 0;
 	width: 100%;
 	background-color: #f5f5f5;
+	z-index: 3;
 }
 
-/* TODO check */
 #pageFooter .container {
 	font-size: smaller;
 	position: relative;
@@ -22,23 +34,55 @@ html {
 	transform: translateY(-50%);
 }
 
+
+
+
+/*#testTable_paginate { display: flex;
+  align-items: center}*/
+
+
+
+
 /* TODO classes */
-.col-xs-3 a, #tmp, .col-md-5 a, .panel-heading a {
+.col-xs-3 a, #tmp, .col-md-5 a, .panel-heading a, td a {
 	color: #333333;	
 }
-.col-xs-3 a:hover, #tmp:hover, .col-md-5 a:hover, .panel-heading a:hover {
+.col-md-5 a:hover, .panel-heading a:hover {
 	color: #23527c;
 	text-decoration: none;
 }
 
-tr:hover {
-  cursor: pointer;
-}
-
-/* TODO */
+/* TODO check */
 @media(max-width:583px){
 	.col-xs-3 {
 		position: relative;
 		transform: translateY(50%);
 	}
+}
+
+
+
+/*thead {
+	background-color: #eee;
+}
+.panel-footer {
+	background-color: #fff;
+}*/
+
+
+.pagination > li > a {
+	color: #d9534f;
+}
+
+.pagination > li.active > a, .pagination > li.active > a:focus, .pagination > li.active > a:hover {
+	background-color: #d9534f;
+	border-color: #d9534f;
+}
+
+.col-xs-3 a:hover, #tmp:hover, .pagination > li > a:focus, .pagination > li > a:hover {
+	color: #c9302c;
+}
+
+.pagination > li.disabled > a {
+	color: #777;
 }

@@ -3,25 +3,30 @@
 
 <!-- TODO meta [u.a. authors (mail?), description, keywords], favicon -->
 <head th:fragment="header(title)">	
-	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<title th:text="${title} + ' &#124; lyra'"></title>
 	
-	<meta name="author" content="Johanna Binnewitt, Stefan Krause, Peter Seipel" />
-		
+	<meta name="author" content="Johanna Binnewitt, Stefan Krause, Peter Seipel" />	
 	<!-- 
 	<meta name="description" content="Digital edition of the lyrics of Bob Dylan" />
 	<meta name="keywords" content=""></meta> 
-	
+
 	<link rel="icon" href="/favicon.ico" /> 
 	-->
 	
 	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-	<link rel="stylesheet" th:href="@{/css/leaflet/leaflet.css}"/>
+	<link rel="stylesheet" th:href="@{/webjars/datatables/css/dataTables.bootstrap.min.css}"/>
+		<!-- LEAFLET -->
+		<link rel="stylesheet" th:href="@{/webjars/leaflet/leaflet.css}"/>
+		<!-- <link rel="stylesheet" th:href="@{/css/leaflet-DEPRECATED/leaflet.css}"/>  -->
 	<link rel="stylesheet" th:href="@{/css/style.css}"/>
-	<link rel="stylesheet" th:href="@{/css/index.css}"/>
 	
-	<title th:text="${title} + ' &#124; lyra'"></title>
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/script.js}"></script>
 </head>
 
 <body></body>

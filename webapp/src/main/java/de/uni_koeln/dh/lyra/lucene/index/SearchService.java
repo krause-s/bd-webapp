@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.TextField;
@@ -52,7 +51,7 @@ public class SearchService {
 	}
 
 	private List<Document> convertToLuceneDoc(Artist artist) {
-		List<Document> luceneDocLists = new ArrayList<>();
+		List<Document> luceneDocLists = new ArrayList<Document>();
 		for (Song song : artist.getSongs()) {
 			luceneDocLists.add(convertToLuceneDoc(song));
 		}
