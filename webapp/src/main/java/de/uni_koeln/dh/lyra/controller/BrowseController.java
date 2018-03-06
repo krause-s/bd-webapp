@@ -3,6 +3,7 @@ package de.uni_koeln.dh.lyra.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -34,10 +35,13 @@ public class BrowseController {
 	}
 
 	@RequestMapping(value = { "/result" })
-	public String search(@RequestParam("searchForm") String searchPhrase, Model model)
+	public String search(@RequestParam("searchForm") String searchPhrase, @RequestParam("fieldForm") String field, @RequestParam("fuzzyForm") Optional<String> fuzzy, Model model)
 			throws IOException, ParseException {
 		List<Song> songs = new ArrayList<Song>();
-		for (Document doc : searchService.search(searchPhrase)) {
+		if(fuzzy.isPresent()){
+			searchPhrase = searchPhrase + "~";
+		}
+		for (Document doc : searchService.search(searchPhrase, field)) {
 			int year = 0;
 			if (doc.get("year") != null) {
 				year = Integer.valueOf(doc.get("year"));

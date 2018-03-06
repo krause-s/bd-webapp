@@ -10,12 +10,20 @@
 
 	<div class="container">
 		<div th:replace="../fragments/heading :: heading(${title})"></div>
-		
+
 		<form action="/result">
-			<input type="text" name="searchForm" />
+			<input type="text" class="form-control" name="searchForm" /> <select
+				class="form-control" name="fieldForm">
+				<option value="artist">Artist</option>
+				<option value="title">Song title</option>
+				<option selected="selected" value="lyrics">lyrics</option>
+			</select>
+			<label class="checkbox-inline"><input type="checkbox" value="true" name="fuzzyForm"/>Fuzzy?</label>
+			<button class="btn btn-danger">GO</button>
 		</form>
+
 	</div>
-	
+
 	<footer th:replace="../fragments/footer :: footer"></footer>
 </body>
 

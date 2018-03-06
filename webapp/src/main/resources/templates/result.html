@@ -8,18 +8,19 @@
 	<nav
 		th:replace="../fragments/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
 	<form action="/result">
-		<input type="text" name="searchForm" />
+		<input type="text" class="form-control" name="searchForm" />
 	</form>
 	<div class="container">
 		<div class="container">
 			<div class="row">
 				<ul class="list-group">
-					<li class="list-group-item" th:each="doc : ${docs}"
-						th:text="${doc.lyrics}"></li>
+					<li class="list-group-item" th:each="doc : ${docs}">
+						<h3 th:text="${doc.title}"></h3> 
+						<span th:text="${doc.lyrics}"></span>
+						<div th:text="${doc.artist}" class="col-md-8" id="content"></div>
+					</li>
 				</ul>
-				<div class="col-md-8" id="content"></div>
 			</div>
-
 		</div>
 	</div>
 
