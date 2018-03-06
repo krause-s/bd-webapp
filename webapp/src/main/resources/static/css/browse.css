@@ -1,0 +1,21 @@
+/* TODO classes */
+
+.panel-footer .row {
+	display: flex;
+	align-items: center;
+}
+
+#testTable_length label {
+  	margin: 0;	
+}
+
+#testTable_info { 
+	text-align: center;
+	font-size: smaller;
+    padding:0;
+}
+
+#testTable_paginate { 
+	display: flex;
+	flex-direction: row-reverse;
+}

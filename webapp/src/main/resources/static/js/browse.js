@@ -3,10 +3,11 @@ $(document).ready(function($) {
 //		"processing": true,
 		
 		"dom": 
-			/*"tr"*/"<'panel panel-default'<'panel-body't>" +
+//			"<'panel panel-default'<'panel-body'tr>" +
+			"<'panel panel-default'<'panel-body't>" +
 			"<'panel-footer'<'row'" +
 			"	<'col-sm-4'l>" +
-			"	<'col-sm-4 text-center'i>" +
+			"	<'col-sm-4'i>" +
 			"	<'col-sm-4'p>>>>",
 		
 		"scrollX": true,	
