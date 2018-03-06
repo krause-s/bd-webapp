@@ -5,21 +5,24 @@
 <head th:replace="../fragments/header :: header(${title})"></head>
 
 <body>
-	<nav th:replace="../fragments/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
-	
+	<nav
+		th:replace="../fragments/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
+	<form action="/result">
+		<input type="text" name="searchForm" />
+	</form>
 	<div class="container">
 		<div class="container">
 			<div class="row">
-					<ul class="list-group">
-						<li class="list-group-item" th:each="doc : ${docs}" th:text="${doc.lyrics}">
-						</li>
-					</ul>
+				<ul class="list-group">
+					<li class="list-group-item" th:each="doc : ${docs}"
+						th:text="${doc.lyrics}"></li>
+				</ul>
 				<div class="col-md-8" id="content"></div>
 			</div>
 
 		</div>
 	</div>
-	
+
 	<footer th:replace="../fragments/footer :: footer"></footer>
 </body>
 
