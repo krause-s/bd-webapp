@@ -1,9 +1,11 @@
-package de.uni_koeln.dh.lyra.lucene.index;
+package de.uni_koeln.dh.lyra.services;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -21,6 +23,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.SimpleFSDirectory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.uni_koeln.dh.lyra.data.Artist;
@@ -28,14 +31,19 @@ import de.uni_koeln.dh.lyra.data.Song;
 
 @Service
 public class SearchService {
-
-	private String indexDirPath = "./data/index/000001/";
+	
+	private String indexesDirPath = "./data/index/";
+	private String indexDirPath = "000001";
+	
+	@Autowired
+	private CorpusService corpusService;
 
 	public void setIndexDirPath(String indexDirPath) {
-		this.indexDirPath = indexDirPath;
+		this.indexDirPath = this.indexesDirPath + this.indexDirPath;
 	}
 
-	public void initIndex(List<Artist> artistList) throws IOException {
+	@PostConstruct
+	public void initIndex() throws IOException {
 		Directory dir;
 		File folder = new File(indexDirPath);
 		if (!folder.exists() || folder.list().length <= 1) {
@@ -43,7 +51,7 @@ public class SearchService {
 			dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 			IndexWriterConfig writerConfig = new IndexWriterConfig(new StandardAnalyzer());
 			IndexWriter writer = new IndexWriter(dir, writerConfig);
-			for (Artist artist : artistList) {
+			for (Artist artist : corpusService.getArtistList()) {
 				for (Document doc : convertToLuceneDoc(artist)) {
 					writer.addDocument(doc);
 				}
@@ -70,7 +78,6 @@ public class SearchService {
 		doc.add(new TextField("comment", song.getComment(), Store.YES));
 		doc.add(new TextField("compilation", String.valueOf(song.isCompilation()), Store.YES));
 		doc.add(new IntPoint("year", song.getYear()));
-		System.out.println(doc.get("year"));
 		return doc;
 	}
 	

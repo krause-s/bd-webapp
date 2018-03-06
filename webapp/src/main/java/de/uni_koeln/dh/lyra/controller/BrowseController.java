@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import de.uni_koeln.dh.lyra.data.Song;
-import de.uni_koeln.dh.lyra.lucene.index.SearchService;
+import de.uni_koeln.dh.lyra.services.SearchService;
 
 // TODO name
 @Controller
