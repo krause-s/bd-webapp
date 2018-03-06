@@ -1,16 +1,26 @@
+/* 
+	#333333	foreground
+	#d9534f	btn-danger 
+	#c9302c	btn-danger.focus btn-danger.hover btn-danger.active
+*/
+
 html {
 	position: relative;
 	min-height: 100%;
 }
 
-th, td {
+a:not(footer a), 
+.bsStyle {
+	color: #333333;	
+}
+
+table {
 	white-space: nowrap;
 }
 
-.dropdown-menu > .active > a {
-	background: #d9534f !important;	/* bootstrap btn-danger */
-}
+/* ************** CLASSES ************** */
 
+/* TODO frequencies.html */
 .progress {
 	margin-bottom: 0;
 }
@@ -18,6 +28,36 @@ th, td {
 .panel-body {
 	padding: 0;
 }
+
+.noLine a:focus,
+.noLine a:hover {
+	text-decoration: none;
+}
+
+.pagination > li > a {
+	color: #d9534f;
+}
+
+.dropdown-menu > li.active > a,
+.pagination > li.active > a, 
+.pagination > li.active > a:focus, 
+.pagination > li.active > a:hover {
+	background: #d9534f !important;
+	border-color: #d9534f;
+}
+
+.bsStyle:focus,
+.bsStyle:hover, 
+.pagination > li > a:focus, 
+.pagination > li > a:hover {
+	color: #c9302c;
+}
+
+.pagination > li.disabled > a {
+	color: #777;
+}
+
+/* ************** IDs ************** */
 
 #pageFooter {
 	position: fixed;
@@ -34,27 +74,10 @@ th, td {
 	transform: translateY(-50%);
 }
 
+/* ************** MEDIA ************** */
 
-
-
-/*#testTable_paginate { display: flex;
-  align-items: center}*/
-
-
-
-
-/* TODO classes */
-.col-xs-3 a, #tmp, .col-md-5 a, .panel-heading a, td a {
-	color: #333333;	
-}
-.col-md-5 a:hover, .panel-heading a:hover {
-	color: #23527c;
-	text-decoration: none;
-}
-
-/* TODO check */
-@media(max-width:583px){
-	.col-xs-3 {
+@media(max-width:492px) {
+	#pageFooter .col-xs-3 {
 		position: relative;
 		transform: translateY(50%);
 	}
@@ -62,27 +85,11 @@ th, td {
 
 
 
-/*thead {
-	background-color: #eee;
-}
-.panel-footer {
-	background-color: #fff;
+
+
+
+
+/*#testTable_paginate { 
+	display: flex;
+	align-items: center
 }*/
-
-
-.pagination > li > a {
-	color: #d9534f;
-}
-
-.pagination > li.active > a, .pagination > li.active > a:focus, .pagination > li.active > a:hover {
-	background-color: #d9534f;
-	border-color: #d9534f;
-}
-
-.col-xs-3 a:hover, #tmp:hover, .pagination > li > a:focus, .pagination > li > a:hover {
-	color: #c9302c;
-}
-
-.pagination > li.disabled > a {
-	color: #777;
-}

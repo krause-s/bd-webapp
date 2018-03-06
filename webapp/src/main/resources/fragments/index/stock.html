@@ -6,7 +6,7 @@
 <body>
 	<div th:fragment="stock" class="panel panel-default">
 		<!-- ************** Header ************** -->
-		<div class="panel-heading">
+		<div class="panel-heading noLine">
 			<div class="row">
 				<div class="col-xs-5 text-right">
 					<a th:href="@{/browse}"> <span class="glyphicon glyphicon-user"></span>&nbsp;<span><b>5</b></span>
@@ -84,7 +84,7 @@
 		<!-- #details -->
 
 		<!-- ************** Glyphicon ************** -->
-		<a id="tmp" href="#details" data-toggle="collapse">
+		<a class="bsStyle" href="#details" data-toggle="collapse">
 			<div class="text-center">
 				<span id="stockCtrl" class="glyphicon glyphicon-chevron-down"></span>
 			</div>
