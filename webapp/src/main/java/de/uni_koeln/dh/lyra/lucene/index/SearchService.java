@@ -29,7 +29,7 @@ import de.uni_koeln.dh.lyra.data.Song;
 @Service
 public class SearchService {
 
-	private String indexDirPath = "/data/index/000001/";
+	private String indexDirPath = "./data/index/000001/";
 
 	public void setIndexDirPath(String indexDirPath) {
 		this.indexDirPath = indexDirPath;
@@ -37,7 +37,9 @@ public class SearchService {
 
 	public void initIndex(List<Artist> artistList) throws IOException {
 		Directory dir;
-		if (!new File(indexDirPath).exists() || new File(indexDirPath).list().length == 0) {
+		File folder = new File(indexDirPath);
+		if (!folder.exists() || folder.list().length <= 1) {
+			folder.mkdirs();
 			dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 			IndexWriterConfig writerConfig = new IndexWriterConfig(new StandardAnalyzer());
 			IndexWriter writer = new IndexWriter(dir, writerConfig);
