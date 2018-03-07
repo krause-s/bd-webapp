@@ -42,7 +42,6 @@ public class SearchService {
 		this.indexDirPath = this.indexesDirPath + this.indexDirPath;
 	}
 
-	@PostConstruct
 	public void initIndex() throws IOException {
 		Directory dir;
 		File folder = new File(indexDirPath);
