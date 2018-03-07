@@ -9,7 +9,8 @@ html {
 	min-height: 100%;
 }
 
-a:not(footer a), 
+/* TODO exclude .modal-footer */
+a:not(footer a),
 .bsStyle {
 	color: #333333;	
 }
@@ -76,8 +77,8 @@ table {
 
 /* ************** MEDIA ************** */
 
-@media(max-width:492px) {
-	#pageFooter .col-xs-3 {
+@media(max-width: 402px) {	/* XS */
+	#pageFooter .col-xs-1 {
 		position: relative;
 		transform: translateY(50%);
 	}

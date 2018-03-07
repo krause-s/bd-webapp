@@ -8,6 +8,7 @@
 <body>
 	<script type="text/javascript" th:src="@{/js/index.js}"></script>
 
+	<div th:replace="../fragments/index/upload :: upload"></div>
 	<nav th:replace="../fragments/navbar :: navbar('')"></nav>
 
 	<div class="jumbotron">
@@ -46,7 +47,7 @@
 				<hr />
 				<div th:replace="../fragments/index/stock :: stock"></div>
 			</div>
-			<!-- .col-md-7 -->
+			<!-- /.col-md-7 -->
 
 			<!-- RIGHT -->
 			<div class="col-md-5 noLine">
@@ -55,11 +56,11 @@
 				<hr />
 				<div th:replace="../fragments/index/quotes :: quotes"></div>
 			</div>
-			<!-- .col-md-5 -->
+			<!-- /.col-md-5 -->
 		</div>
-		<!-- .row -->
+		<!-- /.row -->
 	</div>
-	<!-- .container -->
+	<!-- /.container -->
 
 	<footer th:replace="../fragments/footer :: footer"></footer>
 </body>

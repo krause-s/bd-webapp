@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+<body>
+	<span th:fragment="copyright">
+		&copy; <span th:text="${#dates.year(#dates.createNow())}"></span> <span>Johanna
+			Binnewitt</span>, <span>Stefan Krause</span>, <span>Peter Seipel</span>
+	</span>
+</body>
+
+</html>

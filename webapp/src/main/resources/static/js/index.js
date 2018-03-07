@@ -1,9 +1,21 @@
 $(document).ready(function($) {
+	overlay(".modal");	
+	
 	setCollapseHandler("show", "up");
 	setCollapseHandler("hide", "down");
 
 	setQuoteHandler();
 });
+
+function overlay(selector) {
+	$(selector).modal();
+	
+	$("#upload").click(function() {
+		// TODO
+		alert("TODO upload, evaluation...");
+		$(selector).modal("hide");
+	});
+}
 
 function setCollapseHandler(event, direction) {
 	var arrow = 'glyphicon glyphicon-chevron-' + direction;

@@ -1,0 +1,55 @@
+/* ************** CLASSES, IDs ************** */
+
+.modal-backdrop.in {
+	opacity: 0.9;
+}
+
+.modal {
+	text-align: center;
+}
+
+.modal-dialog {
+	display: inline-block;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.modal-header {
+	background-color: #d9534f;
+	text-align: center;
+	color: white;
+}
+
+.modal-title {
+	font-weight: bold;
+}
+
+.modal-footer {
+	font-size: smaller;
+	background-color: #f5f5f5;
+}
+
+.modal-footer .row, #action {
+	display: flex;
+	align-items: center;
+}
+
+#action {
+	flex-direction: row-reverse;
+}
+
+/* ************** MEDIA ************** */
+
+@media (min-width: 768px) {	/* MD-LG */
+	.modal:before {
+		display: inline-block;
+		vertical-align: middle;
+		content: '';
+		height: 100%;
+	}
+	
+	.modal-body {
+		padding-left: 50px;
+		padding-right: 50px;
+	}
+}

@@ -84,11 +84,13 @@
 		</dependency>
 
 		<!-- Map: Leaflet -->
+		<!-- 
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>leaflet</artifactId>
 			<version>${leaflet.version}</version>
 		</dependency>
+ 		-->
 
 		<!-- Named Entity Recognition -->
 		<dependency>

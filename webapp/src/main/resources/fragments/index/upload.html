@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+<body>
+	<div th:fragment="upload" class="modal fade" role="dialog"
+		data-backdrop="static">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="row" th:with="icon='glyphicon glyphicon-lock'">
+						<div class="col-xs-4">
+							<h2>
+								<b><span th:class="${icon}"></span></b>
+							</h2>
+						</div>
+						<div class="col-xs-4">
+							<h2 class="modal-title">lyra</h2>
+							<span>lyrics-analyzer</span>
+						</div>
+						<div class="col-xs-4">
+							<h2>
+								<b><span th:class="${icon}"></span></b>
+							</h2>
+						</div>
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.modal-header -->
+				<div class="modal-body text-justify">
+					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+						diam nonumy eirmod tempor invidunt ut labore et dolore magna
+						aliquyam erat, sed diam voluptua. At vero eos et accusam et justo
+						duo dolores et ea rebum.</p>
+					<p>Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+						ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+						sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
+						et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
+						accusam et justo duo dolores et ea rebum. Stet clita kasd
+						gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+						Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+						nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+						erat, sed diam voluptua.</p>
+					<p>At vero eos et accusam et justo duo dolores et ea rebum.
+						Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
+						dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in
+						vulputate velit esse molestie consequat, vel illum dolore eu
+						feugiat nulla facilisis at vero eros et accumsan et iusto odio
+						dignissim qui blandit praesent luptatum zzril delenit augue duis
+						dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet.</p>
+				</div>
+				<!-- /.modal-body -->
+				<div class="modal-footer">
+					<div class="row">
+						<div class="col-sm-8 col-xs-6 text-left">
+							<span th:replace="../fragments/copyright :: copyright"></span>
+						</div>
+						<div class="col-sm-4 col-xs-6" id="action">
+							<button id="upload" type="button" class="btn btn-danger">
+								<span class="glyphicon glyphicon-upload"></span> Upload
+							</button>
+							&nbsp;&nbsp;&nbsp; <a
+								href="mailto:binnewij@smail.uni-koeln.de,%20skrause1@smail.uni-koeln.de,%20Pseipel@smail.uni-koeln.de?subject=lyra">Contact</a>
+						</div>
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.modal-footer -->
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+</body>
+
+</html>
