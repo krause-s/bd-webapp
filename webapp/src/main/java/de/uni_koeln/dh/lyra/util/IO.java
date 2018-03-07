@@ -71,7 +71,10 @@ public class IO {
 			String placeName = r.getCell(2).getStringCellValue();
 
 			PopUp popUp = new PopUp(placeName, event);
-			Double[] latLon = prep.getCoordinates(placeName);
+			Double[] latLon = null;
+//			latLon = prep.getCoordinates(placeName); //TODO nicht mehr auskommentieren
+			if(latLon == null)
+				continue;
 			Place place = new Place(latLon[0], latLon[1]);
 			place.setIsMeta(true);
 

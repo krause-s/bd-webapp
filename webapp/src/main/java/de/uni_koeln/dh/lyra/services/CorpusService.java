@@ -11,8 +11,10 @@ import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
 import de.uni_koeln.dh.lyra.data.Artist;
+import de.uni_koeln.dh.lyra.data.Song;
 import de.uni_koeln.dh.lyra.model.place.Place;
 import de.uni_koeln.dh.lyra.model.place.PopUp;
+import de.uni_koeln.dh.lyra.processing.LyricsAnalyzer;
 import de.uni_koeln.dh.lyra.processing.PlaceEvaluator;
 import de.uni_koeln.dh.lyra.util.IO;
 
@@ -29,7 +31,7 @@ public class CorpusService {
 			artists = io.getDataFromXLSX(dataPath);
 			List<Place> placesToEvaluate = io.getPlacesToEvaluate();
 			List<Place> evaluatedPlaces = PlaceEvaluator.evaluatePlaces(placesToEvaluate);
-			artists = PlaceEvaluator.sortPopUpsToArtists(evaluatedPlaces, artists);
+			artists = PlaceEvaluator.sortPopUpsToArtists(evaluatedPlaces, artists);			
 			
 			//TESTAUSGABE
 			for(Map.Entry<String, Artist> e : artists.entrySet()) {
@@ -63,6 +65,7 @@ public class CorpusService {
 //					System.out.println(bioPlaces.size() + " annotated Places in Bio");
 					System.out.println("------------------------------");
 			}
+			
 			//ENDE
 
 		} catch (IOException e) {
@@ -79,5 +82,7 @@ public class CorpusService {
 		}
 		return artistsList;
 	}
+	
+	
 
 }

@@ -1,5 +1,8 @@
 package de.uni_koeln.dh.lyra.data;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class Song {
@@ -10,6 +13,7 @@ public class Song {
 	private String uuid;
 	private String[] tokens;
 	private double[] weights;
+	private Map<String, Integer> termFreqs;
 	
 	/**
 	 * initialized a song object with the given data and generates a
@@ -75,7 +79,22 @@ public class Song {
 		return compilation;
 	}
 	
+	/**
+	 * processes the tokens in terms of deleting punctuations etc
+	 * @param tokens
+	 */
 	public void setTokens(String[] tokens) {
+		List<String> toAdd = new ArrayList<String>();
+		for (int i = 0; i < tokens.length; i++) {
+			String token = tokens[i].toLowerCase();
+			//TODO tokenization
+			// token.length > 1 ?
+			token = tokens[i].replaceAll("[\\W]", "");
+			if(!token.equals(""))
+				toAdd.add(token);
+		}
+		tokens = new String[toAdd.size()];
+		toAdd.toArray(tokens);
 		this.tokens = tokens;
 	}
 	
@@ -89,6 +108,14 @@ public class Song {
 	
 	public double[] getWeights() {
 		return weights;
+	}
+
+	public void setTermFreqs(Map<String, Integer> termFreqs) {
+		this.termFreqs = termFreqs;
+	}
+	
+	public Map<String, Integer> getTermFreqs() {
+		return termFreqs;
 	}
 
 

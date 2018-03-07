@@ -90,44 +90,17 @@ public class SongPreprocessor {
 		return song;
 	}
 
-	// // TEST
-	// logger.info("analyze token freq");
-	//
-	// LyricsAnalyzer analyzer = new LyricsAnalyzer();
-	// songs = analyzer.getWeights(songs);
-	// List<Entry<String, Double>> weightsOfYear =
-	// analyzer.getWeightsForYear(songs, 1980);
-	// logger.info(1980 + "");
-	// for (int i = 0; i < 10; i++) {
-	// Double weight = weightsOfYear.get(i).getValue();
-	// String feature = weightsOfYear.get(i).getKey();
-	// logger.info(feature + " " + weight);
-	//
-	// }
-	// logger.info(1990 + "");
-	// weightsOfYear = analyzer.getWeightsForYear(songs, 1990);
-	//
-	// for (int i = 0; i < 10; i++) {
-	// Double weight = weightsOfYear.get(i).getValue();
-	// String feature = weightsOfYear.get(i).getKey();
-	// logger.info(feature + " " + weight);
-	//
-	// }
-	//
-	// System.exit(0);
-	// // ENDE
-
 	public void addPlaces(Song song) {
 		List<PopUp> foundPopUps = createPopUps(song);
 
 		// proofs for each pop up if nominatim founds coordinates
 		for (PopUp popUp : foundPopUps) {
 			String placeName = popUp.getPlaceName();
-			Double[] latLon = getCoordinates(placeName);
+			Double[] latLon = null;
+//			latLon = getCoordinates(placeName); //TODO nicht auskommentieren
 			if (latLon == null)
 				continue;
-			Place currPlace = new Place(latLon[0], latLon[1]); // TODO right
-																// order?
+			Place currPlace = new Place(latLon[0], latLon[1]); 
 			currPlace.setIsMeta(false);
 			if (placesToEvaluate.contains(currPlace)) {
 				currPlace = placesToEvaluate.get(placesToEvaluate.indexOf(currPlace));
