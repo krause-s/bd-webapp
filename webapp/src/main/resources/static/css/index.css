@@ -38,6 +38,10 @@
 	flex-direction: row-reverse;
 }
 
+#upload {
+	display: none;
+}
+
 /* ************** MEDIA ************** */
 
 @media (min-width: 768px) {	/* MD-LG */

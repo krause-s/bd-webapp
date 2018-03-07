@@ -77,7 +77,7 @@ table {
 
 /* ************** MEDIA ************** */
 
-@media(max-width: 402px) {	/* XS */
+@media(max-width: 402px) {	/* "XS" */
 	#pageFooter .col-xs-1 {
 		position: relative;
 		transform: translateY(50%);
