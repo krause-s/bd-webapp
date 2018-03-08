@@ -141,7 +141,7 @@ public class LyricsAnalyzer {
 	 * frequency in the time section
 	 */
 	public Map<Integer[], Map<String, Integer>> getMostRelevantTokens(int section1from, int section1to,
-			int section2from, int section2to) {
+			int section2from, int section2to, boolean useCompilations, int numOfSongs) {
 		
 		Map<Integer[], Map<String, Integer>> toReturn = new HashMap<Integer[], Map<String, Integer>>();
 
@@ -151,10 +151,10 @@ public class LyricsAnalyzer {
 		double[] sum1 = new double[featureUnitOrder.size()];
 		Map<String, Double> weightSum1 = new HashMap<String, Double>();
 
-		List<Integer> years1 = new ArrayList<Integer>();
-		for (int i = section1[0]; i < section1[1]; i++) {
-			years1.add(i);
-		}
+//		List<Integer> years1 = new ArrayList<Integer>();
+//		for (int i = section1[0]; i < section1[1]; i++) {
+//			years1.add(i);
+//		}
 
 		Integer[] section2 = new Integer[] { section2from, section2to };
 		int songCount2 = 0;
@@ -162,15 +162,17 @@ public class LyricsAnalyzer {
 		double[] sum2 = new double[featureUnitOrder.size()];
 		Map<String, Double> weightSum2 = new HashMap<String, Double>();
 
-		List<Integer> years2 = new ArrayList<Integer>();
-		for (int i = section2[0]; i < section2[1]; i++) {
-			years2.add(i);
-		}
+//		List<Integer> years2 = new ArrayList<Integer>();
+//		for (int i = section2[0]; i < section2[1]; i++) {
+//			years2.add(i);
+//		}
 
 		for (Song song : corpus) {
-			
+			if (!useCompilations && song.isCompilation())
+				continue;
 			// gewichte für ersten Zeitraum aufaddieren
-			if (years1.contains(song.getYear())) {
+//			if (years1.contains(song.getYear())) {
+			if (song.getYear() >= section1from && song.getYear() <= section1to) {
 				songs1.add(song);
 				songCount1++;
 				double[] currentWeights = song.getWeights();
@@ -180,7 +182,8 @@ public class LyricsAnalyzer {
 			}
 
 			// gewichte für zweiten Zeitraum aufaddieren
-			if (years2.contains(song.getYear())) {
+//			if (years2.contains(song.getYear())) {
+			if (song.getYear() >= section2from && song.getYear() <= section2to) {
 				songs2.add(song);
 				songCount2++;
 				double[] currentWeights = song.getWeights();
@@ -204,7 +207,7 @@ public class LyricsAnalyzer {
 			// logger.info(norm + " - " + featureUnitOrder.get(i));
 		}
 		
-		List<String> popularTokens1 = get10MostPopular(weightSum1);
+		List<String> popularTokens1 = getXMostPopular(weightSum1, numOfSongs);
 		Map<String, Integer> tokenFreq1 = new HashMap<String, Integer>();
 		//collect frequencies of most popular tokens
 		for (Song song : songs1) {
@@ -225,7 +228,7 @@ public class LyricsAnalyzer {
 		toReturn.put(section1, tokenFreq1);
 		
 		
-		List<String> popularTokens2 = get10MostPopular(weightSum2);
+		List<String> popularTokens2 = getXMostPopular(weightSum2, numOfSongs);
 		Map<String, Integer> tokenFreq2 = new HashMap<String, Integer>();
 		//collect frequencies of most popular tokens
 		for (Song song : songs2) {
@@ -245,17 +248,19 @@ public class LyricsAnalyzer {
 		
 		toReturn.put(section2, tokenFreq2);
 		
+//		logger.info("Count1: " + songCount1 + "\nCont2: " + songCount2);
+		
 		return toReturn;
 	}
 	
-	private List<String> get10MostPopular(Map<String, Double> weights) {
+	private List<String> getXMostPopular(Map<String, Double> weights, int numOfSongs) {
 		
 		List<String> mostPopularTokens = new ArrayList<String>();
 		
 		List<Map.Entry<String, Double>> list = new LinkedList<Map.Entry<String, Double>>(weights.entrySet());
 		Collections.sort(list, comp);
 		
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < numOfSongs; i++) {
 			mostPopularTokens.add(list.get(i).getKey());
 		}
 		return mostPopularTokens;

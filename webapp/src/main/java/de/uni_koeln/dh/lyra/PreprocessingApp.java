@@ -31,37 +31,37 @@ public class PreprocessingApp {
 			analyse();
 			
 			//TESTAUSGABE
-			for(Map.Entry<String, Artist> e : artists.entrySet()) {
-				System.out.println(e.getKey());
-				List<Place> lyricsPlaces = e.getValue().getLyricsPlaces();
-				List<Place> bioPlaces = e.getValue().getBioPlaces();
-				if(!lyricsPlaces.isEmpty()) {
-					Map<Double, Double> latLon = new HashMap<Double, Double>();
-					for (Place place : lyricsPlaces) {
-						if(latLon.containsKey(place.getLatitude())) {
-							if(latLon.get(place.getLatitude()).equals(place.getLongitude())) {
-								System.out.println("!!!");
-							}
-						}
-						latLon.put(place.getLatitude(), place.getLongitude());
-					}
-					
-					System.out.println(lyricsPlaces.size() + " annotated Places in Lyrics");
-				}
-					
-				if(!bioPlaces.isEmpty()) {
-					System.out.println(bioPlaces.size() + " BioPlaces");
-					for(Place place : bioPlaces) {
-						System.out.println(place.getLatitude() + " - " + place.getLongitude());
-						for (PopUp popUp : place.getPopUps()) {
-							System.out.println(popUp.getContent() + " (" + popUp.getPlaceName() + ")");
-						}
-						System.out.println("");
-					}
-				}
-//					System.out.println(bioPlaces.size() + " annotated Places in Bio");
-					System.out.println("------------------------------");
-			}
+//			for(Map.Entry<String, Artist> e : artists.entrySet()) {
+//				System.out.println(e.getKey());
+//				List<Place> lyricsPlaces = e.getValue().getLyricsPlaces();
+//				List<Place> bioPlaces = e.getValue().getBioPlaces();
+//				if(!lyricsPlaces.isEmpty()) {
+//					Map<Double, Double> latLon = new HashMap<Double, Double>();
+//					for (Place place : lyricsPlaces) {
+//						if(latLon.containsKey(place.getLatitude())) {
+//							if(latLon.get(place.getLatitude()).equals(place.getLongitude())) {
+//								System.out.println("!!!");
+//							}
+//						}
+//						latLon.put(place.getLatitude(), place.getLongitude());
+//					}
+//					
+//					System.out.println(lyricsPlaces.size() + " annotated Places in Lyrics");
+//				}
+//					
+//				if(!bioPlaces.isEmpty()) {
+//					System.out.println(bioPlaces.size() + " BioPlaces");
+//					for(Place place : bioPlaces) {
+//						System.out.println(place.getLatitude() + " - " + place.getLongitude());
+//						for (PopUp popUp : place.getPopUps()) {
+//							System.out.println(popUp.getContent() + " (" + popUp.getPlaceName() + ")");
+//						}
+//						System.out.println("");
+//					}
+//				}
+////					System.out.println(bioPlaces.size() + " annotated Places in Bio");
+//					System.out.println("------------------------------");
+//			}
 			//ENDE
 
 		} catch (IOException e) {
@@ -71,6 +71,7 @@ public class PreprocessingApp {
 	}
 	
 	public static void analyse() {
+		int numOfSongs = 10; //take the 10 most relevant tokens
 		List<Song> allSongs = new ArrayList<Song>();
 		for(Map.Entry<String, Artist> e : artists.entrySet()) {
 			allSongs.addAll(e.getValue().getSongs());
@@ -79,7 +80,18 @@ public class PreprocessingApp {
 		LyricsAnalyzer analyzer = new LyricsAnalyzer();
 		allSongs = analyzer.getWeights(allSongs);
 		Map<Integer[], Map<String, Integer>> result = analyzer.getMostRelevantTokens(1965, 1975,
-				1990, 2000);
+				1990, 2000, true, numOfSongs);
+		
+		for(Map.Entry<Integer[], Map<String, Integer>> e : result.entrySet()) {
+			System.out.println(e.getKey()[0] + " - " + e.getKey()[1]);
+			for (Map.Entry<String, Integer> t : e.getValue().entrySet()) {
+				System.out.println(t.getKey() + ": " + t.getValue());
+			}
+			System.out.println("----------------------------");
+		}
+		
+		result = analyzer.getMostRelevantTokens(1965, 1975,
+				1990, 2000, false, numOfSongs);
 		
 		for(Map.Entry<Integer[], Map<String, Integer>> e : result.entrySet()) {
 			System.out.println(e.getKey()[0] + " - " + e.getKey()[1]);
