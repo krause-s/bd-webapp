@@ -69,7 +69,6 @@ public class GeoTagger {
 			if (!geoDatesPlacesMap.containsKey(currentToken)) {
 				Double[] latLon = findGeoData(currentToken);
 				if (latLon != null) {
-					System.out.println(currentToken + " " + latLon[0] + latLon[1]);
 					geoDatesPlacesMap.put(currentToken, latLon);
 				}
 				Thread.sleep(1000);

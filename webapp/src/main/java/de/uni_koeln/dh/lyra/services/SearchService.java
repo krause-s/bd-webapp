@@ -5,19 +5,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.IntPoint;
+import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.queryparser.xml.builders.RangeQueryBuilder;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanClause.Occur;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.PointRangeQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
@@ -32,20 +36,20 @@ import de.uni_koeln.dh.lyra.data.Song;
 @Service
 public class SearchService {
 	
-	private String indexesDirPath = "./data/index/";
-	private String indexDirPath = "000001";
+	private String indexDirPath;
 	
 	@Autowired
 	private CorpusService corpusService;
 
 	public void setIndexDirPath(String indexDirPath) {
-		this.indexDirPath = this.indexesDirPath + this.indexDirPath;
+		this.indexDirPath = "./data/index/" + indexDirPath;
 	}
 
 	public void initIndex() throws IOException {
 		Directory dir;
 		File folder = new File(indexDirPath);
 		if (!folder.exists() || folder.list().length <= 1) {
+			System.out.println("Index is initiated");
 			folder.mkdirs();
 			dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 			IndexWriterConfig writerConfig = new IndexWriterConfig(new StandardAnalyzer());
@@ -56,6 +60,8 @@ public class SearchService {
 				}
 			}
 			writer.close();
+		}else{
+			System.out.println("Index found");
 		}
 	}
 
@@ -85,7 +91,6 @@ public class SearchService {
 	}
 
 	public List<Document> search(String q, String field) throws IOException, ParseException {
-		
 		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 		DirectoryReader dirReader = DirectoryReader.open(dir);
 		IndexSearcher is = new IndexSearcher(dirReader);
@@ -95,6 +100,39 @@ public class SearchService {
 
 		TopDocs hits = is.search(query, dirReader.numDocs());
 
+		long hitSize = hits.totalHits;
+		System.out.println("hitSize: " + hitSize);
+
+		List<Document> resultList = new ArrayList<Document>();
+		for (int i = 0; i < hits.scoreDocs.length; i++) {
+			ScoreDoc scoreDoc = hits.scoreDocs[i];
+			Document doc = is.doc(scoreDoc.doc);
+			resultList.add(doc);
+		}
+		dirReader.close();
+		return resultList;
+	}
+	
+
+	public List<Document> search(String q, String field, int[] yearsRange) throws IOException, ParseException {
+		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
+		DirectoryReader dirReader = DirectoryReader.open(dir);
+		IndexSearcher is = new IndexSearcher(dirReader);
+		
+		QueryParser parser = new QueryParser(field, new StandardAnalyzer());
+		Query query1 = parser.parse(q);
+		Query rangeQuery = 
+				IntPoint.newRangeQuery("year", yearsRange[0], yearsRange[1]);
+		BooleanClause bcOne = new BooleanClause(query1, Occur.MUST);
+		BooleanClause bcTwo = new BooleanClause(rangeQuery, Occur.MUST);
+		
+		BooleanQuery booleanQuery = new BooleanQuery.Builder()
+			    .add(bcOne)
+			    .add(bcTwo)
+			    .build();
+		
+		System.out.println("booleanQuery: " + booleanQuery);
+		TopDocs hits = is.search(booleanQuery, dirReader.numDocs());
 		long hitSize = hits.totalHits;
 		System.out.println("hitSize: " + hitSize);
 

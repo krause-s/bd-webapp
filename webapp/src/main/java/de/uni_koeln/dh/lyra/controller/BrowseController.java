@@ -35,17 +35,39 @@ public class BrowseController {
 	}
 
 	@RequestMapping(value = { "/result" })
-	public String search(@RequestParam("searchForm") String searchPhrase, @RequestParam("fieldForm") String field, @RequestParam("fuzzyForm") Optional<String> fuzzy, Model model)
+	public String search(@RequestParam("searchForm") String searchPhrase, @RequestParam("fieldForm") String field,
+			@RequestParam("rangefrom") Optional<Integer> yearsFrom, @RequestParam("rangeto") Optional<Integer> yearsTo,
+			@RequestParam("fuzzyForm") Optional<String> fuzzy,
+			@RequestParam("compilationForm") Optional<String> compilation, Model model)
 			throws IOException, ParseException {
 		List<Song> songs = new ArrayList<Song>();
-		if(fuzzy.isPresent()){
+		List<Document> resultList = new ArrayList<>();
+		// All this will move to Searchservice
+		if(searchPhrase.isEmpty()){
+			model.addAttribute("docs", songs);
+			return "result";
+		}
+		if (fuzzy.isPresent()) {
 			searchPhrase = searchPhrase + "~";
 		}
-		for (Document doc : searchService.search(searchPhrase, field)) {
-			int year = 0;
-			if (doc.get("year") != null) {
-				year = Integer.valueOf(doc.get("year"));
+		if (compilation.isPresent()) {
+			System.out.println("compilations is selected");
+		}
+		if (yearsTo.isPresent() && yearsFrom.isPresent()) {
+			int[] yearsRange = { yearsFrom.get(), yearsTo.get() };
+			resultList = searchService.search(searchPhrase, field, yearsRange);
+		}
+		if (resultList == null)
+			resultList = searchService.search(searchPhrase, field);
+
+		for (Document doc : resultList) {
+			int year;
+			if (doc.getField("year") != null) {
+				year = doc.getField("year").numericValue().intValue();
+			} else {
+				year = 0;
 			}
+
 			songs.add(new Song(doc.get("title"), doc.get("lyrics"), doc.get("artist"), doc.get("release"), year,
 					Boolean.valueOf(doc.get("compilation")), doc.get("comment")));
 		}

@@ -10,6 +10,15 @@ public class Place {
 	List<PopUp> popUps = new ArrayList<PopUp>();
 	// TODO: not necessary
 	boolean isMeta;
+	private String meta;
+
+	public String getMeta() {
+		return meta;
+	}
+
+	public void setMeta(String meta) {
+		this.meta = meta;
+	}
 
 	public Place(double longitude, double latitude, List<PopUp> popUps, boolean isMeta) {
 		this.longitude = longitude;
