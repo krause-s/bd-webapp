@@ -72,7 +72,7 @@ public class IO {
 
 			PopUp popUp = new PopUp(placeName, event);
 			Double[] latLon = null;
-//			latLon = prep.getCoordinates(placeName); //TODO nicht mehr auskommentieren
+			latLon = prep.getCoordinates(placeName); //TODO nicht mehr auskommentieren
 			if(latLon == null)
 				continue;
 			Place place = new Place(latLon[0], latLon[1]);

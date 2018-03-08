@@ -97,7 +97,7 @@ public class SongPreprocessor {
 		for (PopUp popUp : foundPopUps) {
 			String placeName = popUp.getPlaceName();
 			Double[] latLon = null;
-//			latLon = getCoordinates(placeName); //TODO nicht auskommentieren
+			latLon = getCoordinates(placeName); //TODO nicht auskommentieren
 			if (latLon == null)
 				continue;
 			Place currPlace = new Place(latLon[0], latLon[1]); 
