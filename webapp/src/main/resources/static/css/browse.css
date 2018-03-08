@@ -1,21 +1,49 @@
-/* TODO classes */
+/* "Show X entries" */
+.dataTables_length label {
+	margin-bottom: 0;
+}
 
-.panel-footer .row {
+/* "Showing X to Y of Z entries" */
+.dataTables_info {
+	text-align: center;
+	font-size: smaller;
+}
+
+/* "Previous ... Next" */
+.dataTables_paginate {
 	display: flex;
 	align-items: center;
 }
 
-#testTable_length label {
-  	margin: 0;	
+/* ************** MEDIA ************** */
+
+@media (min-width: 1200px) {		/* XL */
+	#info-lg .dataTables_info { 
+	    padding: 0;
+	}
 }
 
-#testTable_info { 
-	text-align: center;
-	font-size: smaller;
-    padding:0;
+@media (min-width: 768px) {		/* MD-LG */
+	#paginationRow {
+		display: flex;
+		align-items: center;
+	}
+	
+	.dataTables_paginate {
+		flex-direction: row-reverse;
+	}
 }
 
-#testTable_paginate { 
-	display: flex;
-	flex-direction: row-reverse;
+@media (max-width: 767px) {		/* XS-SM */
+	#pagination {
+		padding: /*0px*/ 0px;
+	}
+	
+	.dataTables_paginate {
+		flex-direction: column;
+	}
+	
+	#info-non-lg .dataTables_info { 
+	    padding: 10px /*0px*/;
+	}
 }

@@ -10,9 +10,11 @@ $(document).ready(function($) {
 function overlay(selector) {
 	$(selector).modal();
 	
-	$("#upload").click(function() {
-		// TODO
-		alert("TODO upload, evaluation...");
+	$("input:file").change(function() {
+		// TODO upload, evaluation...
+		var fileName = $(this).val();
+		alert(fileName);
+		
 		$(selector).modal("hide");
 	});
 }
