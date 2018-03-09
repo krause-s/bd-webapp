@@ -9,19 +9,17 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.IntPoint;
-import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.queryparser.xml.builders.RangeQueryBuilder;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.BooleanQuery.Builder;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.PointRangeQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
@@ -35,9 +33,13 @@ import de.uni_koeln.dh.lyra.data.Song;
 
 @Service
 public class SearchService {
-	
+
 	private String indexDirPath;
-	
+	private String field;
+	private int[] years;
+	private boolean compilation;
+	private boolean fuzzy;
+
 	@Autowired
 	private CorpusService corpusService;
 
@@ -49,7 +51,6 @@ public class SearchService {
 		Directory dir;
 		File folder = new File(indexDirPath);
 		if (!folder.exists() || folder.list().length <= 1) {
-			System.out.println("Index is initiated");
 			folder.mkdirs();
 			dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 			IndexWriterConfig writerConfig = new IndexWriterConfig(new StandardAnalyzer());
@@ -60,9 +61,23 @@ public class SearchService {
 				}
 			}
 			writer.close();
-		}else{
-			System.out.println("Index found");
-		}
+		} 
+	}
+
+	public void setField(String field) {
+		this.field = field;
+	}
+
+	public void setYears(int[] years) {
+		this.years = years;
+	}
+
+	public void setFuzzy(boolean fuzzy) {
+		this.fuzzy = fuzzy;
+	}
+
+	public void setCompilation(boolean compilation) {
+		this.compilation = compilation;
 	}
 
 	private List<Document> convertToLuceneDoc(Artist artist) {
@@ -85,62 +100,43 @@ public class SearchService {
 		doc.add(new IntPoint("year", song.getYear()));
 		return doc;
 	}
-	
-	public List<Document> search(String q) throws IOException, ParseException {
-		return search(q, "lyrics");
-	}
 
-	public List<Document> search(String q, String field) throws IOException, ParseException {
+	public List<Song> search(String q) throws ParseException, IOException {
 		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 		DirectoryReader dirReader = DirectoryReader.open(dir);
 		IndexSearcher is = new IndexSearcher(dirReader);
-
-		QueryParser parser = new QueryParser(field, new StandardAnalyzer());
-		Query query = parser.parse(q);
-
-		TopDocs hits = is.search(query, dirReader.numDocs());
-
-		long hitSize = hits.totalHits;
-		System.out.println("hitSize: " + hitSize);
-
-		List<Document> resultList = new ArrayList<Document>();
-		for (int i = 0; i < hits.scoreDocs.length; i++) {
-			ScoreDoc scoreDoc = hits.scoreDocs[i];
-			Document doc = is.doc(scoreDoc.doc);
-			resultList.add(doc);
+		if (fuzzy) {
+			q = q + "~";
 		}
-		dirReader.close();
-		return resultList;
-	}
-	
-
-	public List<Document> search(String q, String field, int[] yearsRange) throws IOException, ParseException {
-		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
-		DirectoryReader dirReader = DirectoryReader.open(dir);
-		IndexSearcher is = new IndexSearcher(dirReader);
-		
 		QueryParser parser = new QueryParser(field, new StandardAnalyzer());
-		Query query1 = parser.parse(q);
-		Query rangeQuery = 
-				IntPoint.newRangeQuery("year", yearsRange[0], yearsRange[1]);
-		BooleanClause bcOne = new BooleanClause(query1, Occur.MUST);
-		BooleanClause bcTwo = new BooleanClause(rangeQuery, Occur.MUST);
-		
-		BooleanQuery booleanQuery = new BooleanQuery.Builder()
-			    .add(bcOne)
-			    .add(bcTwo)
-			    .build();
-		
+		Query queryText = parser.parse(q);
+		Query rangeQuery = IntPoint.newRangeQuery("year", years[0], years[1]);
+		BooleanClause bcText = new BooleanClause(queryText, Occur.MUST);
+		BooleanClause bcRange = new BooleanClause(rangeQuery, Occur.MUST);
+
+		Builder builder = new BooleanQuery.Builder().add(bcText).add(bcRange);
+
+		if (compilation) {
+			System.out.println("compilation detected");
+			parser = new QueryParser("compilation", new StandardAnalyzer());
+			builder = builder.add(new BooleanClause(parser.parse("true"), Occur.MUST));
+		}
+
+		BooleanQuery booleanQuery = builder.build();
+
 		System.out.println("booleanQuery: " + booleanQuery);
 		TopDocs hits = is.search(booleanQuery, dirReader.numDocs());
 		long hitSize = hits.totalHits;
 		System.out.println("hitSize: " + hitSize);
 
-		List<Document> resultList = new ArrayList<Document>();
+		List<Song> resultList = new ArrayList<Song>();
 		for (int i = 0; i < hits.scoreDocs.length; i++) {
 			ScoreDoc scoreDoc = hits.scoreDocs[i];
 			Document doc = is.doc(scoreDoc.doc);
-			resultList.add(doc);
+			System.out.println(doc.get("uuid"));
+			Song currentSong = corpusService.getSongByID(doc.get("uuid"));
+			if (currentSong != null)
+				resultList.add(currentSong);
 		}
 		dirReader.close();
 		return resultList;

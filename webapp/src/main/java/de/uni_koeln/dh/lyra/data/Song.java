@@ -28,7 +28,7 @@ public class Song {
 	 */
 	public Song(String title, String lyrics, String artist,
 			String release, int year, boolean compilation, String comment) {
-		this.uuid = UUID.randomUUID().toString(); //TODO Generierung der ID so ok?
+		this.uuid = UUID.randomUUID().toString();
 		this.title = title;
 		this.lyrics = lyrics;
 		this.artist = artist;
@@ -117,6 +117,10 @@ public class Song {
 	public Map<String, Integer> getTermFreqs() {
 		return termFreqs;
 	}
-
+	
+//	public void setRelease(String release){
+//		this.release = release;
+//	}
+	
 
 }

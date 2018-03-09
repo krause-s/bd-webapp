@@ -17,6 +17,7 @@
 					<li class="list-group-item" th:each="doc : ${docs}">
 						<h3 th:text="${doc.title}"></h3> 
 						<span th:text="${doc.lyrics}"></span>
+						<span th:text="${doc.year}"></span>
 						<div th:text="${doc.artist}" class="col-md-8" id="content"></div>
 					</li>
 				</ul>
