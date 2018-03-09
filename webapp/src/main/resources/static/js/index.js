@@ -1,22 +1,23 @@
 $(document).ready(function($) {
-	overlay(".modal");	
+	overlay("upload", "evaluation");	
 	
 	setCollapseHandler("show", "up");
 	setCollapseHandler("hide", "down");
 
 	setQuoteHandler();
+	
+	
+	
+	$('.checkTest').change(function() {
+		var row = $(this).parent().parent();
+		var name = row.find("input:first");
+		name.attr("disabled", "disabled");
+	});
 });
 
-function overlay(selector) {
-	$(selector).modal();
-	
-	$("input:file").change(function() {
-		// TODO upload, evaluation...
-		var fileName = $(this).val();
-		alert(fileName);
-		
-		$(selector).modal("hide");
-	});
+function overlay(first, second) {
+	$("#" + first + "Dialog").modal();
+	$("#" + second + "Dialog").modal();
 }
 
 function setCollapseHandler(event, direction) {

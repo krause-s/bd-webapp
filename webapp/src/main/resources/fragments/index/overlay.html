@@ -4,7 +4,7 @@
 <head></head>
 
 <body>
-	<div th:fragment="upload" class="modal fade" role="dialog"
+	<div th:if="${upload}" id="uploadDialog" th:fragment="upload" class="modal" role="dialog"
 		data-backdrop="static">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -57,16 +57,56 @@
 							<span th:replace="../fragments/copyright :: copyright"></span>
 						</div>
 						<div class="col-sm-4 col-xs-6" id="action">
-							<label class="btn btn-danger" for="upload"> <input
-								id="upload" type="file" /> <span
-								class="glyphicon glyphicon-upload"></span> Upload
-							</label> &nbsp;&nbsp;&nbsp; <a
+							<form th:action="@{/upload}" method="post">
+								<label class="btn btn-danger" for="upload">
+									<!-- <input id="upload" type="file" size="50" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/> -->
+									<!-- <input id="upload" type="file" size="50" accept="text/*"/> -->
+									<input id="upload" type="submit" /> 
+									<span class="glyphicon glyphicon-upload"></span> Upload
+								</label>
+							</form>
+							&nbsp;&nbsp;&nbsp; <a
 								href="mailto:binnewij@smail.uni-koeln.de,%20skrause1@smail.uni-koeln.de,%20Pseipel@smail.uni-koeln.de?subject=lyra">Contact</a>
 						</div>
 					</div>
 					<!-- /.row -->
 				</div>
 				<!-- /.modal-footer -->
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<div th:if="${places != null}" id="evaluationDialog" th:fragment="evaluation" class="modal"
+		role="dialog" data-backdrop="static">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1>modal-header</h1>
+				</div>
+				<!-- /.modal-header -->
+				<form th:action="@{/evaluation}" method="post">
+					<div class="modal-body" >
+						<div th:each="place : ${places}" style="background-color: #cccccc; margin-bottom: 20px;">
+							<div class="row" th:each="name : ${place.value}">
+								<div class="col-xs-5">
+									<input type="text" class="form-control" name="placeName" th:value="${name}" readonly="readonly"/>
+								</div>
+								<div class="col-xs-5">(Nominatim)</div>
+								<div class="col-xs-2">
+									<input class="checkTest" type="checkbox" checked="checked"/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /.modal-body -->
+					<div class="modal-footer">
+						<button class="btn btn-danger">Confirm</button>
+					</div>
+					<!-- /.modal-footer -->
+				</form>
 			</div>
 			<!-- /.modal-content -->
 		</div>

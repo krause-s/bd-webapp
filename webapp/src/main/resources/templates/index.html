@@ -7,8 +7,10 @@
 
 <body>
 	<script type="text/javascript" th:src="@{/js/index.js}"></script>
+	
+	<div th:replace="../fragments/index/overlay :: upload"></div>
+	<div th:replace="../fragments/index/overlay :: evaluation"></div>	
 
-	<div th:replace="../fragments/index/upload :: upload"></div>
 	<nav th:replace="../fragments/navbar :: navbar('')"></nav>
 
 	<div class="jumbotron">
