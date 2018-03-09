@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.data.Song;
 import de.uni_koeln.dh.lyra.model.place.Place;
+import de.uni_koeln.dh.lyra.processing.PlaceEvaluator;
 import de.uni_koeln.dh.lyra.util.IO;
 
 @Service
@@ -19,6 +20,8 @@ public class CorpusService {
 
 	public static String dataPath = "src/main/resources/data/lyrics_database.xlsx";
 	private static Map<String, Artist> artists = new HashMap<String, Artist>();
+	
+	private List<Place> placesToEvaluate;
 
 //	@PostConstruct
 	public List<Place> init(String dataPath) {
@@ -26,7 +29,8 @@ public class CorpusService {
 		
 		try {
 			artists = io.getDataFromXLSX(dataPath);
-			return io.getPlacesToEvaluate();
+			placesToEvaluate = io.getPlacesToEvaluate();
+			return placesToEvaluate;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -36,9 +40,10 @@ public class CorpusService {
 	
 	// TODO johanna
 	public void init2(Map<Place, Set<String>> deletionMap) {
+		//TODO compare deletions with found places
 		System.out.println(deletionMap);
-//		List<Place> evaluatedPlaces = PlaceEvaluator.evaluatePlaces(placesToEvaluate);
-//		artists = PlaceEvaluator.sortPopUpsToArtists(evaluatedPlaces, artists);			
+		List<Place> evaluatedPlaces = PlaceEvaluator.evaluatePlaces(placesToEvaluate, deletionMap);
+		artists = PlaceEvaluator.sortPopUpsToArtists(evaluatedPlaces, artists);			
 	}
 
 	public List<Artist> getArtistList() {

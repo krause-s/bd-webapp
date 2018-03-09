@@ -206,4 +206,36 @@ public class LyricsAnalyzer {
 		return mostPopularTokens;
 	}
 
+	public Map<Integer, Double> getAverageTokenCount() {
+		Map<Integer, Double> tokenCountPerYear = new HashMap<Integer, Double>();
+		Map<Integer, Integer> totalCount = new HashMap<Integer, Integer>();
+		Map<Integer, Integer> songCount = new HashMap<Integer, Integer>();
+		
+		for (Song song : corpus) {
+			int year = song.getYear();
+			int currentTokens = song.getTokens().length;
+			
+			Integer count = 0;
+			if (totalCount.containsKey(year))
+				count = totalCount.get(year);
+			totalCount.put(year, count + currentTokens);
+			
+			Integer songs = 0;
+			if (songCount.containsKey(year))
+				songs = songCount.get(year);
+			songCount.put(year, songs + 1);		
+		}
+		
+		for(Map.Entry<Integer, Integer> t : totalCount.entrySet()) {
+			Integer year = t.getKey();
+			Double av = ((double)t.getValue()) / songCount.get(year);
+			System.out.println(av);
+			tokenCountPerYear.put(year, av);
+		}
+		
+		
+		return tokenCountPerYear;
+		
+	}
+
 }

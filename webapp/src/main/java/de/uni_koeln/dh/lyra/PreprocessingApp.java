@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.data.Song;
 import de.uni_koeln.dh.lyra.model.place.Place;
-import de.uni_koeln.dh.lyra.model.place.PopUp;
 import de.uni_koeln.dh.lyra.processing.LyricsAnalyzer;
 import de.uni_koeln.dh.lyra.processing.PlaceEvaluator;
 import de.uni_koeln.dh.lyra.util.IO;
@@ -24,7 +25,7 @@ public class PreprocessingApp {
 		try {
 			artists = io.getDataFromXLSX(dataPath);
 			List<Place> placesToEvaluate = io.getPlacesToEvaluate();
-			List<Place> evaluatedPlaces = PlaceEvaluator.evaluatePlaces(placesToEvaluate);
+			List<Place> evaluatedPlaces = PlaceEvaluator.evaluatePlaces(placesToEvaluate, new HashMap<Place, Set<String>>());
 			artists = PlaceEvaluator.sortPopUpsToArtists(evaluatedPlaces, artists);
 
 			analyse();
@@ -78,6 +79,15 @@ public class PreprocessingApp {
 		// System.out.println(allSongs.size());
 		LyricsAnalyzer analyzer = new LyricsAnalyzer(allSongs);
 		allSongs = analyzer.getWeights();
+		
+		
+		Map<Integer, Double> tokenAv = analyzer.getAverageTokenCount();
+		
+		for(Map.Entry<Integer, Double> e : tokenAv.entrySet()) {
+			System.out.println(e.getKey() + ": " + e.getValue() + " tokens");
+		}
+		
+		
 
 		int from = 1976;
 		int to = 1986;

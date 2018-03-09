@@ -2,6 +2,7 @@ package de.uni_koeln.dh.lyra.processing;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.model.place.Place;
@@ -9,7 +10,7 @@ import de.uni_koeln.dh.lyra.model.place.PopUp;
 
 public class PlaceEvaluator {
 	
-	public static List<Place> evaluatePlaces(List<Place> placesToEvaluate) {
+	public static List<Place> evaluatePlaces(List<Place> placesToEvaluate, Map<Place, Set<String>> popUpsToDelete) {
 		
 		//TODO UI to evaluate
 		return placesToEvaluate;
