@@ -96,12 +96,18 @@ public class SongPreprocessor {
 		// proofs for each pop up if nominatim founds coordinates
 		for (PopUp popUp : foundPopUps) {
 			String placeName = popUp.getPlaceName();
-			Double[] latLon = null;
-			latLon = getCoordinates(placeName); //TODO nicht auskommentieren
+			Double[] latLon = getCoordinates(placeName);
+			String meta = "";
+			try {
+				meta = tagger.findMetaData();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if (latLon == null)
 				continue;
-			Place currPlace = new Place(latLon[0], latLon[1]); 
-			currPlace.setIsMeta(false);
+			Place currPlace = new Place(latLon[0], latLon[1]);
+			currPlace.setMeta(meta);
 			if (placesToEvaluate.contains(currPlace)) {
 				currPlace = placesToEvaluate.get(placesToEvaluate.indexOf(currPlace));
 				currPlace.addPopUp(popUp);

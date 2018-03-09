@@ -76,7 +76,6 @@ public class IO {
 			if(latLon == null)
 				continue;
 			Place place = new Place(latLon[0], latLon[1]);
-			place.setIsMeta(true);
 
 			Artist artist;
 

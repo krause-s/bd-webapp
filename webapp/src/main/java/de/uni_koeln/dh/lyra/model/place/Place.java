@@ -8,8 +8,6 @@ public class Place {
 	double longitude;
 	double latitude;
 	List<PopUp> popUps = new ArrayList<PopUp>();
-	// TODO: not necessary
-	boolean isMeta;
 	private String meta;
 
 	public String getMeta() {
@@ -24,7 +22,7 @@ public class Place {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.popUps = popUps;
-		this.isMeta = isMeta;
+//		this.isMeta = isMeta;
 	}
 
 	public Place(double longitude, double latitude) {
@@ -60,14 +58,6 @@ public class Place {
 		this.popUps.add(popUp);
 	}
 
-	public void setIsMeta(boolean isMeta) {
-		this.isMeta = isMeta;
-	}
-
-	public boolean getIsMeta() {
-		return isMeta;
-	}
-	
 	//TODO define equals
 	@Override
 	public boolean equals(Object obj) {
