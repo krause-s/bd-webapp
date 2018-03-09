@@ -1,10 +1,12 @@
 package de.uni_koeln.dh.lyra.model.place;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public class Place {
+public class Place implements Serializable{
+
+	private static final long serialVersionUID = -7407350195770959386L;
 
 	double longitude;
 	double latitude;

@@ -1,12 +1,14 @@
 package de.uni_koeln.dh.lyra.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class Song {
+public class Song implements Serializable{
 	
+	private static final long serialVersionUID = 930011990465438709L;
 	private String title, lyrics, artist, release, comment;
 	private int year;
 	private boolean compilation;

@@ -1,13 +1,16 @@
 package de.uni_koeln.dh.lyra.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.uni_koeln.dh.lyra.model.place.Place;
 import de.uni_koeln.dh.lyra.util.ColorGenerator;
 
-public class Artist {
+public class Artist implements Serializable{
 
+	private static final long serialVersionUID = -991552598655095147L;
+	
 	private String name;
 	private List<Place> bioPlaces;
 	private List<Place> lyricsPlaces;

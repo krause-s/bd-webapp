@@ -1,8 +1,12 @@
 package de.uni_koeln.dh.lyra.model.place;
 
+import java.io.Serializable;
+
 import de.uni_koeln.dh.lyra.data.Song;
 
-public class PopUp {
+public class PopUp implements Serializable{
+
+	private static final long serialVersionUID = -158703385862088096L;
 
 	@Override
 	public int hashCode() {

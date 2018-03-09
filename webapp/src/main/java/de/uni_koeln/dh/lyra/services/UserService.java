@@ -1,6 +1,7 @@
 package de.uni_koeln.dh.lyra.services;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,10 @@ public class UserService {
 	public void setUserID(String userID) {
 		this.userID = userID;
 		init();
+	}
+	
+	public void generateNewID(){
+		this.userID = UUID.randomUUID().toString();
 	}
 
 	public String getUserID() {

@@ -13,7 +13,6 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.TermContext;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanClause;
@@ -45,7 +44,7 @@ public class SearchService {
 	private CorpusService corpusService;
 
 	public void setIndexDirPath(String indexDirPath) {
-		this.indexDirPath = "./data/index/" + indexDirPath;
+		this.indexDirPath = "./data/" + indexDirPath + "/index/";
 	}
 
 	public void initIndex() throws IOException {
@@ -62,7 +61,7 @@ public class SearchService {
 				}
 			}
 			writer.close();
-		} 
+		}
 	}
 
 	public void setField(String field) {
@@ -106,7 +105,7 @@ public class SearchService {
 		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 		DirectoryReader dirReader = DirectoryReader.open(dir);
 		IndexSearcher is = new IndexSearcher(dirReader);
-		
+
 		if (fuzzy) {
 			q = q + "~";
 		}
@@ -127,7 +126,7 @@ public class SearchService {
 
 		System.out.println("booleanQuery: " + booleanQuery);
 		TopDocs hits = is.search(booleanQuery, dirReader.numDocs());
-		
+
 		List<Song> resultList = new ArrayList<Song>();
 		for (int i = 0; i < hits.scoreDocs.length; i++) {
 			ScoreDoc scoreDoc = hits.scoreDocs[i];
@@ -140,6 +139,4 @@ public class SearchService {
 		return resultList;
 	}
 
-	
-	
 }

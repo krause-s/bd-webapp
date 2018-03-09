@@ -1,6 +1,11 @@
 package de.uni_koeln.dh.lyra.services;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,13 +26,13 @@ public class CorpusService {
 
 	public static String dataPath = "src/main/resources/data/lyrics_database.xlsx";
 	private static Map<String, Artist> artists = new HashMap<String, Artist>();
-	
+
 	private List<Place> placesToEvaluate;
 
-//	@PostConstruct
+	// @PostConstruct
 	public List<Place> init(String dataPath) {
 		IO io = new IO();
-		
+
 		try {
 			artists = io.getDataFromXLSX(dataPath);
 			placesToEvaluate = io.getPlacesToEvaluate();
@@ -35,13 +40,13 @@ public class CorpusService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
+
 	public void init2(Map<Place, Set<String>> deletionMap) {
 		System.out.println(deletionMap);
-		artists = PlaceEvaluator.evaluatePlaces(placesToEvaluate, deletionMap, artists);		
+		artists = PlaceEvaluator.evaluatePlaces(placesToEvaluate, deletionMap, artists);
 	}
 
 	public List<Artist> getArtistList() {
@@ -64,8 +69,6 @@ public class CorpusService {
 
 	public Song getSongByID(String uuid) {
 		for (Song song : getAllSongs()) {
-			System.out.println(song.getUuid());
-			System.out.println(uuid);
 			if (song.getUuid().equals(uuid)) {
 				return song;
 			}
@@ -98,6 +101,35 @@ public class CorpusService {
 			filteredArtists.add(currArtist);
 		}
 		return filteredArtists;
+	}
+
+	public void serializeCorpus(String userID) {
+		new File("data/" + userID + "/corpus").mkdirs();
+		try {
+			FileOutputStream fileOut = new FileOutputStream("data/" + userID + "/corpus/corpus.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(artists);
+			out.close();
+			fileOut.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+		}
+	}
+
+	public void readExistingCorpus(String id) {
+		try {
+			FileInputStream fileIn = new FileInputStream("data/" + id + "/corpus/corpus.ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			artists = (Map<String, Artist>) in.readObject();
+			in.close();
+			fileIn.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+			return;
+		} catch (ClassNotFoundException c) {
+			c.printStackTrace();
+			return;
+		}
 	}
 
 }

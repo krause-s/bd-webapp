@@ -25,6 +25,7 @@ public class IndexController {
 
 		@Autowired
 		CorpusService corpusService;
+		
 		@Autowired
 		UserService userService;
 
@@ -86,6 +87,9 @@ public class IndexController {
 		}
 		
 		corpusService.init2(map);
+		userService.generateNewID();
+		corpusService.serializeCorpus(userService.getUserID());
+		userService.init();
 		
 		// TODO idle, setId, model (stock)
 		
@@ -93,9 +97,11 @@ public class IndexController {
 	}
 	
 	@RequestMapping(value =  "/{id}")
-	public String index(@PathVariable("id") int id/*, Model model*/) {
+	public String index(@PathVariable("id") String id/*, Model model*/) {
 		System.out.println("index " + id + " -> NO overlay");
-
+		corpusService.readExistingCorpus(id);
+		userService.setUserID(id);
+		
 //		userService.setUserID(id);	
 		return "index";
 	}
