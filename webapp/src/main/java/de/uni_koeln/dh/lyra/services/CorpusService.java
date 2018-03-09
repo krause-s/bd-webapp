@@ -38,12 +38,9 @@ public class CorpusService {
 		return null;
 	}
 	
-	// TODO johanna
 	public void init2(Map<Place, Set<String>> deletionMap) {
-		//TODO compare deletions with found places
 		System.out.println(deletionMap);
-		List<Place> evaluatedPlaces = PlaceEvaluator.evaluatePlaces(placesToEvaluate, deletionMap);
-		artists = PlaceEvaluator.sortPopUpsToArtists(evaluatedPlaces, artists);			
+		artists = PlaceEvaluator.evaluatePlaces(placesToEvaluate, deletionMap, artists);		
 	}
 
 	public List<Artist> getArtistList() {

@@ -25,8 +25,8 @@ public class PreprocessingApp {
 		try {
 			artists = io.getDataFromXLSX(dataPath);
 			List<Place> placesToEvaluate = io.getPlacesToEvaluate();
-			List<Place> evaluatedPlaces = PlaceEvaluator.evaluatePlaces(placesToEvaluate, new HashMap<Place, Set<String>>());
-			artists = PlaceEvaluator.sortPopUpsToArtists(evaluatedPlaces, artists);
+			artists = PlaceEvaluator.evaluatePlaces(placesToEvaluate, new HashMap<Place, Set<String>>(), artists);
+//			artists = PlaceEvaluator.sortPopUpsToArtists(evaluatedPlaces, artists);
 
 			analyse();
 
