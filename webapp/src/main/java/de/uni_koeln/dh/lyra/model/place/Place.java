@@ -1,6 +1,7 @@
 package de.uni_koeln.dh.lyra.model.place;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Place {
@@ -22,7 +23,7 @@ public class Place {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.popUps = popUps;
-//		this.isMeta = isMeta;
+		// this.isMeta = isMeta;
 	}
 
 	public Place(double longitude, double latitude) {
@@ -58,13 +59,24 @@ public class Place {
 		this.popUps.add(popUp);
 	}
 
-	//TODO define equals
+	public void removePopUpByYears(int start, int end) {
+		if (this.popUps != null) {
+			List<PopUp> toRemove = new ArrayList<>();
+			for (PopUp pu : this.popUps) {
+				if (pu.getReferredSong().getYear() < start || pu.getReferredSong().getYear() > end) {
+					toRemove.add(pu);
+				}
+			}
+			this.popUps.removeAll(toRemove);
+		}
+	}
+
+	// TODO define equals
 	@Override
 	public boolean equals(Object obj) {
 		Place place = (Place) obj;
-		
-		return (place.getLatitude() == this.getLatitude() &&
-				place.getLongitude() == this.getLongitude());
+
+		return (place.getLatitude() == this.getLatitude() && place.getLongitude() == this.getLongitude());
 	}
 
 }

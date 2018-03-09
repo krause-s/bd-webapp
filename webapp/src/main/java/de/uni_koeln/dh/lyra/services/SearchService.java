@@ -13,6 +13,7 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.TermContext;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanClause;
@@ -105,6 +106,7 @@ public class SearchService {
 		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 		DirectoryReader dirReader = DirectoryReader.open(dir);
 		IndexSearcher is = new IndexSearcher(dirReader);
+		
 		if (fuzzy) {
 			q = q + "~";
 		}
@@ -117,7 +119,6 @@ public class SearchService {
 		Builder builder = new BooleanQuery.Builder().add(bcText).add(bcRange);
 
 		if (compilation) {
-			System.out.println("compilation detected");
 			parser = new QueryParser("compilation", new StandardAnalyzer());
 			builder = builder.add(new BooleanClause(parser.parse("true"), Occur.MUST));
 		}
@@ -126,14 +127,11 @@ public class SearchService {
 
 		System.out.println("booleanQuery: " + booleanQuery);
 		TopDocs hits = is.search(booleanQuery, dirReader.numDocs());
-		long hitSize = hits.totalHits;
-		System.out.println("hitSize: " + hitSize);
-
+		
 		List<Song> resultList = new ArrayList<Song>();
 		for (int i = 0; i < hits.scoreDocs.length; i++) {
 			ScoreDoc scoreDoc = hits.scoreDocs[i];
 			Document doc = is.doc(scoreDoc.doc);
-			System.out.println(doc.get("uuid"));
 			Song currentSong = corpusService.getSongByID(doc.get("uuid"));
 			if (currentSong != null)
 				resultList.add(currentSong);
@@ -142,4 +140,6 @@ public class SearchService {
 		return resultList;
 	}
 
+	
+	
 }

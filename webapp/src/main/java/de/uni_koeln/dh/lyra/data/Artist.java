@@ -13,7 +13,7 @@ public class Artist {
 	private List<Place> lyricsPlaces;
 	private List<Song> songs;
 	private String color;
-	
+
 	public Artist(String name) {
 		this.name = name;
 		this.bioPlaces = new ArrayList<Place>();
@@ -21,7 +21,7 @@ public class Artist {
 		this.songs = new ArrayList<Song>();
 		this.color = ColorGenerator.randomColor();
 	}
-	
+
 	public String getColor() {
 		return color;
 	}
@@ -45,7 +45,7 @@ public class Artist {
 	public void setBioPlaces(List<Place> bioPlaces) {
 		this.bioPlaces = bioPlaces;
 	}
-	
+
 	public void addBioPlace(Place bioPlace) {
 		bioPlaces.add(bioPlace);
 	}
@@ -57,23 +57,27 @@ public class Artist {
 	public void setSongs(List<Song> songs) {
 		this.songs = songs;
 	}
-	
+
 	public void addSong(Song song) {
 		songs.add(song);
 	}
-	
-	public List<Place> getLyricsPlaces(){
+
+	public List<Place> getLyricsPlaces() {
 		return lyricsPlaces;
 	}
-	
+
 	public void setLyricsPlaces(List<Place> lyricsPlaces) {
 		this.lyricsPlaces = lyricsPlaces;
 	}
-	
+
 	public void addLyricsPlace(Place lyricsPlace) {
 		lyricsPlaces.add(lyricsPlace);
 	}
-	
+
+	public void removeLyricsPlace(Place lyricsPlace) {
+		lyricsPlaces.remove(lyricsPlace);
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		Artist artist = (Artist) obj;

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.data.Song;
 import de.uni_koeln.dh.lyra.model.place.Place;
+import de.uni_koeln.dh.lyra.model.place.PopUp;
 import de.uni_koeln.dh.lyra.processing.PlaceEvaluator;
 import de.uni_koeln.dh.lyra.util.IO;
 
@@ -55,7 +56,6 @@ public class CorpusService {
 		List<Song> allSongs = new ArrayList<>();
 		for (Artist artist : getArtistList()) {
 			for (Song song : artist.getSongs()) {
-				System.out.println("song.getUuid(): " + song.getUuid());
 				allSongs.add(song);
 			}
 		}
@@ -64,12 +64,40 @@ public class CorpusService {
 
 	public Song getSongByID(String uuid) {
 		for (Song song : getAllSongs()) {
+			System.out.println(song.getUuid());
+			System.out.println(uuid);
 			if (song.getUuid().equals(uuid)) {
-				System.out.println("found a song");
 				return song;
 			}
 		}
+
 		return null;
+	}
+
+	public List<Artist> getArtistSongsByYears(int yearsFrom, int yearsTo) {
+		List<Artist> filteredArtists = new ArrayList<>();
+		List<Artist> currArtists = new ArrayList<>();
+		currArtists.addAll(getArtistList());
+
+		for (Artist artist : currArtists) {
+			Artist currArtist = new Artist(artist.getName());
+			currArtist.setColor(artist.getColor());
+			currArtist.setBioPlaces(artist.getBioPlaces());
+			currArtist.setSongs(artist.getSongs());
+			for (Place place : artist.getLyricsPlaces()) {
+				Place currPlace = new Place(place.getLongitude(), place.getLatitude());
+				currPlace.setMeta(place.getMeta());
+				List<PopUp> popUps = new ArrayList<>();
+				popUps.addAll(place.getPopUps());
+				currPlace.setPopUps(popUps);
+				currPlace.removePopUpByYears(yearsFrom, yearsTo);
+				if (!currPlace.getPopUps().isEmpty())
+					currArtist.addLyricsPlace(currPlace);
+			}
+
+			filteredArtists.add(currArtist);
+		}
+		return filteredArtists;
 	}
 
 }

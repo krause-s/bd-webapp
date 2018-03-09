@@ -12,7 +12,13 @@
 	
 	<nav
 		th:replace="../fragments/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
-
+	<div id="config">
+	<form action="places">
+		<input type="number" name="yearsFrom"/>
+		<input type="number" name="yearsTo"/>
+		<button class="btn btn-danger">GO</button>
+	</form>
+	</div>
 	<div id="map"></div>
 	
 	<script th:inline="javascript">	
