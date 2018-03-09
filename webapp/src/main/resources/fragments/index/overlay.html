@@ -94,7 +94,7 @@
 								<div class="col-xs-5">
 									<input type="text" class="form-control" name="placeName" th:value="${name}" readonly="readonly"/>
 								</div>
-								<div class="col-xs-5">(Nominatim)</div>
+								<div class="col-xs-5" th:text="${place.key.getMeta()}"></div>
 								<div class="col-xs-2">
 									<input class="checkTest" type="checkbox" checked="checked"/>
 								</div>
