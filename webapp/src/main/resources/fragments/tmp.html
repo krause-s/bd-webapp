@@ -1,0 +1,28 @@
+<!-- TODO refactoring -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+<body>
+	<div th:fragment="select" class="form-group">
+		<select class="form-control">
+			<!-- TODO order A-Z -->
+			<option>(All)</option>
+			<option>Bob Dylan</option>
+			<option>Britney Spears</option>
+			<option>Lady Gaga</option>
+			<option>Paul McCartney</option>
+			<option>Madonna</option>
+			<option>The Beatles</option>
+		</select>
+	</div>
+
+	<div th:fragment="slider" class="form-group text-center">
+		<input class="sliderExample" type="text" data-slider-min="1962"
+			data-slider-max="2018" data-slider-step="1" data-slider-value="1962" style="width: 100%"/>
+	</div>
+</body>
+
+</html>

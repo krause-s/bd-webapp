@@ -5,23 +5,87 @@
 <head th:replace="../fragments/header :: header(${title})"></head>
 
 <body>
+	<script th:src="@{/webjars/bootstrap-slider/bootstrap-slider.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/frequencies.js}"></script>
+
 	<nav
 		th:replace="../fragments/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
 
 	<div class="container">
 		<div th:replace="../fragments/heading :: heading(${title})"></div>
 
-		<!-- TODO tmp -->
-		<p class="text-justify">Lorem ipsum dolor sit amet, consetetur
-			sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-			dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-			et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-			takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
-			sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-			invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-			At vero eos et accusam et justo duo dolores et ea rebum. Stet clita
-			kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
-			amet.</p>
+		<div class="row">
+			<div class="col-md-5">
+				<div th:replace="../fragments/tmp :: select"></div>
+				
+				<p class="text-justify">Lorem ipsum dolor sit amet, consetetur
+					sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
+					et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
+					accusam et justo duo dolores et ea rebum. Stet clita kasd
+					gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+					Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+					nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+					erat, sed diam voluptua. At vero eos et accusam et justo duo
+					dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+					sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+					consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+					ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
+					eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+					gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+					Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+					nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+					erat, sed diam voluptua. At vero eos et accusam et justo duo
+					dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+					sanctus est Lorem ipsum dolor sit amet.</p>
+
+				<div th:replace="../fragments/tmp :: slider"></div>
+			</div>
+			<div class="col-md-2 text-center" style="background-color: #8786AD">
+				<!-- TODO form-groups? -->
+				<button class="btn btn-danger">GO</button>
+					<div class="checkbox">
+	      				<label><input type="checkbox" value=""/>Compilation?</label>
+	    				</div>
+					
+					<div>
+						<select class="form-control">
+							<!-- TODO Staffelung -->
+							<option>10</option>
+							<option>20</option>
+							<option>30</option>
+						</select>
+					</div>
+				
+			</div>
+			<!-- /.col-md-5 -->
+			<div class="col-md-5">
+				<div th:replace="../fragments/tmp :: select"></div>
+				
+				<p class="text-justify">Lorem ipsum dolor sit amet, consetetur
+					sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
+					et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
+					accusam et justo duo dolores et ea rebum. Stet clita kasd
+					gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+					Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+					nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+					erat, sed diam voluptua. At vero eos et accusam et justo duo
+					dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+					sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+					consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+					ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
+					eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+					gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+					Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+					nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+					erat, sed diam voluptua. At vero eos et accusam et justo duo
+					dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+					sanctus est Lorem ipsum dolor sit amet.</p>
+
+				<div th:replace="../fragments/tmp :: slider"></div>
+			</div>
+			<!-- /.col-md-5 -->
+		</div>
+		<!-- /.row -->
 	</div>
 
 	<footer th:replace="../fragments/footer :: footer"></footer>
