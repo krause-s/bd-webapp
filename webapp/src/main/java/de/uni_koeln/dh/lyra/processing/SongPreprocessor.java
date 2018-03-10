@@ -101,7 +101,6 @@ public class SongPreprocessor {
 			try {
 				meta = tagger.findMetaData();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if (latLon == null)

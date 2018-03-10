@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -66,13 +67,13 @@ public class IO {
 
 		while (row <= bioSheet.getLastRowNum()) {
 			XSSFRow r = bioSheet.getRow(row++);
-			String artistName = r.getCell(0).getStringCellValue();
-			String event = r.getCell(1).getStringCellValue();
-			String placeName = r.getCell(2).getStringCellValue();
+			String artistName = getString(r, 0);
+			String event = getString(r, 1);
+			String placeName = getString(r, 2);
 
 			PopUp popUp = new PopUp(placeName, event);
 			Double[] latLon = null;
-			latLon = prep.getCoordinates(placeName); //TODO nicht mehr auskommentieren
+			latLon = prep.getCoordinates(placeName);
 			if(latLon == null)
 				continue;
 			Place place = new Place(latLon[0], latLon[1]);
@@ -103,21 +104,27 @@ public class IO {
 
 		logger.info("read songs");
 		int row = 1;
+
 		while (row <= songSheet.getLastRowNum()) {
+
 			XSSFRow r = songSheet.getRow(row++);
-			String artistName = r.getCell(0).getStringCellValue();
-			String title = r.getCell(1).getStringCellValue();
-			String release = r.getCell(2).getStringCellValue();
-			int year = (int) r.getCell(3).getNumericCellValue();
-			String compilationString = r.getCell(4).getStringCellValue();
-			String lyrics = r.getCell(5).getStringCellValue();
-			String comment = r.getCell(6).getStringCellValue();
+			
+			String artistName = getString(r, 0);
+			String title = getString(r, 1);
+			String medium = getString(r, 2);
+			int year = getInteger(r, 3);
+			String compilationString = getString(r, 4);
+			String lyrics = getString(r, 5);
+			String comment = getString(r, 6);
 
 			boolean compilation = false;
 			if (compilationString.equals("x"))
 				compilation = true;
+			
+			if (lyrics.equals(""))
+				continue;
 
-			Song song = new Song(title, lyrics, artistName, release, year, compilation, comment);
+			Song song = new Song(title, lyrics, artistName, medium, year, compilation, comment);
 
 			song = prep.tokenizeSong(song);
 			//search for quotes of places to add to great places list
@@ -135,6 +142,22 @@ public class IO {
 		
 		
 
+	}
+
+	private String getString(XSSFRow r, int i) {
+		Cell c = r.getCell(i);
+		if (c != null) 
+			return r.getCell(i).getStringCellValue();
+		else
+			return "";
+	}
+	
+	private Integer getInteger(XSSFRow r, int i) {
+		Cell c = r.getCell(i);
+		if (c != null) 
+			return (int) r.getCell(i).getNumericCellValue();
+		else
+			return 0;
 	}
 
 	private static BufferedReader getReader(File file) throws FileNotFoundException {

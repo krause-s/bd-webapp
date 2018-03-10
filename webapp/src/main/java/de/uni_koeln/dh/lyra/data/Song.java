@@ -89,10 +89,9 @@ public class Song implements Serializable{
 		List<String> toAdd = new ArrayList<String>();
 		for (int i = 0; i < tokens.length; i++) {
 			String token = tokens[i].toLowerCase();
-			//TODO tokenization
 			// token.length > 1 ?
 			token = tokens[i].replaceAll("[\\W]", "");
-			if(!token.equals(""))
+			if(token.length() > 1) //TODO tokens auf length > 1 beschränken?
 				toAdd.add(token);
 		}
 		tokens = new String[toAdd.size()];

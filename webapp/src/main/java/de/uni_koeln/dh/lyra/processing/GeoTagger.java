@@ -19,14 +19,14 @@ import de.uni_koeln.dh.lyra.model.place.Place;
 
 public class GeoTagger {
 
-	// TODO unterschiedliche Reference Strings auf gleiche Koordinaten werden zu
-	// einem Ort zusammengeführt
+	
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	private String nominatimJsonResponse;
 
 	HashMap<String, Double[]> geoDatesPlacesMap = new HashMap<String, Double[]>();
 
+	@Deprecated
 	public Map<Place, List<Song>> getGeoDatesFromList(Map<String, List<Song>> places)
 			throws InterruptedException, IOException {
 
@@ -65,6 +65,7 @@ public class GeoTagger {
 		return locationsMap;
 	}
 
+	@Deprecated
 	public HashMap<String, Double[]> getGeoDatesFromString(String text) throws InterruptedException, IOException {
 		Scanner scan = new Scanner(text);
 		HashMap<String, Double[]> geoDatesPlacesMap = new HashMap<String, Double[]>();
