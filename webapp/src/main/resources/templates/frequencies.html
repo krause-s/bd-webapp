@@ -14,78 +14,51 @@
 	<div class="container">
 		<div th:replace="../fragments/heading :: heading(${title})"></div>
 
-		<div class="row">
-			<div class="col-md-5">
-				<div th:replace="../fragments/tmp :: select"></div>
-				
-				<p class="text-justify">Lorem ipsum dolor sit amet, consetetur
-					sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-					et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-					accusam et justo duo dolores et ea rebum. Stet clita kasd
-					gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-					Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-					nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-					erat, sed diam voluptua. At vero eos et accusam et justo duo
-					dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
-					sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-					consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
-					ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
-					eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-					gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-					Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-					nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-					erat, sed diam voluptua. At vero eos et accusam et justo duo
-					dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
-					sanctus est Lorem ipsum dolor sit amet.</p>
+		<form th:action="@{/analytics/frequencies}" method="post">
+			<div class="row">
+				<div class="col-md-5">
+					<div th:replace="../fragments/tmp :: select"></div>
 
-				<div th:replace="../fragments/tmp :: slider"></div>
-			</div>
-			<div class="col-md-2 text-center" style="background-color: #8786AD">
-				<!-- TODO form-groups? -->
-				<button class="btn btn-danger">GO</button>
+					<ul th:if="${map1 != null}" class="list-group">
+						<li class="list-group-item">New <span class="badge">12</span></li>
+						<li class="list-group-item">Deleted <span class="badge">5</span></li>
+						<li class="list-group-item">Warnings <span class="badge">3</span></li>
+					</ul>
+
+					<div th:replace="../fragments/tmp :: slider"></div>
+				</div>
+				<div class="col-md-2 text-center" style="background-color: #8786AD">
+					<button class="btn btn-danger">GO</button>
 					<div class="checkbox">
-	      				<label><input type="checkbox" value=""/>Compilation?</label>
-	    				</div>
-					
-					<div>
-						<select class="form-control">
+						<label><input type="checkbox" value="true" name="compCheck"/>Compilations</label>
+					</div>
+
+					<div class="form-group">
+						<label for="sel2">Count</label> <select class="form-control"
+							id="sel2" name="countSelect">
 							<!-- TODO Staffelung -->
 							<option>10</option>
 							<option>20</option>
 							<option>30</option>
 						</select>
 					</div>
-				
-			</div>
-			<!-- /.col-md-5 -->
-			<div class="col-md-5">
-				<div th:replace="../fragments/tmp :: select"></div>
-				
-				<p class="text-justify">Lorem ipsum dolor sit amet, consetetur
-					sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-					et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-					accusam et justo duo dolores et ea rebum. Stet clita kasd
-					gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-					Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-					nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-					erat, sed diam voluptua. At vero eos et accusam et justo duo
-					dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
-					sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-					consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
-					ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
-					eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-					gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-					Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-					nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-					erat, sed diam voluptua. At vero eos et accusam et justo duo
-					dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
-					sanctus est Lorem ipsum dolor sit amet.</p>
+				</div>
+				<!-- /.col-md-5 -->
+				<div class="col-md-5">
+					<div th:replace="../fragments/tmp :: select"></div>
 
-				<div th:replace="../fragments/tmp :: slider"></div>
+					<ul th:if="${map2 != null}" class="list-group">
+						<li class="list-group-item">New <span class="badge">12</span></li>
+						<li class="list-group-item">Deleted <span class="badge">5</span></li>
+						<li class="list-group-item">Warnings <span class="badge">3</span></li>
+					</ul>
+
+					<div th:replace="../fragments/tmp :: slider"></div>
+				</div>
+				<!-- /.col-md-5 -->
 			</div>
-			<!-- /.col-md-5 -->
-		</div>
-		<!-- /.row -->
+			<!-- /.row -->
+		</form>
 	</div>
 
 	<footer th:replace="../fragments/footer :: footer"></footer>

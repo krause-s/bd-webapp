@@ -7,7 +7,8 @@
 
 <body>
 	<div th:fragment="select" class="form-group">
-		<select class="form-control">
+		<label for="sel1">Artist</label> <select class="form-control"
+			id="sel1" name="artistSelect">
 			<!-- TODO order A-Z -->
 			<option>(All)</option>
 			<option>Bob Dylan</option>
@@ -20,8 +21,11 @@
 	</div>
 
 	<div th:fragment="slider" class="form-group text-center">
-		<input class="sliderExample" type="text" data-slider-min="1962"
-			data-slider-max="2018" data-slider-step="1" data-slider-value="1962" style="width: 100%"/>
+
+		<b>1962</b>&nbsp;&nbsp;&nbsp;<input class="sliderExample" type="text"
+			data-slider-min="1962" data-slider-max="2018" name="yearSlider"
+			style="width: 75%" />&nbsp;&nbsp;&nbsp;<b>2018</b>
+
 	</div>
 </body>
 

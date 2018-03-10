@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import de.uni_koeln.dh.lyra.data.Artist;
+import de.uni_koeln.dh.lyra.services.AnalysisService;
 import de.uni_koeln.dh.lyra.services.CorpusService;
 
 @Controller
@@ -21,6 +22,8 @@ public class AnalysisController {
 
 	@Autowired
 	private CorpusService corpusService;
+	@Autowired
+	private AnalysisService analysisService;
 
 	@RequestMapping(value = { "/places" })
 	public String places(@RequestParam("yearsFrom") Optional<Integer> yearsFrom,
@@ -36,9 +39,20 @@ public class AnalysisController {
 		return "places";
 	}
 
-	// TODO frequencies
 	@RequestMapping(value = "/frequencies")
-	public String frequencies(/* Model model */) {
+	public String frequencies(@RequestParam(value = "artistSelect", required = false) List<String> artists,
+			@RequestParam(value = "yearSlider", required = false) List<String> years,
+			@RequestParam(value = "compCheck", required = false) boolean compilation,
+			@RequestParam(value = "countSelect", required = false) String count, Model model ) {
+		if (artists != null) { 
+			analysisService.doSth(artists, years, compilation, count);
+			
+			/*model.addAttribute("artists", artists);
+			model.addAttribute("artists", years);
+			model.addAttribute("artists", compilation);
+			model.addAttribute("artists", count);*/
+		}
+		
 		return "frequencies";
 	}
 
