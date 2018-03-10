@@ -132,5 +132,14 @@ public class CorpusService {
 			return;
 		}
 	}
+	
+	public boolean idExitst(String id){
+		for(String fileName : new File("data/").list()){
+			if(fileName.equals(id)){
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

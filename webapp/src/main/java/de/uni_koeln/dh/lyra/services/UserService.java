@@ -43,5 +43,12 @@ public class UserService {
 			return false;
 		return true;
 	}
+	
+	public boolean loggedIn(){
+		if(userID == null){
+			return false;
+		}
+		return true;
+	}
 
 }
