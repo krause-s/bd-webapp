@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -47,7 +48,7 @@ public class AnalysisController {
 			@RequestParam(value = "compCheck", required = false) boolean compilation,
 			@RequestParam(value = "countSelect", required = false) String count, Model model ) {
 		if (artists != null) { 
-			analysisService.doSth(artists, years, compilation, count);
+			List<Map<String, Integer>> result = analysisService.doSth(artists, years, compilation, count);
 
 			model.addAttribute("artists", artists);
 			model.addAttribute("years", years);
