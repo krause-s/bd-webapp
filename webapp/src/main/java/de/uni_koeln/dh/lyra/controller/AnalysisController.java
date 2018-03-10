@@ -54,6 +54,7 @@ public class AnalysisController {
 			model.addAttribute("years", years);
 			model.addAttribute("compilation", compilation);
 			model.addAttribute("count", count);
+			model.addAttribute("mapList", result);
 		}
 						
 		List<String> artistList = new ArrayList<String>();
