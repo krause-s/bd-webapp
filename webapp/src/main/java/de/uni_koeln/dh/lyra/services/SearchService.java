@@ -51,7 +51,7 @@ public class SearchService {
 	public void initIndex() throws IOException {
 		Directory dir;
 		File folder = new File(indexDirPath);
-		if (folder.exists() || folder.list().length > 1) {
+		if (!folder.exists() || folder.list().length <= 1) {
 			folder.mkdirs();
 			dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 			IndexWriterConfig writerConfig = new IndexWriterConfig(new StandardAnalyzer());

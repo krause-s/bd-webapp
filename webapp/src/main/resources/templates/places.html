@@ -7,23 +7,42 @@
 <body>
 	<!-- <script th:src="@{/webjars/leaflet/leaflet.js}"></script> -->
 	<script type="text/javascript" th:src="@{/js/leaflet/leaflet.js}"></script>
-	
+
 	<script type="text/javascript" th:src="@{/js/places.js}"></script>
-	
+
 	<nav
 		th:replace="../fragments/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
 	<div id="config">
-	<form action="places">
-		<input type="number" name="yearsFrom"/>
-		<input type="number" name="yearsTo"/>
-		<button class="btn btn-danger">GO</button>
-	</form>
+		<div class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" href="#collapse1">Filter by years</a>
+					</h4>
+				</div>
+				<div id="collapse1" class="panel-collapse collapse">
+					<div class="panel-body">
+						<form action="places">
+							<div class="form-group">
+								<label for="from">From:</label> <input class="form-control"
+									id="from" name="yearsFrom" type="number" value="0" max="2018"
+									min="0" /> <label for="to">to:</label> <input
+									class="form-control" id="to" name="yearsTo" type="number"
+									value="2018" max="2018" min="0" />
+							</div>
+							<button class="btn btn-danger">GO</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
 	<div id="map"></div>
-	
-	<script th:inline="javascript">	
+
+	<script th:inline="javascript">
 		/*<![CDATA[*/
-			buildMap(/*[[${artistsList}]]*/);	// see places.js
+		buildMap(/*[[${artistsList}]]*/); // see places.js
 		/*]]>*/
 	</script>
 

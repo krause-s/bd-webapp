@@ -1,40 +1,48 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:with="title='Browse'">
 
-<head></head>
+<head th:replace="../fragments/header :: header(${title})"></head>
 
 <body>
-	<div class="panel panel-default">
-		<table id="songs" class="table table-hover" width="100%">
-			<thead>
-				<tr>
-					<th rowspan="2">Artist</th>
-					<th rowspan="2">Title</th>
-					<th colspan="3" class="text-center">Release</th>
-				</tr>
-				<tr>
-					<th>Medium</th>
-					<th>Year</th>
-					<th>Compilation</th>
-					<th>Lyrics</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><a th:text="${song.artist}"
-						th:href="@{/result?artist=} + ${song.artist}"></a></td>
-					<td><a th:text="${song.title}" th:href="@{/browse/} + ${song.uuid}"></a></td>
-					<td><a th:text="${song.release}"
-						th:href="@{/result?artist=} + ${song.artist} + 'release=' + ${song.release}"></a></td>
-					<td><a th:text="${song.year}"
-						th:href="@{/result?yearFrom=} + ${song.year} + 'yearTo=' + ${song.year}"></a></td>
-					<td th:switch="${song.compilation}" class="text-center"><span
-						th:case="true" class="glyphicon glyphicon-ok"></span></td>
-					<td><div th:text="${song.lyrics}"></div></td>
-				</tr>
-			</tbody>
-		</table>
+	<nav
+		th:replace="../fragments/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
+	<div class="container">
+		<div th:replace="../fragments/heading :: heading(${title})"></div>
+		<div class="panel panel-default">
+			<table id="songs" class="table table-hover" width="100%">
+				<thead>
+					<tr>
+						<th rowspan="2">Artist</th>
+						<th rowspan="2">Title</th>
+						<th colspan="3" class="text-center">Release</th>
+					</tr>
+					<tr>
+						<th>Medium</th>
+						<th>Year</th>
+						<th>Compilation</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><a th:text="${song.artist}"
+							th:href="@{/result?artist=} + ${song.artist}"></a></td>
+						<td><a th:text="${song.title}"
+							th:href="@{/browse/} + ${song.uuid}"></a></td>
+						<td><a th:text="${song.release}"
+							th:href="@{/result?artist=} + ${song.artist} + 'release=' + ${song.release}"></a></td>
+						<td><a th:text="${song.year}"
+							th:href="@{/result?yearFrom=} + ${song.year} + 'yearTo=' + ${song.year}"></a></td>
+						<td th:switch="${song.compilation}" class="text-center"><span
+							th:case="true" class="glyphicon glyphicon-ok"></span></td>
+					</tr>
+				</tbody>
+			</table>
+			<h2>Lyrics</h2>
+			<div th:text="${song.lyrics}"></div>
+		</div>
 	</div>
+	<footer th:replace="../fragments/footer :: footer"></footer>
 </body>
 
 </html>
