@@ -24,5 +24,4 @@ hs_err_pid*
 # custom
 target/
 .DS_Store
-*.xlsx
 .springBeans
