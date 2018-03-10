@@ -15,7 +15,7 @@
 
 	<div class="container">
 		<div th:replace="../fragments/heading :: heading(${title})"></div>
-		<div th:replace="../fragments/songs :: songs"></div>
+		<div th:replace="../fragments/songs :: songs(${songs})"></div>
 	</div>
 
 	<footer th:replace="../fragments/footer :: footer"></footer>

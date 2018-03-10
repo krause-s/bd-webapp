@@ -36,9 +36,10 @@ public class SearchService {
 
 	private String indexDirPath;
 	private String field;
-	private int[] years;
+	private int[] years = { 0, 3000 };
 	private boolean compilation;
 	private boolean fuzzy;
+	private String searchPhrase = "";
 
 	@Autowired
 	private CorpusService corpusService;
@@ -50,7 +51,7 @@ public class SearchService {
 	public void initIndex() throws IOException {
 		Directory dir;
 		File folder = new File(indexDirPath);
-		if (!folder.exists() || folder.list().length <= 1) {
+		if (folder.exists() || folder.list().length > 1) {
 			folder.mkdirs();
 			dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 			IndexWriterConfig writerConfig = new IndexWriterConfig(new StandardAnalyzer());
@@ -101,25 +102,34 @@ public class SearchService {
 		return doc;
 	}
 
-	public List<Song> search(String q) throws ParseException, IOException {
+	public List<Song> search() throws ParseException, IOException {
 		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 		DirectoryReader dirReader = DirectoryReader.open(dir);
 		IndexSearcher is = new IndexSearcher(dirReader);
 
-		if (fuzzy) {
+		String q = searchPhrase;
+		if (fuzzy && !q.isEmpty()) {
 			q = q + "~";
 		}
-		QueryParser parser = new QueryParser(field, new StandardAnalyzer());
-		Query queryText = parser.parse(q);
-		Query rangeQuery = IntPoint.newRangeQuery("year", years[0], years[1]);
-		BooleanClause bcText = new BooleanClause(queryText, Occur.MUST);
-		BooleanClause bcRange = new BooleanClause(rangeQuery, Occur.MUST);
 
-		Builder builder = new BooleanQuery.Builder().add(bcText).add(bcRange);
+		QueryParser parser = new QueryParser(field, new StandardAnalyzer());
+		Builder builder = new BooleanQuery.Builder();
+
+		if (!q.isEmpty()) {
+			Query queryText = parser.parse(q);
+			BooleanClause bcText = new BooleanClause(queryText, Occur.MUST);
+			builder.add(bcText);
+		}
+		
+		if (years != null && years.length == 2) {
+			Query rangeQuery = IntPoint.newRangeQuery("year", years[0], years[1]);
+			BooleanClause bcRange = new BooleanClause(rangeQuery, Occur.MUST);
+			builder.add(bcRange);
+		}
 
 		if (compilation) {
 			parser = new QueryParser("compilation", new StandardAnalyzer());
-			builder = builder.add(new BooleanClause(parser.parse("true"), Occur.MUST));
+			builder.add(new BooleanClause(parser.parse("true"), Occur.MUST));
 		}
 
 		BooleanQuery booleanQuery = builder.build();
@@ -135,8 +145,23 @@ public class SearchService {
 			if (currentSong != null)
 				resultList.add(currentSong);
 		}
+		resetQueries();
+
 		dirReader.close();
 		return resultList;
+	}
+
+	private void resetQueries() {
+		setCompilation(false);
+		setField("");
+		setFuzzy(false);
+		setSearchPhrase("");
+		years[0] = 0;
+		years[1] = 3000;
+	}
+
+	public void setSearchPhrase(String searchPhrase) {
+		this.searchPhrase = searchPhrase;
 	}
 
 }

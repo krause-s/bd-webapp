@@ -4,7 +4,7 @@
 <head></head>
 
 <body>
-	<div th:fragment="songs(songs)" class="panel panel-default">
+	<div class="panel panel-default">
 		<table id="songs" class="table table-hover" width="100%">
 			<thead>
 				<tr>
@@ -16,19 +16,21 @@
 					<th>Medium</th>
 					<th>Year</th>
 					<th>Compilation</th>
+					<th>Lyrics</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="song : ${songs}">
+				<tr>
 					<td><a th:text="${song.artist}"
-						th:href="@{/result?fieldForm=artist} + '&amp;searchForm=' + ${song.artist}"></a></td>
+						th:href="@{/result?artist=} + ${song.artist}"></a></td>
 					<td><a th:text="${song.title}" th:href="@{/browse/} + ${song.uuid}"></a></td>
 					<td><a th:text="${song.release}"
-						th:href="@{/result?fieldForm=release} + '&amp;searchForm=' + ${song.release}"></a></td>
+						th:href="@{/result?artist=} + ${song.artist} + 'release=' + ${song.release}"></a></td>
 					<td><a th:text="${song.year}"
-						th:href="@{/result?searchForm=&amp;fieldForm=lyrics&amp;rangefrom=} + ${song.year} + '&amp;rangeto=' + ${song.year}"></a></td>
+						th:href="@{/result?yearFrom=} + ${song.year} + 'yearTo=' + ${song.year}"></a></td>
 					<td th:switch="${song.compilation}" class="text-center"><span
 						th:case="true" class="glyphicon glyphicon-ok"></span></td>
+					<td><div th:text="${song.lyrics}"></div></td>
 				</tr>
 			</tbody>
 		</table>

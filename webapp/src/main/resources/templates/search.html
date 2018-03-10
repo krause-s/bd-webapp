@@ -10,24 +10,7 @@
 
 	<div class="container">
 		<div th:replace="../fragments/heading :: heading(${title})"></div>
-
-		<form action="/result">
-			<input type="text" class="form-control" name="searchForm" /> <select
-				class="form-control" name="fieldForm">
-				<option value="artist">Artist</option>
-				<option value="title">Song title</option>
-				<option value="release">Medium</option>
-				<option value="comment">Comment</option>
-				<option selected="selected" value="lyrics">lyrics</option>
-			</select>
-			<label class="checkbox-inline"><input type="checkbox" value="true" name="fuzzyForm"/>Fuzzy?</label>
-			<label class="checkbox-inline"><input type="checkbox"
-				value="true" name="compilationForm" />Compilations?</label> 
-			<input name="rangefrom" type="range" min="1000" max="2018" step="1"/><br/>
-			<input name="rangeto" type="range" min="1000" max="2018" step="1"/><br/>
-			<button class="btn btn-danger">GO</button>
-		</form>
-
+		<div th:replace="../fragments/searchForm :: searchForm"></div>
 	</div>
 
 	<footer th:replace="../fragments/footer :: footer"></footer>

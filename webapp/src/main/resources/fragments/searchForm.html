@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+<body>
+	<div class="panel-group" th:fragment="searchForm">
+		<input type="text" class="form-control" name="searchForm" />
+		<form action="/result">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<a data-toggle="collapse" href="#collapse1">advanced</a>
+				</div>
+				<div id="collapse1" class="panel-collapse collapse">
+					<div class="panel-body"></div>
+
+					<select class="form-control" name="fieldForm">
+						<option value="artist">Artist</option>
+						<option value="title">Song title</option>
+						<option value="release">Medium</option>
+						<option value="comment">Comment</option>
+						<option selected="selected" value="lyrics">lyrics</option>
+					</select> <label class="checkbox-inline"><input type="checkbox"
+						value="true" name="fuzzyForm" />Fuzzy?</label> <label
+						class="checkbox-inline"> <input type="checkbox"
+						value="true" name="fuzzyForm" />Fuzzy?
+					</label> <label class="checkbox-inline"> <input type="checkbox"
+						value="true" name="compilationForm" />Compilations?
+					</label>
+					<div class="form-group">
+						<label for="from">From:</label> <input class="form-control"
+							id="from" name="rangefrom" type="number" value="0" max="2018"
+							min="0" /> <label for="to">to:</label> <input
+							class="form-control" id="to" name="rangeto" type="number"
+							value="2018" max="2018" min="0" />
+					</div>
+					
+				</div>
+			</div>
+			<button class="btn btn-danger">GO</button>
+		</form>
+	</div>
+</body>
+
+</html>

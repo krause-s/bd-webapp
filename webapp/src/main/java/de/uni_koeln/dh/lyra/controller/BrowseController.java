@@ -10,10 +10,12 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import de.uni_koeln.dh.lyra.data.Song;
+import de.uni_koeln.dh.lyra.services.CorpusService;
 import de.uni_koeln.dh.lyra.services.SearchService;
 
 // TODO name
@@ -23,9 +25,19 @@ public class BrowseController {
 	@Autowired
 	SearchService searchService;
 
+	@Autowired
+	CorpusService corpusService;
+
 	// TODO browse
-	@RequestMapping(value = "/browse")
-	public String browse(/* Model model */) {
+	@RequestMapping(value = "/browse/{songID}")
+	public String browse(@PathVariable("songID") String songID, Model model) {
+		model.addAttribute("song", corpusService.getSongByID(songID));
+		return "song";
+	}
+
+	@RequestMapping(value = { "/browse/", "/browse" })
+	public String browse(Model model) {
+		model.addAttribute("songs", corpusService.getAllSongs());
 		return "browse";
 	}
 
@@ -41,9 +53,8 @@ public class BrowseController {
 			@RequestParam("compilationForm") Optional<String> compilation, Model model)
 			throws IOException, ParseException {
 
-		if (searchPhrase.isEmpty()) {
-			model.addAttribute("docs", new ArrayList<Song>());
-			return "result";
+		if (!searchPhrase.isEmpty()) {
+			searchService.setSearchPhrase(searchPhrase);
 		}
 		searchService.setField(field);
 		if (fuzzy.isPresent()) {
@@ -60,7 +71,7 @@ public class BrowseController {
 			int[] yearsRange = { yearsFrom.get(), yearsTo.get() };
 			searchService.setYears(yearsRange);
 		}
-		model.addAttribute("docs", searchService.search(searchPhrase));
+		model.addAttribute("docs", searchService.search());
 		return "result";
 	}
 
