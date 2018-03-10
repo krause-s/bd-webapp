@@ -11,12 +11,11 @@
 			id="sel1" name="artistSelect">
 
 			<option>(All)</option>
-			<!-- TODO order A-Z -->
 			<optgroup th:each="artist : ${artistsList}">
-				<option th:if="${lastArtist} == ${artist.getName()}"
-					th:text="${artist.getName()}" selected="selected"></option>
-				<option th:if="${lastArtist} != ${artist.getName()}"
-					th:text="${artist.getName()}"></option>
+				<option th:if="${lastArtist} == ${artist}"
+					th:text="${artist}" selected="selected"></option>
+				<option th:if="${lastArtist} != ${artist}"
+					th:text="${artist}"></option>
 			</optgroup>
 		</select>
 	</div>

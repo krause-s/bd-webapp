@@ -2,6 +2,7 @@ package de.uni_koeln.dh.lyra.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,8 +54,14 @@ public class AnalysisController {
 			model.addAttribute("compilation", compilation);
 			model.addAttribute("count", count);
 		}
-				
-		model.addAttribute("artistsList", corpusService.getArtistList());
+						
+		List<String> artistList = new ArrayList<String>();
+		for (Artist artist : corpusService.getArtistList()) {
+			artistList.add(artist.getName());
+		}
+		
+		Collections.sort(artistList);		
+		model.addAttribute("artistsList", artistList);
 		
 		int min = 0, max = 0;
 		for (Song song : corpusService.getAllSongs()) {
