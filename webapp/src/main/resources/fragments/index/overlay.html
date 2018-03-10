@@ -89,11 +89,14 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h1>modal-header</h1>
+					<h1>Evaluation of found places</h1>
 				</div>
+				
 				<!-- /.modal-header -->
 				<form th:action="@{/evaluation}" method="post">
 					<div class="modal-body" >
+					<p>The Named Entity Recognition and nominatim found the following places in your lyrics. You can select the ones
+					you want to keep with the checkboxes and confirm you decision afterwards.</p>
 						<div th:each="place : ${places}" style="background-color: #cccccc; margin-bottom: 20px;">
 							<div class="row" th:each="name : ${place.value}">
 								<div class="col-xs-5">

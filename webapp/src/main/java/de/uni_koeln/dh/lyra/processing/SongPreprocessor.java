@@ -35,9 +35,20 @@ public class SongPreprocessor {
 	 */
 	private Map<String, List<PopUp>> lyricsWithPopUps = new HashMap<String, List<PopUp>>();
 
+	/**
+	 * contains all created places objects
+	 */
 	private List<Place> placesToEvaluate = new ArrayList<Place>();
-	private Map<String, Double[]> placeNameCoordinates = new HashMap<String, Double[]>();
-
+	
+	/**
+	 * contains all queried strings and their results
+	 */
+	private Map<String, Double[]> placeNameCoordinates = new HashMap<String, Double[]>(); 
+	//TODO serialize map for all lyra users
+	
+	/**
+	 * initializes geo tagger, tokenizer and NER finder
+	 */
 	public SongPreprocessor() {
 		tagger = new GeoTagger();
 
@@ -60,10 +71,20 @@ public class SongPreprocessor {
 		tokenizer = new TokenizerME(model);
 	}
 
+	/**
+	 * 
+	 * @return all (non-evaluated) found places
+	 */
 	public List<Place> getPlacesToEvaluate() {
 		return placesToEvaluate;
 	}
 
+	/**
+	 * searches for coordinates to the given place name. if name
+	 * has already been queried, gives back the stored coordinates
+	 * @param placeName
+	 * @return GPS coordinates ( [0] = lat, [1] = lon )
+	 */
 	public Double[] getCoordinates(String placeName) {
 		Double[] toReturn = new Double[2];
 		if (placeNameCoordinates.containsKey(placeName))
@@ -79,6 +100,12 @@ public class SongPreprocessor {
 		return toReturn;
 	}
 
+	/**
+	 * tokenizes the lyrics of a song and sets the tokens
+	 * for the given song object
+	 * @param song
+	 * @return
+	 */
 	public Song tokenizeSong(Song song) {
 		String lyrics = song.getLyrics();
 		if (lyrics.equals(""))
@@ -90,6 +117,13 @@ public class SongPreprocessor {
 		return song;
 	}
 
+	/**
+	 * searches for places in the lyrics, searches for
+	 * coordinates for the found named entities.
+	 * adds the found place references and coordinates to
+	 * a placesToEvaluate list
+	 * @param song
+	 */
 	public void addPlaces(Song song) {
 		List<PopUp> foundPopUps = createPopUps(song);
 
@@ -119,7 +153,9 @@ public class SongPreprocessor {
 
 	/**
 	 * searches in the lyrics with NER for place-references, creates for each
-	 * reference a popUp
+	 * reference a popUp.
+	 * if one place name is references several times in the lyrics, the quotes
+	 * are contained in one pop up
 	 * 
 	 * @param lyrics
 	 * @return
@@ -167,7 +203,7 @@ public class SongPreprocessor {
 				}
 				String quote = sb.toString();
 				PopUp pu;
-				if ((pu = palceAlreadyMentionedinSong(annotatedPopUps, placeName)) != null) {
+				if ((pu = placeAlreadyMentionedInSong(annotatedPopUps, placeName)) != null) {
 					pu.setContent(pu.getContent() + "[...]" + quote);
 				} else {
 					PopUp popUp = new PopUp(placeName, quote, song);
@@ -183,7 +219,7 @@ public class SongPreprocessor {
 
 	}
 
-	private PopUp palceAlreadyMentionedinSong(List<PopUp> annotatedPopUps, String placeName) {
+	private PopUp placeAlreadyMentionedInSong(List<PopUp> annotatedPopUps, String placeName) {
 		for (PopUp pu : annotatedPopUps) {
 			if (pu.getPlaceName().equals(placeName)) {
 				return pu;
