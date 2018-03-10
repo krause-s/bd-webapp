@@ -25,3 +25,4 @@ hs_err_pid*
 target/
 .DS_Store
 .springBeans
+webapp/src/main/resources/data

@@ -17,43 +17,59 @@
 		<form th:action="@{/analytics/frequencies}" method="post">
 			<div class="row">
 				<div class="col-md-5">
-					<div th:replace="../fragments/tmp :: select"></div>
-
-					<ul th:if="${map1 != null}" class="list-group">
-						<li class="list-group-item">New <span class="badge">12</span></li>
-						<li class="list-group-item">Deleted <span class="badge">5</span></li>
-						<li class="list-group-item">Warnings <span class="badge">3</span></li>
-					</ul>
-
-					<div th:replace="../fragments/tmp :: slider"></div>
+					<div th:if="${artists} != null">
+						<div th:replace="../fragments/tmp :: select(${artists[0]})"></div>
+						<div th:replace="../fragments/tmp :: tokens"></div>
+						<div th:replace="../fragments/tmp :: slider(${years[0]})"></div>
+					</div>
+					<div th:if="${artists} == null">
+						<div th:replace="../fragments/tmp :: select('')"></div>
+						<div th:replace="../fragments/tmp :: slider('')"></div> 
+					</div>
 				</div>
-				<div class="col-md-2 text-center" style="background-color: #8786AD">
+				<!-- /.col-md-5 -->
+				<div class="col-md-2 text-center">
 					<button class="btn btn-danger">GO</button>
+					
 					<div class="checkbox">
-						<label><input type="checkbox" value="true" name="compCheck"/>Compilations</label>
+						<label th:if="${compilation}">
+							<input type="checkbox" value="true" name="compCheck" checked="checked"/>Compilations
+						</label>
+						<label th:if="!${compilation}">
+							<input type="checkbox" value="true" name="compCheck"/>Compilations
+						</label>
 					</div>
 
 					<div class="form-group">
-						<label for="sel2">Count</label> <select class="form-control"
-							id="sel2" name="countSelect">
-							<!-- TODO Staffelung -->
+						<label for="sel2">Count</label>
+						<!-- TODO Staffelung -->
+
+						<select th:if="${count != null}" class="form-control" id="sel2"
+							name="countSelect">
+							<option>10</option>
+							<option th:if="${count} == '20'" selected="selected">20</option>
+							<option th:if="${count} != '20'">20</option>
+							<option th:if="${count} == '30'" selected="selected">30</option>
+							<option th:if="${count} != '30'">30</option>
+						</select> <select th:if="${count == null}" class="form-control" id="sel2"
+							name="countSelect">
 							<option>10</option>
 							<option>20</option>
 							<option>30</option>
 						</select>
 					</div>
 				</div>
-				<!-- /.col-md-5 -->
+				<!-- /.col-md-2 -->
 				<div class="col-md-5">
-					<div th:replace="../fragments/tmp :: select"></div>
-
-					<ul th:if="${map2 != null}" class="list-group">
-						<li class="list-group-item">New <span class="badge">12</span></li>
-						<li class="list-group-item">Deleted <span class="badge">5</span></li>
-						<li class="list-group-item">Warnings <span class="badge">3</span></li>
-					</ul>
-
-					<div th:replace="../fragments/tmp :: slider"></div>
+					<div th:if="${artists} != null">
+						<div th:replace="../fragments/tmp :: select(${artists[1]})"></div>
+						<div th:replace="../fragments/tmp :: tokens"></div>
+						<div th:replace="../fragments/tmp :: slider(${years[1]})"></div>
+					</div>
+					<div th:if="${artists} == null">
+						<div th:replace="../fragments/tmp :: select('')"></div>
+						<div th:replace="../fragments/tmp :: slider('')"></div>	
+					</div>
 				</div>
 				<!-- /.col-md-5 -->
 			</div>

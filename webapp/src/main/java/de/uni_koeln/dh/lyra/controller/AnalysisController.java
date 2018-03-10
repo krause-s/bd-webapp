@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import de.uni_koeln.dh.lyra.data.Artist;
+import de.uni_koeln.dh.lyra.data.Song;
 import de.uni_koeln.dh.lyra.services.AnalysisService;
 import de.uni_koeln.dh.lyra.services.CorpusService;
 
@@ -46,12 +47,33 @@ public class AnalysisController {
 			@RequestParam(value = "countSelect", required = false) String count, Model model ) {
 		if (artists != null) { 
 			analysisService.doSth(artists, years, compilation, count);
-			
-			/*model.addAttribute("artists", artists);
-			model.addAttribute("artists", years);
-			model.addAttribute("artists", compilation);
-			model.addAttribute("artists", count);*/
+
+			model.addAttribute("artists", artists);
+			model.addAttribute("years", years);
+			model.addAttribute("compilation", compilation);
+			model.addAttribute("count", count);
 		}
+				
+		model.addAttribute("artistsList", corpusService.getArtistList());
+		
+		int min = 0, max = 0;
+		for (Song song : corpusService.getAllSongs()) {
+			int cur = song.getYear();
+			
+			if ((min == 0) && (max == 0)) {
+				min = cur;
+				max = cur;
+			} else {	
+				if (cur > max) {
+					max = cur;
+				} else
+					if (cur < min) {
+					min = cur;
+				}
+			}
+		}
+		System.out.println("min: " + min + " - max: " + max);
+		model.addAttribute("songYears", new int[] {min, max});
 		
 		return "frequencies";
 	}

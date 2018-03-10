@@ -1,6 +1,6 @@
 $(document).ready(function($) {	
 	$('.sliderExample').slider({
-//		tooltip: 'always',
+		tooltip: 'always',
 		tooltip_position:'bottom',
 		range: true/*,
 		formatter: function(value) {

@@ -6,27 +6,41 @@
 <head></head>
 
 <body>
-	<div th:fragment="select" class="form-group">
+	<div th:fragment="select(lastArtist)" class="form-group">
 		<label for="sel1">Artist</label> <select class="form-control"
 			id="sel1" name="artistSelect">
-			<!-- TODO order A-Z -->
+
 			<option>(All)</option>
-			<option>Bob Dylan</option>
-			<option>Britney Spears</option>
-			<option>Lady Gaga</option>
-			<option>Paul McCartney</option>
-			<option>Madonna</option>
-			<option>The Beatles</option>
+			<!-- TODO order A-Z -->
+			<optgroup th:each="artist : ${artistsList}">
+				<option th:if="${lastArtist} == ${artist.getName()}"
+					th:text="${artist.getName()}" selected="selected"></option>
+				<option th:if="${lastArtist} != ${artist.getName()}"
+					th:text="${artist.getName()}"></option>
+			</optgroup>
 		</select>
 	</div>
 
-	<div th:fragment="slider" class="form-group text-center">
-
-		<b>1962</b>&nbsp;&nbsp;&nbsp;<input class="sliderExample" type="text"
-			data-slider-min="1962" data-slider-max="2018" name="yearSlider"
-			style="width: 75%" />&nbsp;&nbsp;&nbsp;<b>2018</b>
-
+	<div th:fragment="slider(sliderVal)" class="form-group text-center">
+		<b th:text="${songYears[0]}"></b> 
+		&nbsp;&nbsp;&nbsp; 
+		<input th:if="${sliderVal != ''}"
+			class="sliderExample" type="text" name="yearSlider"
+			th:attr="data-slider-min=${songYears[0]},data-slider-max=${songYears[1]},data-slider-value='['+ ${sliderVal} + ']'"
+			style="width: 75%" /> 
+		<input th:if="${sliderVal == ''}"
+			class="sliderExample" type="text" name="yearSlider"
+			th:attr="data-slider-min=${songYears[0]},data-slider-max=${songYears[1]}"
+			style="width: 75%" /> 
+		&nbsp;&nbsp;&nbsp; 
+		<b th:text="${songYears[1]}"></b>
 	</div>
+
+	<ul th:fragment="tokens" class="list-group">
+		<li class="list-group-item">god <span class="badge">12</span></li>
+		<li class="list-group-item">schnitzel <span class="badge">5</span></li>
+		<li class="list-group-item">klaus <span class="badge">3</span></li>
+	</ul>
 </body>
 
 </html>
