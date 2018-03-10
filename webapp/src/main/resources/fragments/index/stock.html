@@ -9,14 +9,17 @@
 		<div class="panel-heading noLine">
 			<div class="row">
 				<div class="col-xs-5 text-right">
-					<a th:href="@{/browse}"> <span class="glyphicon glyphicon-user"></span>&nbsp;<span><b>5<!-- 0 --></b></span>
-						<span>Artists</span>
+					<a th:href="@{/browse}"> <span class="glyphicon glyphicon-user"></span>&nbsp;<span><b
+							th:if="${artistMap == null}">0</b> <b
+							th:if="${artistMap != null}" th:text="${artistMap.values().size()}"></b>
+					</span> <span>Artists</span>
 					</a>
 				</div>
 				<div class="col-xs-5 col-xs-offset-2">
 					<a th:href="@{/browse}"> <span
-						class="glyphicon glyphicon-music"></span>&nbsp;<span><b>315<!-- 0 --></b></span>
-						<span>Lyrics</span>
+						class="glyphicon glyphicon-music"></span>&nbsp;<span><b
+							th:if="${songCount == null}">0</b> <b
+							th:if="${songCount != null}" th:text="${songCount}"></b> </span> <span>Lyrics</span>
 					</a>
 				</div>
 			</div>
@@ -28,16 +31,11 @@
 		<a href="#details" data-toggle="collapse"
 			title="Click for stock details">
 			<div class="progress">
-				<div class="progress-bar progress-bar-success" role="progressbar"
-					style="width: 60%"></div>
-				<div class="progress-bar progress-bar-danger" role="progressbar"
-					style="width: 20%"></div>
-				<div class="progress-bar progress-bar-warning" role="progressbar"
-					style="width: 10%"></div>
-				<div class="progress-bar progress-bar-info" role="progressbar"
-					style="width: 5%"></div>
-				<div class="progress-bar" role="progressbar"
-					style="width: 5%; background-color: purple"></div>
+				<span th:each="percentage : ${artistMap}">
+					<div th:each="artist : ${percentage.value}" class="progress-bar"
+						role="progressbar"
+						th:style="'width: ' + ${percentage.key} + '%; background-color: ' + ${artist.getColor()}"></div>
+				</span>
 			</div> <!-- /.progress -->
 		</a>
 
@@ -46,36 +44,16 @@
 			<div class="panel-body">
 				<table class="table table-hover table-condensed">
 					<tbody>
-						<tr>
-							<td class="col-xs-6 text-right"><a th:href="@{/search}">Bob
-									Dylan</a></td>
-							<td class="col-xs-6"><span class="badge"
-								style="background-color: #5cb85c">200</span></td>
-						</tr>
-						<tr>
-							<td class="col-xs-6 text-right"><a th:href="@{/search}">Neil
-									Young</a></td>
-							<td class="col-xs-6 "><span class="badge"
-								style="background-color: #d9534f">75</span></td>
-						</tr>
-						<tr>
-							<td class="col-xs-6 text-right"><a th:href="@{/search}">Britney
-									Spears</a></td>
-							<td class="col-xs-6"><span class="badge"
-								style="background-color: #f0ad4e">35</span></td>
-						</tr>
-						<tr>
-							<td class="col-xs-6 text-right"><a th:href="@{/search}">The
-									Smashing Pumpkins</a></td>
-							<td class="col-xs-6"><span class="badge"
-								style="background-color: #5bc0de">13</span></td>
-						</tr>
-						<tr>
-							<td class="col-xs-6 text-right"><a th:href="@{/search}">Tom
-									Waits</a></td>
-							<td class="col-xs-6"><span class="badge"
-								style="background-color: purple">13</span></td>
-						</tr>
+						<span th:each="percentage : ${artistMap}">
+							<tr th:each="artist : ${percentage.value}">
+								<td class="col-xs-6 text-right">
+									<a th:href="@{/result?fieldForm=artist} + '&amp;searchForm=' + ${artist.getName()}" th:text="${artist.getName()}"></a>
+								</td>
+								<td class="col-xs-6">
+									<span class="badge" th:style="'background-color: ' + ${artist.getColor()}" th:text="${artist.getSongs().size()}"></span>
+								</td>
+							</tr>
+						</span>
 					</tbody>
 				</table>
 			</div>

@@ -1,13 +1,14 @@
 package de.uni_koeln.dh.lyra.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.model.place.Place;
 import de.uni_koeln.dh.lyra.model.place.PopUp;
 import de.uni_koeln.dh.lyra.services.CorpusService;
@@ -37,6 +39,7 @@ public class IndexController {
 		boolean showUpload = true;
 		if (userService.loggedIn()) {
 			showUpload = false;
+			initStock(model);
 		}
 		model.addAttribute("upload", showUpload);
 		return "index";
@@ -100,8 +103,8 @@ public class IndexController {
 		corpusService.serializeCorpus(userService.getUserID());
 		userService.init();
 
-		// TODO idle, setId, model (stock)
-
+		// TODO idle
+		initStock(model);
 		return "index";
 	}
 
@@ -119,6 +122,36 @@ public class IndexController {
 	@RequestMapping(value = "/about")
 	public String about() {
 		return "about";
+	}
+
+	private void initStock(Model model) {
+		int totalCount = corpusService.getAllSongs().size();
+		
+		Map<Integer, List<Artist>> map = new TreeMap<Integer, List<Artist>>(Collections.reverseOrder());
+		
+		List<Artist> artists = corpusService.getArtistList();
+		int percentages = 0;
+		
+		for (int i = 0; i < artists.size(); i++) {
+			int percentage;
+			
+			if (i == artists.size()-1) {
+				percentage = 100-percentages;
+			} else {
+				int cnt = artists.get(i).getSongs().size();
+				percentage = (int)((100 / (float)totalCount) * cnt);
+			}
+			
+			if (!map.containsKey(percentage)) {
+				map.put(percentage, new ArrayList<Artist>());
+				percentages += percentage;
+			}
+						
+			map.get(percentage).add(artists.get(i));
+		}
+		
+		model.addAttribute("songCount", totalCount);
+		model.addAttribute("artistMap", map);
 	}
 	
 }
