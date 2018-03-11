@@ -81,13 +81,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="token : ${map}">
+				<span th:each="freq : ${map}">
+				<tr th:each="token : ${freq.value}">
 					<td class="col-xs-6 text-right"><a
-						th:href="@{/result?fieldForm=lyrics} + '&amp;searchForm=' + ${token.key}"
-						th:text="${token.key}"></a></td>
-					<td class="col-xs-6"><span class="badge"
-						th:text="${token.value}"></span></td>
+						th:href="@{/result?fieldForm=lyrics} + '&amp;searchForm=' + ${token}"
+						th:text="${token}"></a></td>
+					<td class="col-xs-6"><span class="badge" th:text="${freq.key}"></span>
+					</td>
 				</tr>
+				</span>
 			</tbody>
 		</table>
 
