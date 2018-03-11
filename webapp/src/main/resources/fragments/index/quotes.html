@@ -5,9 +5,9 @@
 
 <body>
 	<div th:fragment="quotes">
-		<div th:each="song : ${quotes}">
+		<div th:each="song,iter : ${quotes}">
 			<a th:href="@{/browse/} + ${song.uuid}">
-				<blockquote>
+				<blockquote th:id="${iter.index == 1} ? 'middleQuote'">
 					<h5>
 						<b th:text="${song.title}"></b>&nbsp;(<span th:text="${song.year}"></span>)
 					</h5>
