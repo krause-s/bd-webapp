@@ -42,9 +42,8 @@
 	display: none;
 }
 
-.slider-selection {
-	/*TODO tmp*/
-	background: red;
+.progress {
+	margin-bottom: 0;
 }
 
 /* ************** MEDIA ************** */

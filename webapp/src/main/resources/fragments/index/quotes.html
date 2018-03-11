@@ -4,15 +4,14 @@
 <head></head>
 
 <body>
-	<div th:fragment="quotes" class="panel panel-default">
+	<div th:fragment="quotes">
 		<div th:each="song : ${quotes}">
 			<a th:href="@{/browse/} + ${song.uuid}">
 				<blockquote>
 					<h5>
-						<b th:text="${song.title}"></b><span th:text="${song.year}"></span>
+						<b th:text="${song.title}"></b>&nbsp;(<span th:text="${song.year}"></span>)
 					</h5>
-					<p th:text="${song.lyrics}">
-					</p>
+					<p th:text="${song.lyrics}"></p>
 					<footer th:text="${song.artist}"></footer>
 				</blockquote>
 			</a>

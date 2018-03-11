@@ -21,11 +21,6 @@ table {
 
 /* ************** CLASSES ************** */
 
-/* TODO frequencies.html */
-.progress {
-	margin-bottom: 0;
-}
-
 .panel-body {
 	padding: 0;
 }
@@ -56,6 +51,15 @@ table {
 
 .pagination > li.disabled > a {
 	color: #777;
+}
+
+.slider-selection {
+	background: #d9534f;
+	opacity: 0.8;
+}
+
+.slider-handle {
+	background: #d9534f;
 }
 
 /* ************** IDs ************** */
