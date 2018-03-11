@@ -11,7 +11,7 @@
 					<h5>
 						<b th:text="${song.title}"></b>&nbsp;(<span th:text="${song.year}"></span>)
 					</h5>
-					<p th:text="${song.lyrics}"></p>
+					<p th:utext="${song.lyricsBR}"></p>
 					<footer th:text="${song.artist}"></footer>
 				</blockquote>
 			</a>

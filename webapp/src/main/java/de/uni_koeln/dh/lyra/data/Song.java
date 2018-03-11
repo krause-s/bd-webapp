@@ -9,7 +9,7 @@ import java.util.UUID;
 public class Song implements Serializable{
 	
 	private static final long serialVersionUID = 930011990465438709L;
-	private String title, lyrics, artist, release, comment;
+	private String title, lyrics, lyricsBR, artist, release, comment;
 	private int year;
 	private boolean compilation;
 	private String uuid;
@@ -32,6 +32,7 @@ public class Song implements Serializable{
 			String release, int year, boolean compilation, String comment) {
 		this.uuid = UUID.randomUUID().toString();
 		this.title = title;
+		this.lyricsBR = lyrics.replaceAll("\n", "<br />");
 		this.lyrics = lyrics;
 		this.artist = artist;
 		this.release = release;
@@ -42,6 +43,7 @@ public class Song implements Serializable{
 	
 	public Song(String lyrics) {
 		this.lyrics = lyrics;
+		this.lyricsBR = lyrics.replaceAll("\n", "<br />");
 		this.uuid = UUID.randomUUID().toString();
 	}
 
@@ -58,6 +60,7 @@ public class Song implements Serializable{
 	}
 	
 	public void setLyrics(String lyrics) {
+		this.lyricsBR = lyrics.replaceAll("\n", "<br />");
 		this.lyrics = lyrics;
 	}
 
@@ -77,8 +80,7 @@ public class Song implements Serializable{
 	 * @return
 	 */
 	public String getLyricsBR() {
-		lyrics = lyrics.replaceAll("\n", "<br />");
-		return lyrics;
+		return lyricsBR;
 	}
 
 	public void setArtist(String artist) {

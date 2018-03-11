@@ -155,8 +155,16 @@ public class CorpusService {
 			Song original = allSongs.get(rand.nextInt(allSongs.size()));
 			allSongs.get(rand.nextInt(allSongs.size()));
 			String tempLyrics = "";
-			for (int i = 0; i < 20; i++) {
-				tempLyrics += original.getLyrics().split(" ")[i] + " ";
+//			for (int i = 0; i < 20; i++) {
+//				tempLyrics += original.getLyrics().split(" ")[i] + " ";
+//			}
+			String[] lines = original.getLyrics().split("\n");
+			int limit = 3;
+			if (lines.length < limit)
+				limit = lines.length;
+			
+			for (int i = 0; i < limit; i++) {
+				tempLyrics += original.getLyrics().split("\n")[i] + "\n";
 			}
 			tempLyrics += "...";
 
