@@ -140,13 +140,27 @@ public class CorpusService {
 		}
 	}
 
-	public boolean idExitst(String id) {
-		for (String fileName : new File("data/").list()) {
-			if (fileName.equals(id)) {
-				return true;
+	public List<Song> getRandomQuotes() {
+		Random rand = new Random();
+		List<Song> allSongs = getAllSongs();
+		List<Song> quotes = new ArrayList<Song>();
+		while (quotes.size() < 3) {
+			Song original = allSongs.get(rand.nextInt(allSongs.size()));
+			allSongs.get(rand.nextInt(allSongs.size()));
+			String tempLyrics = "";
+			for (int i = 0; i < 20; i++) {
+				tempLyrics += original.getLyrics().split(" ")[i] + " ";
 			}
+			tempLyrics += "...";
+
+			Song currentSong = new Song(tempLyrics);
+			currentSong.setUuid(original.getUuid());
+			currentSong.setTitle(original.getTitle());
+			currentSong.setYear(original.getYear());
+			currentSong.setArtist(original.getArtist());
+			quotes.add(currentSong);
 		}
-		return false;
+		return quotes;
 	}
 
 }

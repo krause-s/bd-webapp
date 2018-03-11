@@ -56,11 +56,19 @@ public class Song implements Serializable{
 	public String getTitle() {
 		return title;
 	}
+	
+	public void setLyrics(String lyrics) {
+		this.lyrics = lyrics;
+	}
 
 	public String getLyrics() {
 		return lyrics;
 	}
 
+	public void setArtist(String artist) {
+		this.artist = artist;
+	}
+	
 	public String getArtist() {
 		return artist;
 	}
@@ -73,6 +81,10 @@ public class Song implements Serializable{
 		return comment;
 	}
 
+	public void setYear(int year) {
+		this.year = year;
+	}
+	
 	public int getYear() {
 		return year;
 	}
@@ -117,6 +129,10 @@ public class Song implements Serializable{
 	
 	public Map<String, Integer> getTermFreqs() {
 		return termFreqs;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 //	public void setRelease(String release){

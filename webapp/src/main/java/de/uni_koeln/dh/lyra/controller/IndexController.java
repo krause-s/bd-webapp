@@ -52,7 +52,7 @@ public class IndexController {
 		System.out.println("UPLOAD");
 
 		// TODO file upload (idle)
-		List<Place> placesToEvaluate = corpusService.init(CorpusService.dataPath);
+		List<Place> placesToEvaluate = corpusService.init();
 
 		if (placesToEvaluate != null) {
 			map = new HashMap<Place, Set<String>>();
@@ -132,7 +132,7 @@ public class IndexController {
 						
 			map.get(percentage).add(artists.get(i));
 		}
-		
+		model.addAttribute("quotes", corpusService.getRandomQuotes());
 		model.addAttribute("songCount", totalCount);
 		model.addAttribute("artistMap", map);
 	}
