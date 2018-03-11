@@ -4,16 +4,16 @@
 <head></head>
 
 <body>
-	<div th:fragment="content(val)" class="col-md-5">
+	<div th:fragment="content(val)" class="col-md-5 col-xs-12">
 		<div class="panel panel-default">
 			<div th:if="${artists != null}">
 				<div
-					th:replace="../fragments/freqCol :: selectArtist(${artists[val]})"></div>
+					th:replace="../fragments/freqCol :: selectArtist(${val},${artists[val]})"></div>
 				<div th:replace="../fragments/freqCol :: tokens(${mapList[val]})"></div>
 				<div th:replace="../fragments/freqCol :: slider(${years[val]})"></div>
 			</div>
 			<div th:if="${artists == null}">
-				<div th:replace="../fragments/freqCol :: selectArtist('')"></div>
+				<div th:replace="../fragments/freqCol :: selectArtist(${val},'')"></div>
 				<div th:replace="../fragments/freqCol :: slider('')"></div>
 			</div>
 		</div>
@@ -21,7 +21,8 @@
 	</div>
 	<!-- /fragment:content -->
 
-	<div th:fragment="control" class="col-md-2 text-center">
+	<div th:fragment="control"
+		class="col-md-2 col-xs-6 col-xs-offset-3 col-md-offset-0 text-center">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<div class="form-group">
@@ -47,18 +48,21 @@
 		</div>
 		<!-- /.panel -->
 
-		<button class="btn btn-danger btn-block">
-			<span class="glyphicon glyphicon-stats"></span> Analyze
-		</button>
+		<div class="form-group">
+			<button class="btn btn-danger btn-block">
+				<span class="glyphicon glyphicon-stats"></span> Analyze
+			</button>
+		</div>
+		<!-- /.form-group -->
 	</div>
 	<!-- /fragment:control -->
 
 	<!-- ############################ -->
 
-	<div th:fragment="selectArtist(lastArtist)"
+	<div th:fragment="selectArtist(val,lastArtist)"
 		class="panel-heading text-center">
-		<label for="sel1">Artist</label> <select class="form-control"
-			id="sel1" name="artistSelect">
+		<label for="sel1">Artist <span th:text="${val+1}"></span></label> <select
+			class="form-control" id="sel1" name="artistSelect">
 
 			<option>(All)</option>
 
