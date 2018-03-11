@@ -37,6 +37,7 @@ public class IndexController {
 	public String index(Model model) {
 		System.out.println("NO index -> overlay");
 		model.addAttribute("upload", false);
+		initStock(model);
 		return "index";
 	}
 	
@@ -94,11 +95,10 @@ public class IndexController {
 		}
 
 		corpusService.init2(map);
-		corpusService.serializeCorpus();
 		searchService.updateIndex();
 		
 		// TODO idle
-		initStock(model);
+
 		return "index";
 	}
 

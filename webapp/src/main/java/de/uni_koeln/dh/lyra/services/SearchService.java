@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
@@ -40,12 +42,12 @@ public class SearchService {
 	private boolean compilation;
 	private boolean fuzzy;
 	private String searchPhrase = "";
-	private DirectoryReader dirReader;
-	private IndexSearcher is;
+
 
 	@Autowired
 	private CorpusService corpusService;
 
+	@PostConstruct
 	public void initIndex() throws IOException {
 		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 		File folder = new File(indexDirPath);
@@ -60,8 +62,6 @@ public class SearchService {
 			}
 			writer.close();
 		}
-		dirReader = DirectoryReader.open(dir);
-		is = new IndexSearcher(dirReader);
 	}
 	
 	public void updateIndex(){
@@ -110,8 +110,10 @@ public class SearchService {
 	}
 
 	public List<Song> search() throws ParseException, IOException {
+		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
+		DirectoryReader dirReader = DirectoryReader.open(dir);
+		IndexSearcher is = new IndexSearcher(dirReader);
 		
-
 		String q = searchPhrase;
 		if (fuzzy && !q.isEmpty()) {
 			q = q + "~";
@@ -141,7 +143,7 @@ public class SearchService {
 
 		System.out.println("booleanQuery: " + booleanQuery);
 		TopDocs hits = is.search(booleanQuery, dirReader.numDocs());
-
+		System.out.println(hits.totalHits);
 		List<Song> resultList = new ArrayList<Song>();
 		for (int i = 0; i < hits.scoreDocs.length; i++) {
 			ScoreDoc scoreDoc = hits.scoreDocs[i];

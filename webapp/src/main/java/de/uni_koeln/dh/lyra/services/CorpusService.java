@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Service;
 
@@ -31,30 +34,29 @@ public class CorpusService {
 
 	private List<Place> placesToEvaluate;
 
-	// @PostConstruct
-	public List<Place> init(String dataPath) {
+	@PostConstruct
+	public List<Place> init() {
+		System.out.println("initializing corpus");
 		IO io = new IO();
-
-		try {
-			if (artists.isEmpty()) {
-				artists = io.getDataFromXLSX(dataPath);
-				placesToEvaluate = io.getPlacesToEvaluate();
-				return placesToEvaluate;
-			}else{
+		if (corpusExists()) {
+			readExistingCorpus();
+		} else {
+			try {
 				artists.putAll(io.getDataFromXLSX(dataPath));
 				placesToEvaluate = io.getPlacesToEvaluate();
-				return placesToEvaluate;	
+				serializeCorpus();
+				return placesToEvaluate;
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-
+		serializeCorpus();
 		return null;
 	}
 
 	public void init2(Map<Place, Set<String>> deletionMap) {
 		System.out.println(deletionMap);
-		artists = PlaceEvaluator.evaluatePlaces(placesToEvaluate, deletionMap, artists);
+		artists.putAll(PlaceEvaluator.evaluatePlaces(placesToEvaluate, deletionMap, artists));
 	}
 
 	public List<Artist> getArtistList() {
@@ -112,6 +114,7 @@ public class CorpusService {
 	}
 
 	public void serializeCorpus() {
+		System.out.println("serializing corpus");
 		new File("data/corpus").mkdirs();
 		try {
 			FileOutputStream fileOut = new FileOutputStream("data//corpus/corpus.ser");
@@ -124,9 +127,13 @@ public class CorpusService {
 		}
 	}
 
-	public void readExistingCorpus(String id) {
+	public boolean corpusExists() {
+		return new File("data/corpus/corpus.ser").exists();
+	}
+
+	public void readExistingCorpus() {
 		try {
-			FileInputStream fileIn = new FileInputStream("data/" + id + "/corpus/corpus.ser");
+			FileInputStream fileIn = new FileInputStream("data/corpus/corpus.ser");
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			artists = (Map<String, Artist>) in.readObject();
 			in.close();
