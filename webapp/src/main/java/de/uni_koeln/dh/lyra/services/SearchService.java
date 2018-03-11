@@ -34,26 +34,23 @@ import de.uni_koeln.dh.lyra.data.Song;
 @Service
 public class SearchService {
 
-	private String indexDirPath;
+	private String indexDirPath = "data/index";
 	private String field;
 	private int[] years = { 0, 3000 };
 	private boolean compilation;
 	private boolean fuzzy;
 	private String searchPhrase = "";
+	private DirectoryReader dirReader;
+	private IndexSearcher is;
 
 	@Autowired
 	private CorpusService corpusService;
 
-	public void setIndexDirPath(String indexDirPath) {
-		this.indexDirPath = "./data/" + indexDirPath + "/index/";
-	}
-
 	public void initIndex() throws IOException {
-		Directory dir;
+		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 		File folder = new File(indexDirPath);
 		if (!folder.exists() || folder.list().length <= 1) {
 			folder.mkdirs();
-			dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 			IndexWriterConfig writerConfig = new IndexWriterConfig(new StandardAnalyzer());
 			IndexWriter writer = new IndexWriter(dir, writerConfig);
 			for (Artist artist : corpusService.getArtistList()) {
@@ -62,6 +59,16 @@ public class SearchService {
 				}
 			}
 			writer.close();
+		}
+		dirReader = DirectoryReader.open(dir);
+		is = new IndexSearcher(dirReader);
+	}
+	
+	public void updateIndex(){
+		try {
+			initIndex();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -103,9 +110,7 @@ public class SearchService {
 	}
 
 	public List<Song> search() throws ParseException, IOException {
-		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
-		DirectoryReader dirReader = DirectoryReader.open(dir);
-		IndexSearcher is = new IndexSearcher(dirReader);
+		
 
 		String q = searchPhrase;
 		if (fuzzy && !q.isEmpty()) {
@@ -120,7 +125,7 @@ public class SearchService {
 			BooleanClause bcText = new BooleanClause(queryText, Occur.MUST);
 			builder.add(bcText);
 		}
-		
+
 		if (years != null && years.length == 2) {
 			Query rangeQuery = IntPoint.newRangeQuery("year", years[0], years[1]);
 			BooleanClause bcRange = new BooleanClause(rangeQuery, Occur.MUST);

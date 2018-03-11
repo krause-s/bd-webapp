@@ -24,7 +24,8 @@ import de.uni_koeln.dh.lyra.util.IO;
 @Service
 public class CorpusService {
 
-//	public static String dataPath = "src/main/resources/data/lyrics_database.xlsx";
+	// public static String dataPath =
+	// "src/main/resources/data/lyrics_database.xlsx";
 	public static String dataPath = "src/main/resources/data/lyrics_mcCartney_beatles.xlsx";
 	private static Map<String, Artist> artists = new HashMap<String, Artist>();
 
@@ -35,9 +36,15 @@ public class CorpusService {
 		IO io = new IO();
 
 		try {
-			artists = io.getDataFromXLSX(dataPath);
-			placesToEvaluate = io.getPlacesToEvaluate();
-			return placesToEvaluate;
+			if (artists.isEmpty()) {
+				artists = io.getDataFromXLSX(dataPath);
+				placesToEvaluate = io.getPlacesToEvaluate();
+				return placesToEvaluate;
+			}else{
+				artists.putAll(io.getDataFromXLSX(dataPath));
+				placesToEvaluate = io.getPlacesToEvaluate();
+				return placesToEvaluate;	
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -104,10 +111,10 @@ public class CorpusService {
 		return filteredArtists;
 	}
 
-	public void serializeCorpus(String userID) {
-		new File("data/" + userID + "/corpus").mkdirs();
+	public void serializeCorpus() {
+		new File("data/corpus").mkdirs();
 		try {
-			FileOutputStream fileOut = new FileOutputStream("data/" + userID + "/corpus/corpus.ser");
+			FileOutputStream fileOut = new FileOutputStream("data//corpus/corpus.ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(artists);
 			out.close();
@@ -132,10 +139,10 @@ public class CorpusService {
 			return;
 		}
 	}
-	
-	public boolean idExitst(String id){
-		for(String fileName : new File("data/").list()){
-			if(fileName.equals(id)){
+
+	public boolean idExitst(String id) {
+		for (String fileName : new File("data/").list()) {
+			if (fileName.equals(id)) {
 				return true;
 			}
 		}

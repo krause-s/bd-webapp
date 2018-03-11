@@ -13,7 +13,6 @@ import java.util.TreeSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +21,6 @@ import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.model.place.Place;
 import de.uni_koeln.dh.lyra.model.place.PopUp;
 import de.uni_koeln.dh.lyra.services.CorpusService;
-import de.uni_koeln.dh.lyra.services.UserService;
 
 @Controller
 public class IndexController {
@@ -30,18 +28,17 @@ public class IndexController {
 	@Autowired
 	CorpusService corpusService;
 
-	@Autowired
-	UserService userService;
-
 	@RequestMapping(value = { "", "/" })
 	public String index(Model model) {
 		System.out.println("NO index -> overlay");
-		boolean showUpload = true;
-		if (userService.loggedIn()) {
-			showUpload = false;
-			initStock(model);
-		}
-		model.addAttribute("upload", showUpload);
+		model.addAttribute("upload", false);
+		return "index";
+	}
+	
+	@RequestMapping(value = {"/info" })
+	public String indexIntro(Model model) {
+		System.out.println("NO index -> overlay");
+		model.addAttribute("upload", true);
 		return "index";
 	}
 
@@ -51,13 +48,6 @@ public class IndexController {
 
 		// TODO file upload (idle)
 		List<Place> placesToEvaluate = corpusService.init(CorpusService.dataPath);
-		// Arrays.asList(new Place[] {
-		// new Place(0, 0, Arrays.asList(new PopUp[] { new PopUp("cambridge"),
-		// new PopUp("cambridge") }), false),
-		// new Place(1, 1, Arrays.asList(new PopUp[] { new PopUp("new york"),
-		// new PopUp("new york city"), new PopUp("new york") }), false),
-		// new Place(2, 2, Arrays.asList(new PopUp[] { new PopUp("koeln") }),
-		// false),});
 
 		if (placesToEvaluate != null) {
 			map = new HashMap<Place, Set<String>>();
@@ -99,24 +89,11 @@ public class IndexController {
 		}
 
 		corpusService.init2(map);
-		userService.generateNewID();
-		corpusService.serializeCorpus(userService.getUserID());
-		userService.init();
+		corpusService.serializeCorpus();
 
 		// TODO idle
 		initStock(model);
 		return "index";
-	}
-
-	@RequestMapping(value = "/{id}")
-	public String index(@PathVariable("id") String id , Model model) {
-		if (corpusService.idExitst(id)) {
-			corpusService.readExistingCorpus(id);
-			userService.setUserID(id);
-		}else{
-			userService.setUserID(null);
-		}
-		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/about")

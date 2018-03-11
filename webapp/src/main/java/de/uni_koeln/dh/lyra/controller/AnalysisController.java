@@ -25,6 +25,7 @@ public class AnalysisController {
 
 	@Autowired
 	private CorpusService corpusService;
+	
 	@Autowired
 	private AnalysisService analysisService;
 
