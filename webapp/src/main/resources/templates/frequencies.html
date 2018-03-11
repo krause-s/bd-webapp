@@ -16,31 +16,9 @@
 
 		<form th:action="@{/analytics/frequencies}" method="post">
 			<div class="row">
-				<div th:replace="../fragments/tmp :: column(0)"></div>
-				<div class="col-md-2 text-center">
-					<button class="btn btn-danger">GO</button>
-
-					<div class="checkbox">
-						<label> <input type="checkbox" value="true"
-							name="compCheck" th:checked="${compilation} ? 'checked'" />Compilations
-						</label>
-					</div>
-					<!-- /.checkbox -->
-
-					<div class="form-group">
-						<label for="sel2">Count</label> <select class="form-control"
-							id="sel2" name="countSelect">
-							<option>10</option>
-							<option
-								th:selected="${count != null and count == '20'} ? 'selected'">20</option>
-							<option
-								th:selected="${count != null and count == '30'} ? 'selected'">30</option>
-						</select>
-					</div>
-					<!-- /.form-group -->
-				</div>
-				<!-- /.col-md-2 -->
-				<div th:replace="../fragments/tmp :: column(1)"></div>
+				<div th:replace="../fragments/freqCol :: content(0)"></div>
+				<div th:replace="../fragments/freqCol :: control"></div>
+				<div th:replace="../fragments/freqCol :: content(1)"></div>
 			</div>
 			<!-- /.row -->
 		</form>

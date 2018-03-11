@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+<body>
+	<div th:fragment="content(val)" class="col-md-5">
+		<div class="panel panel-default">
+			<div th:if="${artists != null}">
+				<div
+					th:replace="../fragments/freqCol :: selectArtist(${artists[val]})"></div>
+				<div th:replace="../fragments/freqCol :: tokens(${mapList[val]})"></div>
+				<div th:replace="../fragments/freqCol :: slider(${years[val]})"></div>
+			</div>
+			<div th:if="${artists == null}">
+				<div th:replace="../fragments/freqCol :: selectArtist('')"></div>
+				<div th:replace="../fragments/freqCol :: slider('')"></div>
+			</div>
+		</div>
+		<!-- /.panel -->
+	</div>
+	<!-- /fragment:content -->
+
+	<div th:fragment="control" class="col-md-2 text-center">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="form-group">
+					<label for="sel2">Count</label> <select class="form-control"
+						id="sel2" name="countSelect">
+						<option>10</option>
+						<option
+							th:selected="${count != null and count == '20'} ? 'selected'">20</option>
+						<option
+							th:selected="${count != null and count == '30'} ? 'selected'">30</option>
+					</select>
+				</div>
+				<!-- /.form-group -->
+
+				<div class="checkbox">
+					<label> <input type="checkbox" value="true"
+						name="compCheck" th:checked="${compilation} ? 'checked'" />Compilations
+					</label>
+				</div>
+				<!-- /.checkbox -->
+			</div>
+			<!-- /.panel-heading -->
+		</div>
+		<!-- /.panel -->
+
+		<button class="btn btn-danger btn-block">
+			<span class="glyphicon glyphicon-stats"></span> Analyze
+		</button>
+	</div>
+	<!-- /fragment:control -->
+
+	<!-- ############################ -->
+
+	<div th:fragment="selectArtist(lastArtist)"
+		class="panel-heading text-center">
+		<label for="sel1">Artist</label> <select class="form-control"
+			id="sel1" name="artistSelect">
+
+			<option>(All)</option>
+
+			<optgroup>
+				<span th:each="artist : ${artistsList}">
+					<option th:text="${artist}"
+						th:selected="${lastArtist == artist} ? 'selected'"></option>
+				</span>
+			</optgroup>
+		</select>
+	</div>
+	<!-- /select -->
+
+	<div th:fragment="tokens(map)" class="panel-body">
+		<table th:if="${map.size() != 0}" class="table table-hover">
+			<thead>
+				<tr>
+					<th colspan="2" class="text-center">Top <span
+						th:text="${count}"></span></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="token : ${map}">
+					<td class="col-xs-6 text-right"><a
+						th:href="@{/result?fieldForm=lyrics} + '&amp;searchForm=' + ${token.key}"
+						th:text="${token.key}"></a></td>
+					<td class="col-xs-6"><span class="badge"
+						th:text="${token.value}"></span></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div th:if="${map.size() == 0}" class="text-center">
+			<label>Nothing found!</label>
+		</div>
+	</div>
+	<!-- /tokens -->
+
+	<div th:fragment="slider(sliderVal)" class="panel-footer text-center">
+		<label for="slider">Years</label>
+		<div class="row">
+			<div class="col-xs-2">
+				<b th:text="${songYears[0]}"></b>
+			</div>
+			<div class="col-xs-8">
+				<input id="slider" class="sliderExample" type="text"
+					name="yearSlider"
+					th:attr="data-slider-min=${songYears[0]},data-slider-max=${songYears[1]},data-slider-value=${sliderVal != '' ? '[' + sliderVal + ']' : null}"
+					style="width: 100%" />
+			</div>
+			<div class="col-xs-2">
+				<b th:text="${songYears[1]}"></b>
+			</div>
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /slider -->
+</body>
+
+</html>
