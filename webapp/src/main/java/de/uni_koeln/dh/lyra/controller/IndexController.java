@@ -1,5 +1,6 @@
 package de.uni_koeln.dh.lyra.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,12 +22,16 @@ import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.model.place.Place;
 import de.uni_koeln.dh.lyra.model.place.PopUp;
 import de.uni_koeln.dh.lyra.services.CorpusService;
+import de.uni_koeln.dh.lyra.services.SearchService;
 
 @Controller
 public class IndexController {
 
 	@Autowired
 	CorpusService corpusService;
+
+	@Autowired
+	SearchService searchService;
 
 	@RequestMapping(value = { "", "/" })
 	public String index(Model model) {
@@ -73,7 +78,7 @@ public class IndexController {
 
 	@PostMapping(value = "/evaluation")
 	public String evaluation(@RequestParam(value = "placeName", required = false) List<String> placeNames,
-			Model model) {
+			Model model) throws IOException {
 		System.out.println("EVALUATION");
 
 		// TODO placeNames == null
@@ -90,7 +95,8 @@ public class IndexController {
 
 		corpusService.init2(map);
 		corpusService.serializeCorpus();
-
+		searchService.updateIndex();
+		
 		// TODO idle
 		initStock(model);
 		return "index";
