@@ -144,7 +144,7 @@ public class LyricsAnalyzer {
 	 * @param artists artists to count in
 	 * @return
 	 */
-	public Map<String, Integer> getMostRelevantTokens(int sectionFrom, int sectionTo, boolean useCompilations,
+	public Map<Integer, Set<String>> getMostRelevantTokens(int sectionFrom, int sectionTo, boolean useCompilations,
 			int numOfTokens, List<String> artists) {
 
 		List<Song> songs = new ArrayList<Song>();
@@ -174,13 +174,13 @@ public class LyricsAnalyzer {
 		}
 
 		List<String> popularTokens = getXMostPopular(weightSum, numOfTokens);
+		
 		Map<String, Integer> tokenFreq = new HashMap<String, Integer>();
 		// collect frequencies of most popular tokens
 		for (Song song : songs) {
 			Map<String, Integer> currentFreqs = song.getTermFreqs();
 			for (String token : popularTokens) {
 				Integer currF = 0;
-				// if song contains popular token
 				if (currentFreqs.containsKey(token)) {
 					currF = currentFreqs.get(token);
 					Integer freqSum = 0;
@@ -190,7 +190,18 @@ public class LyricsAnalyzer {
 				}
 			}
 		}
-		return tokenFreq;
+		Map<Integer, Set<String>> toReturn = new TreeMap<Integer,Set<String>>(Collections.reverseOrder());
+		
+		for (Map.Entry<String, Integer> e : tokenFreq.entrySet()) {
+			Set<String> tokens = new HashSet<String>();
+			if (toReturn.containsKey(e.getValue()))
+				tokens = toReturn.get(e.getValue());
+			tokens.add(e.getKey());
+			toReturn.put(e.getValue(), tokens);
+		}
+		
+		
+		return toReturn;
 	}
 
 	private List<String> getXMostPopular(Map<String, Double> weights, int numOfSongs) {
@@ -232,8 +243,7 @@ public class LyricsAnalyzer {
 			System.out.println(av);
 			tokenCountPerYear.put(year, av);
 		}
-		
-		
+
 		return tokenCountPerYear;
 		
 	}

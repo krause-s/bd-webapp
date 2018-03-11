@@ -3,6 +3,8 @@ package de.uni_koeln.dh.lyra.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,7 @@ public class AnalysisService {
 	
 
 	// TODO johanna
-	public List<Map<String, Integer>> doSth(List<String> artists, List<String> years, boolean compilation, String count) {
+	public List<Map<Integer, Set<String>>> doSth(List<String> artists, List<String> years, boolean compilation, String count) {
 		System.out.println(artists + "\n" + years + "\n" + compilation + "\n" + count + "\n-----");	
 		analyzer = new LyricsAnalyzer(corpusService.getAllSongs());
 		analyzer.getWeights();
@@ -56,25 +58,13 @@ public class AnalysisService {
 		} else
 			secondArtists.add(second);
 		
-		Map<String, Integer> firstResult = analyzer.getMostRelevantTokens(firstFrom, firstTo,
+		Map<Integer, Set<String>> firstResult = analyzer.getMostRelevantTokens(firstFrom, firstTo,
 				compilation, numOfTokens, firstArtists);
 		
-		Map<String, Integer> secondResult = analyzer.getMostRelevantTokens(secondFrom, secondTo,
+		Map<Integer, Set<String>> secondResult = analyzer.getMostRelevantTokens(secondFrom, secondTo,
 				compilation, numOfTokens, secondArtists);
-			
-		System.out.println(firstFrom + " - " + firstTo + " (" + firstArtists + ")");
-		for (Map.Entry<String, Integer> t : firstResult.entrySet()) {
-			System.out.println(t.getKey() + ": " + t.getValue());
-		}
-		System.out.println("----------------------------");
 		
-		System.out.println(secondFrom + " - " + secondTo + " (" + secondArtists + ")");
-		for (Map.Entry<String, Integer> t : secondResult.entrySet()) {
-			System.out.println(t.getKey() + ": " + t.getValue());
-		}
-		System.out.println("----------------------------");
-		
-		List<Map<String, Integer>> result = new ArrayList<Map<String, Integer>>();
+		List<Map<Integer, Set<String>>> result = new ArrayList<Map<Integer, Set<String>>>();
 		result.add(firstResult);
 		result.add(secondResult);
 		

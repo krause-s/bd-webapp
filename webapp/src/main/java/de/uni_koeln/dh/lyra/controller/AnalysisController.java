@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class AnalysisController {
 			@RequestParam(value = "compCheck", required = false) boolean compilation,
 			@RequestParam(value = "countSelect", required = false) String count, Model model ) {
 		if (artists != null) { 
-			List<Map<String, Integer>> result = analysisService.doSth(artists, years, compilation, count);
+			List<Map<Integer, Set<String>>> result = analysisService.doSth(artists, years, compilation, count);
 
 			model.addAttribute("artists", artists);
 			model.addAttribute("years", years);

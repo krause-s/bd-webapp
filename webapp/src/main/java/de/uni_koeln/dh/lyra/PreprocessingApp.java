@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import de.uni_koeln.dh.lyra.data.Artist;
@@ -95,10 +96,10 @@ public class PreprocessingApp {
 		List<String> artists = new ArrayList<String>();
 		artists.add("Bob Dylan");
 
-		Map<String, Integer> result = analyzer.getMostRelevantTokens(from, to, useCompilations, numOfTokens, artists);
+		Map<Integer, Set<String>> result = analyzer.getMostRelevantTokens(from, to, useCompilations, numOfTokens, artists);
 
 		System.out.println(from + " - " + to);
-		for (Map.Entry<String, Integer> t : result.entrySet()) {
+		for (Entry<Integer, Set<String>> t : result.entrySet()) {
 			System.out.println(t.getKey() + ": " + t.getValue());
 		}
 		System.out.println("----------------------------");
@@ -110,7 +111,7 @@ public class PreprocessingApp {
 		result = analyzer.getMostRelevantTokens(from, to, useCompilations, numOfTokens, artists);
 
 		System.out.println(from + " - " + to);
-		for (Map.Entry<String, Integer> t : result.entrySet()) {
+		for (Entry<Integer, Set<String>> t : result.entrySet()) {
 			System.out.println(t.getKey() + ": " + t.getValue());
 		}
 		System.out.println("----------------------------");

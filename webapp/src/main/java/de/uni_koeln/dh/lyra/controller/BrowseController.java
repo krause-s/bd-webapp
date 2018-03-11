@@ -27,6 +27,7 @@ public class BrowseController {
 	// TODO browse
 	@RequestMapping(value = "/browse/{songID}")
 	public String browse(@PathVariable("songID") String songID, Model model) {
+		System.out.println(corpusService.getSongByID(songID).getLyricsBR());
 		model.addAttribute("song", corpusService.getSongByID(songID));
 		return "song";
 	}

@@ -61,7 +61,23 @@ public class Song implements Serializable{
 		this.lyrics = lyrics;
 	}
 
+	/**
+	 * returns lyrics of the song. line breaks are
+	 * set as "\n"
+	 * @return
+	 */
 	public String getLyrics() {
+		
+		return lyrics;
+	}
+	
+	/**
+	 * returns lyrics of the song. line breaks are
+	 * set as "<br />"
+	 * @return
+	 */
+	public String getLyricsBR() {
+		lyrics = lyrics.replaceAll("\n", "<br />");
 		return lyrics;
 	}
 
