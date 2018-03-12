@@ -1,101 +1,35 @@
-<!-- TODO aria, sr-only -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	th:with="title='Home'">
 
-<head th:replace="../fragments/header :: header(${title})"></head>
+<head th:replace="../fragments/core/header :: header(${title})"></head>
 
 <body>
 	<script type="text/javascript" th:src="@{/js/index.js}"></script>
 
-	<div th:replace="../fragments/index/overlay :: upload"></div>
-	<div th:replace="../fragments/index/overlay :: evaluation"></div>
+	<!-- TODO deprecated -->
+	<div th:replace="../fragments/index/evaluation :: upload"></div>
+	<div th:replace="../fragments/index/evaluation :: evaluation"></div>
 
-	<nav th:replace="../fragments/navbar :: navbar('')"></nav>
-
-	<div class="jumbotron">
-		<div class="container">
-			<h1>
-				<span>lyra </span> <small><b>lyr</b>ics-<b>a</b>nalyzer</small>
-			</h1>
-			<p>Your personal Lyrics Analyzer</p>
-		</div>
-	</div>
+	<nav th:replace="../fragments/core/navbar :: navbar('')"></nav>
+	<div th:replace="../fragments/index/text :: jumbotron"></div>
 
 	<div class="container">
 		<div class="row">
-			<!-- LEFT -->
 			<div class="col-md-7">
-				<!-- ************** INSTRUCTIONS ************** -->
-				<h3>Instructions</h3>
-				<hr />
-				<!--<p class="text-justify">Lyra is an open lyrics analyzer tool.
-					After you uploaded your Excel file you can analyze the given data
-					in different ways. You got a searchsection that allows you to
-					search for terms or phrases in your lyrics, song titles, artist
-					names and so on. Another section is the map area. Here you will see
-					all the places mentioned in the lyrics and the biographical dates
-					of the different artists you entered in your data table. All these
-					places are detected and localized automatically.</p>
-				<p class="text-justify">In the last area you can find tools
-					concerning the weighted word frequencies. So you can either compare
-					the important terms used by an artist with those of another artist
-					or compare phases of one artist.
-				</p>  -->
-				<p>Welcome to lyra, a lyrics-analyzer with machine learning
-					tools that helps you to get an overview of lyrics.</p>
-				<p>What does lyra give?</p>
-				<ul>
-					<li>browsing through your corpus (Browse)</li>
-					<li>place name detection in lyrics</li>
-					<li>visualization on a map (Places)</li>
-					<li>detection of relevant words in your corpus (Frequencies)</li>
-				</ul>
-				<p>If the current corpus is empty or if you want to add lyrics to the existing
-				corpus you can do it with the following instructions.</p>
-				<p>What does lyra need?</p>
-				<ul>
-					<li>your corpus in form of an .xslx-File</li>
-					<li>biographical information on the artists you want to
-						analyze</li>
-				</ul>
-				<p>
-					You can download a empty sample of the table <a href="">here</a>.
-				</p>
-				<p>
-					In the table, each row represents a different song.<br /> The
-					artist column can contain as many different artists as you want to
-					analyze. Instead of the artist, it can contain the song writer if
-					you want to analyze this information.<br /> The title column
-					contains - of course - the title of the song.<br /> The year
-					column may contain the year when the song was released. It may
-					contain as well the year the song was produced or it was written
-					and so on. That's up to you.<br /> In the compilation column you
-					can mark (with an "x") whether the song is part of a compilation or
-					not.<br /> The lyrics column contains the lyrics you want to
-					analyze. For using the analytic tools it is important that the
-					lyrics (by now) are written in English language<br /> The comment
-					column leaves space for you to add some comments for yourself.
-				</p>
-				<!-- ************** STOCK ************** -->
-				<h3>Stock</h3>
-				<hr />
-				<div th:replace="../fragments/index/stock :: stock"></div>
+				<div th:replace="../fragments/index/text :: instructions"></div>
+				<div th:replace="../fragments/index/stock"></div>
 			</div>
 			<!-- /.col-md-7 -->
 
-			<!-- RIGHT -->
 			<div class="col-md-5 noLine">
-				<!-- ************** INPUT ************** -->
 				<h3>Input</h3>
 				<hr />
 				<a th:href="@{/info}" class="btn btn-danger btn-block" role="button">
 					<span class="glyphicon glyphicon-upload"></span> Upload lyrics
 				</a>
-				<!-- ************** RANDOM LYRICS ************** -->
-				<h3>Random lyrics</h3>
-				<hr />
-				<div th:replace="../fragments/index/quotes :: quotes"></div>
+
+				<div th:replace="../fragments/index/text :: quotes"></div>
 			</div>
 			<!-- /.col-md-5 -->
 		</div>
@@ -103,7 +37,7 @@
 	</div>
 	<!-- /.container -->
 
-	<footer th:replace="../fragments/footer :: footer"></footer>
+	<footer th:replace="../fragments/core/footer"></footer>
 </body>
 
 </html>

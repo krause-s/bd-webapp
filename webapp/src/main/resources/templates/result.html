@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	th:with="title='Result'">
 
-<head th:replace="../fragments/header :: header(${title})"></head>
+<head th:replace="../fragments/core/header :: header(${title})"></head>
 
 <body th:with="webjars='/webjars/datatables/js/'">
 	<script th:src="@{${webjars} + 'jquery.dataTables.min.js'}"></script>
@@ -11,14 +11,16 @@
 	<script type="text/javascript" th:src="@{/js/browse.js}"></script>
 
 	<nav
-		th:replace="../fragments/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
-			<div th:replace="../fragments/searchForm :: searchForm"></div>
+		th:replace="../fragments/core/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
+
+	<div th:replace="../fragments/searchForm"></div>
+
 	<div class="container">
-		<div th:replace="../fragments/heading :: heading(${title})"></div>
+		<div th:replace="../fragments/core/heading :: heading(${title},'')"></div>
 		<div th:replace="../fragments/songs :: songs(${docs})"></div>
 	</div>
 
-	<footer th:replace="../fragments/footer :: footer"></footer>
+	<footer th:replace="../fragments/core/footer"></footer>
 </body>
 
 </html>

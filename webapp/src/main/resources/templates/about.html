@@ -2,20 +2,25 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	th:with="title='About'">
 
-<head th:replace="../fragments/header :: header(${title})"></head>
+<head th:replace="../fragments/core/header :: header(${title})"></head>
 
 <body>
 	<nav
-		th:replace="../fragments/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
+		th:replace="../fragments/core/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
 
 	<div class="container">
-		<div th:replace="../fragments/heading :: heading(${title})"></div>
+		<div th:replace="../fragments/core/heading :: heading(${title},'')"></div>
 
 		<!-- TODO tmp -->
-		<p class="text-justify">This applications is made for an course at the university of Cologne. Authors: Johanna Binnewitt, Stefan Krause, Peter Seipel</p>
+		<p class="text-justify">
+			<span>This applications is made for an course at the university of Cologne. Authors: </span>
+			<a href="mailto:binnewij@smail.uni-koeln.de?subject=lyra">Johanna Binnewitt</a>, 
+			<a href="mailto:skrause1@smail.uni-koeln.de?subject=lyra">Stefan Krause</a>, 
+			<a href="mailto:Pseipel@smail.uni-koeln.de?subject=lyra">Peter Seipel</a>
+		</p>
 	</div>
-
-	<footer th:replace="../fragments/footer :: footer"></footer>
+	
+	<footer th:replace="../fragments/core/footer"></footer>
 </body>
 
 </html>

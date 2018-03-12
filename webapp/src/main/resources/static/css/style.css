@@ -15,7 +15,7 @@ a:not(footer a),
 	color: #333333;	
 }
 
-table {
+td:not(.col-xs-12) {
 	white-space: nowrap;
 }
 

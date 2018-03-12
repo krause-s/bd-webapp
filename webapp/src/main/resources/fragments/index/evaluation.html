@@ -4,8 +4,9 @@
 <head></head>
 
 <body>
-	<div th:if="${upload}" id="uploadDialog" th:fragment="upload" class="modal" role="dialog"
-		data-backdrop="static">
+	<!-- TODO deprecated -->
+	<div th:if="${upload}" id="uploadDialog" th:fragment="upload"
+		class="modal" role="dialog" data-backdrop="static">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -28,6 +29,7 @@
 					<!-- /.row -->
 				</div>
 				<!-- /.modal-header -->
+
 				<div class="modal-body text-justify">
 					<p>Welcome to lyra, a lyrics-analyzer with machine learning
 						tools that helps you to get an overview of lyrics.</p>
@@ -41,21 +43,30 @@
 					<p>What does lyra need?</p>
 					<ul>
 						<li>your corpus in form of an .xslx-File</li>
-						<li>biographical information on the artists you want to analyze</li>
+						<li>biographical information on the artists you want to
+							analyze</li>
 					</ul>
-					<p>You can download a empty sample of the table <a href="">here</a>.</p>
-					<p>In the table, each row represents a different song.<br />
-						The artist column can contain as many different artists as you want to analyze.
-						Instead of the artist, it can contain the song writer if you want to analyze this information.<br />
-						The title column contains - of course - the title of the song.<br />
-						The year column may contain the year when the song was released. 
-						It may contain as well the year the song was produced or it was written and so on. That's up to you.<br />
-						In the compilation column you can mark (with an "x") whether the song is part of a compilation or not.<br />
-						The lyrics column contains the lyrics you want to analyze. For using the analytic tools it is important
-						that the lyrics (by now) are written in English language<br />
-						The comment column leaves space for you to add some comments for yourself.</p>
+					<p>
+						You can download a empty sample of the table <a href="">here</a>.
+					</p>
+					<p>
+						In the table, each row represents a different song.<br /> The
+						artist column can contain as many different artists as you want to
+						analyze. Instead of the artist, it can contain the song writer if
+						you want to analyze this information.<br /> The title column
+						contains - of course - the title of the song.<br /> The year
+						column may contain the year when the song was released. It may
+						contain as well the year the song was produced or it was written
+						and so on. That's up to you.<br /> In the compilation column you
+						can mark (with an "x") whether the song is part of a compilation
+						or not.<br /> The lyrics column contains the lyrics you want to
+						analyze. For using the analytic tools it is important that the
+						lyrics (by now) are written in English language<br /> The comment
+						column leaves space for you to add some comments for yourself.
+					</p>
 				</div>
 				<!-- /.modal-body -->
+
 				<div class="modal-footer">
 					<div class="row">
 						<div class="col-sm-8 col-xs-6 text-left">
@@ -63,16 +74,16 @@
 						</div>
 						<div class="col-sm-4 col-xs-6" id="action">
 							<form th:action="@{/upload}" method="post">
-								<label class="btn btn-danger" for="upload">
-									<!-- <input id="upload" type="file" size="50" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/> -->
+								<label class="btn btn-danger" for="upload"> <!-- <input id="upload" type="file" size="50" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/> -->
 									<!-- <input id="upload" type="file" size="50" accept="text/*"/> -->
-									<input id="upload" type="submit" /> 
-									<span class="glyphicon glyphicon-upload"></span> Upload
+									<input id="upload" type="submit" /> <span
+									class="glyphicon glyphicon-upload"></span> Upload
 								</label>
 							</form>
 							&nbsp;&nbsp;&nbsp; <a
 								href="mailto:binnewij@smail.uni-koeln.de,%20skrause1@smail.uni-koeln.de,%20Pseipel@smail.uni-koeln.de?subject=lyra">Contact</a>
 						</div>
+						<!-- /#action -->
 					</div>
 					<!-- /.row -->
 				</div>
@@ -84,30 +95,36 @@
 	</div>
 	<!-- /.modal -->
 
-	<div th:if="${places != null}" id="evaluationDialog" th:fragment="evaluation" class="modal"
-		role="dialog" data-backdrop="static">
+	<div th:if="${places != null}" id="evaluationDialog"
+		th:fragment="evaluation" class="modal" role="dialog"
+		data-backdrop="static">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h1>Evaluation of found places</h1>
 				</div>
-				
 				<!-- /.modal-header -->
+
 				<form th:action="@{/evaluation}" method="post">
-					<div class="modal-body" >
-					<p>The Named Entity Recognition and nominatim found the following places in your lyrics. You can select the ones
-					you want to keep with the checkboxes and confirm you decision afterwards.</p>
-						<div th:each="place : ${places}" style="background-color: #cccccc; margin-bottom: 20px;">
+					<div class="modal-body">
+						<p>The Named Entity Recognition and nominatim found the
+							following places in your lyrics. You can select the ones you want
+							to keep with the checkboxes and confirm you decision afterwards.</p>
+						<div th:each="place : ${places}"
+							style="background-color: #cccccc; margin-bottom: 20px;">
 							<div class="row" th:each="name : ${place.value}">
 								<div class="col-xs-5">
-									<input type="text" class="form-control" name="placeName" th:value="${name}" readonly="readonly"/>
+									<input type="text" class="form-control" name="placeName"
+										th:value="${name}" readonly="readonly" />
 								</div>
 								<div class="col-xs-5" th:text="${place.key.getMeta()}"></div>
 								<div class="col-xs-2">
-									<input class="checkTest" type="checkbox" checked="checked"/>
+									<input class="checkTest" type="checkbox" checked="checked" />
 								</div>
 							</div>
+							<!-- /.row -->
 						</div>
+						<!-- /each:place -->
 					</div>
 					<!-- /.modal-body -->
 					<div class="modal-footer">

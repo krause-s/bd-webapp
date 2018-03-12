@@ -22,7 +22,8 @@
 				<tr th:each="song : ${songs}">
 					<td><a th:text="${song.artist}"
 						th:href="@{/result?fieldForm=artist} + '&amp;searchForm=' + ${song.artist}"></a></td>
-					<td><a th:text="${song.title}" th:href="@{/browse/} + ${song.uuid}"></a></td>
+					<td><a th:text="${song.title}"
+						th:href="@{/browse/} + ${song.uuid}"></a></td>
 					<td><a th:text="${song.release}"
 						th:href="@{/result?fieldForm=release} + '&amp;searchForm=' + ${song.release}"></a></td>
 					<td><a th:text="${song.year}"
@@ -30,9 +31,11 @@
 					<td th:switch="${song.compilation}" class="text-center"><span
 						th:case="true" class="glyphicon glyphicon-ok"></span></td>
 				</tr>
+				<!-- /each:song -->
 			</tbody>
 		</table>
 	</div>
+	<!-- /.panel -->
 </body>
 
 </html>

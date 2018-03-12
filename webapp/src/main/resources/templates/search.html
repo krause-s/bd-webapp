@@ -2,18 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	th:with="title='Search'">
 
-<head th:replace="../fragments/header :: header(${title})"></head>
+<head th:replace="../fragments/core/header :: header(${title})"></head>
 
 <body>
 	<nav
-		th:replace="../fragments/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
+		th:replace="../fragments/core/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
 
 	<div class="container">
-		<div th:replace="../fragments/heading :: heading(${title})"></div>
-		<div th:replace="../fragments/searchForm :: searchForm"></div>
+		<div th:replace="../fragments/core/heading :: heading(${title},'')"></div>
+		<div th:replace="../fragments/searchForm"></div>
 	</div>
 
-	<footer th:replace="../fragments/footer :: footer"></footer>
+	<footer th:replace="../fragments/core/footer"></footer>
 </body>
 
 </html>

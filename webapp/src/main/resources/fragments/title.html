@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+<body>
+	<div th:fragment="song" class="row">
+		<div
+			class="col-md-5 col-md-push-7 col-sm-8 col-sm-offset-2 col-md-offset-0">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4>Release</h4>
+				</div>
+
+				<div class="panel-body">
+					<table class="table-hover">
+						<tr class="row">
+							<td class="col-xs-5"><h5>Medium</h5></td>
+							<td class="col-xs-7"><a th:text="${song.release}"
+								th:href="@{/result?fieldForm=release} + '&amp;searchForm=' + ${song.release}"></a>
+							</td>
+						</tr>
+						<tr class="row">
+							<td class="col-xs-5"><h5>Year</h5></td>
+							<td class="col-xs-7"><a th:text="${song.year}"
+								th:href="@{/result?fieldForm=lyrics&amp;searchForm=&amp;rangefrom=} + ${song.year} + '&amp;rangeto=' + ${song.year}"></a>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<!-- /.panel-body -->
+
+				<div th:if="${song.compilation}" class="panel-footer"
+					style="padding: 0;">
+					<table>
+						<tr class="row">
+							<td class="col-xs-5"><h5>Compilation</h5></td>
+							<td class="col-xs-7"><span class="glyphicon glyphicon-ok"></span></td>
+						</tr>
+					</table>
+				</div>
+				<!-- /.panel-footer -->
+			</div>
+			<!-- /.panel -->
+
+			<div th:if="${song.comment != ''}" class="panel panel-default">
+				<div class="panel-heading">
+					<h4>Comment</h4>
+				</div>
+
+				<div class="panel-body">
+					<table>
+						<tr class="row">
+							<td class="col-xs-12"><i><span th:text="${song.comment}"></span>
+							</i></td>
+						</tr>
+					</table>
+				</div>
+				<!-- /.panel-body -->
+			</div>
+			<!-- /.panel -->
+		</div>
+		<!-- /.col-md-5 -->
+		<div class="col-md-7 col-md-pull-5 col-sm-12">
+			<p th:utext="${song.lyricsBR}"></p>
+		</div>
+	</div>
+	<!-- /.row -->
+</body>
+
+</html>

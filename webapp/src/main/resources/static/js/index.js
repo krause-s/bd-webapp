@@ -16,7 +16,7 @@ $(document).ready(function($) {
 });
 
 function overlay(first, second) {
-	$("#" + first + "Dialog").modal();
+	$("#" + first + "Dialog").modal();	// TODO deprecated
 	$("#" + second + "Dialog").modal();
 }
 

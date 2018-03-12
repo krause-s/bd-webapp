@@ -86,13 +86,13 @@
 			</thead>
 			<tbody>
 				<span th:each="freq : ${map}">
-				<tr th:each="token : ${freq.value}">
-					<td class="col-xs-6 text-right"><a
-						th:href="@{/result?fieldForm=lyrics} + '&amp;searchForm=' + ${token}"
-						th:text="${token}"></a></td>
-					<td class="col-xs-6"><span class="badge" th:text="${freq.key}"></span>
-					</td>
-				</tr>
+					<tr th:each="token : ${freq.value}">
+						<td class="col-xs-6 text-right"><a
+							th:href="@{/result?fieldForm=lyrics} + '&amp;searchForm=' + ${token}"
+							th:text="${token}"></a></td>
+						<td class="col-xs-6"><span class="badge"
+							th:text="${freq.key}"></span></td>
+					</tr>
 				</span>
 			</tbody>
 		</table>
@@ -110,8 +110,7 @@
 				<b th:text="${songYears[0]}"></b>
 			</div>
 			<div class="col-xs-8">
-				<input id="slider" class="sliderExample" type="text"
-					name="yearSlider"
+				<input id="slider" class="freqSlider" type="text" name="yearSlider"
 					th:attr="data-slider-min=${songYears[0]},data-slider-max=${songYears[1]},data-slider-value=${sliderVal != '' ? '[' + sliderVal + ']' : null}"
 					style="width: 100%" />
 			</div>

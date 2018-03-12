@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+<body>
+	<div th:fragment="heading(title,artist)" class="page-header">
+		<h2>
+			<span th:text="${title}"></span> <a th:if="${artist != ''}"
+				th:href="@{/result?fieldForm=artist} + '&amp;searchForm=' + ${artist}">
+				<small th:text="${artist}"></small>
+			</a>
+		</h2>
+	</div>
+</body>
+
+</html>

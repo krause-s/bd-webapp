@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+<body>
+	<nav th:fragment="navbar(active)"
+		class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#navbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" th:href="@{/}">lyra</a>
+			</div>
+			<!-- /.navbar-header -->
+
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li th:class="${active == 'browse'} ? 'active'"><a
+						th:href="@{/browse}">Browse</a></li>
+
+					<li class="dropdown"
+						th:class="${active == 'places'} OR ${active == 'frequencies'} ? 'active'">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+							Analytics<span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu">
+							<li th:class="${active == 'places'} ? 'active'"><a
+								th:href="@{/analytics/places}">Places</a></li>
+							<li th:class="${active == 'frequencies'} ? 'active'"><a
+								th:href="@{/analytics/frequencies}">Frequencies</a></li>
+						</ul>
+					</li>
+					<!-- /.dropdown -->
+				</ul>
+				<!-- /.nav -->
+
+				<form class="navbar-form navbar-right" th:action="@{/search}">
+					<button class="btn btn-danger">
+						<span class="glyphicon glyphicon-search"></span> Search
+					</button>
+				</form>
+			</div>
+			<!-- /#navbar -->
+		</div>
+		<!-- /.container -->
+	</nav>
+</body>
+
+</html>
