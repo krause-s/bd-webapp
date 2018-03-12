@@ -44,7 +44,7 @@ public class CorpusService {
 			try {
 				artists.putAll(io.getDataFromXLSX(dataPath));
 				placesToEvaluate = io.getPlacesToEvaluate();
-				serializeCorpus();
+//				serializeCorpus();
 				return placesToEvaluate;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -57,6 +57,7 @@ public class CorpusService {
 	public void init2(Map<Place, Set<String>> deletionMap) {
 		System.out.println(deletionMap);
 		artists.putAll(PlaceEvaluator.evaluatePlaces(placesToEvaluate, deletionMap, artists));
+		serializeCorpus();
 	}
 
 	public List<Artist> getArtistList() {
@@ -147,6 +148,11 @@ public class CorpusService {
 		}
 	}
 
+	/**
+	 * chooses three random songs, takes the first three lines of
+	 * the lyrics and sets them as lyrics
+	 * @return
+	 */
 	public List<Song> getRandomQuotes() {
 		Random rand = new Random();
 		List<Song> allSongs = getAllSongs();
@@ -155,18 +161,27 @@ public class CorpusService {
 			Song original = allSongs.get(rand.nextInt(allSongs.size()));
 			allSongs.get(rand.nextInt(allSongs.size()));
 			String tempLyrics = "";
-//			for (int i = 0; i < 20; i++) {
-//				tempLyrics += original.getLyrics().split(" ")[i] + " ";
-//			}
+			// for (int i = 0; i < 20; i++) {
+			// tempLyrics += original.getLyrics().split(" ")[i] + " ";
+			// }
 			String[] lines = original.getLyrics().split("\n");
-			int limit = 3;
-			if (lines.length < limit)
-				limit = lines.length;
-			
-			for (int i = 0; i < limit; i++) {
-				tempLyrics += original.getLyrics().split("\n")[i] + "\n";
+			int limit = 2;
+			// if lyrics are shorter than 3 lines
+			if (lines.length <= limit) {
+				tempLyrics = original.getLyrics() + "...";
+			} else {
+				for (int i = 0; i <= limit; i++) {
+					String line = original.getLyrics().split("\n")[i];
+					if (line.equals("")) { //don't count empty lines
+						limit++;
+						continue;
+					}
+					tempLyrics += original.getLyrics().split("\n")[i];
+					if (i != limit)
+						tempLyrics += "\n"; //don't add line break to last line
+				}
+				tempLyrics += "...";
 			}
-			tempLyrics += "...";
 
 			Song currentSong = new Song(tempLyrics);
 			currentSong.setUuid(original.getUuid());
