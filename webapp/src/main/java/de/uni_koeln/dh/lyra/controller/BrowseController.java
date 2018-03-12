@@ -33,6 +33,7 @@ public class BrowseController {
 
 	@RequestMapping(value = { "/browse/", "/browse" })
 	public String browse(Model model) {
+		model.addAttribute("title", "Browse");
 		model.addAttribute("songs", corpusService.getAllSongs());
 		return "browse";
 	}
@@ -46,10 +47,14 @@ public class BrowseController {
 	public String search(@RequestParam("searchForm") String searchPhrase, @RequestParam("fieldForm") String field,
 			@RequestParam("rangefrom") Optional<Integer> yearsFrom, @RequestParam("rangeto") Optional<Integer> yearsTo,
 			@RequestParam("fuzzyForm") Optional<String> fuzzy,
-			@RequestParam("compilationForm") Optional<String> compilation, Model model)
+			@RequestParam("compilationForm") Optional<String> compilation,
+			@RequestParam(value = "formRequired", required = false) boolean required, Model model)
 			throws IOException, ParseException {
+		String search = null;
+		
 		if (!searchPhrase.isEmpty()) {
 			searchService.setSearchPhrase(searchPhrase);
+			search = searchPhrase;
 		}
 		searchService.setField(field);
 		if (fuzzy.isPresent()) {
@@ -65,9 +70,21 @@ public class BrowseController {
 		if (yearsTo.isPresent() && yearsFrom.isPresent()) {
 			int[] yearsRange = { yearsFrom.get(), yearsTo.get() };
 			searchService.setYears(yearsRange);
+			search = String.valueOf(yearsFrom.get());
 		}
-		model.addAttribute("docs", searchService.search());
-		return "result";
+		
+		String title = null;
+		
+		if (required) {
+			title = "Result";
+		} else {
+			title = "Browse";
+			model.addAttribute("search", search);
+		}
+			
+		model.addAttribute("title", title);
+		model.addAttribute("songs", searchService.search());
+		return "browse";
 	}
 
 }

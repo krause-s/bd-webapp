@@ -44,7 +44,7 @@ public class CorpusService {
 			try {
 				artists.putAll(io.getDataFromXLSX(dataPath));
 				placesToEvaluate = io.getPlacesToEvaluate();
-//				serializeCorpus();
+				serializeCorpus();
 				return placesToEvaluate;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -57,7 +57,7 @@ public class CorpusService {
 	public void init2(Map<Place, Set<String>> deletionMap) {
 		System.out.println(deletionMap);
 		artists.putAll(PlaceEvaluator.evaluatePlaces(placesToEvaluate, deletionMap, artists));
-		serializeCorpus();
+//		serializeCorpus();
 	}
 
 	public List<Artist> getArtistList() {
