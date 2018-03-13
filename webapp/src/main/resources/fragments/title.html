@@ -15,6 +15,12 @@
 				<div class="panel-body">
 					<table class="table-hover">
 						<tr class="row">
+							<td class="col-xs-5"><h5>Artist</h5></td>
+							<td class="col-xs-7"><a th:text="${song.artist}"
+								th:href="@{/result?fieldForm=artist} + '&amp;searchForm=' + ${song.artist}"></a>
+							</td>
+						</tr>
+						<tr class="row">
 							<td class="col-xs-5"><h5>Medium</h5></td>
 							<td class="col-xs-7"><a th:text="${song.release}"
 								th:href="@{/result?fieldForm=release} + '&amp;searchForm=' + ${song.release}"></a>

@@ -13,18 +13,18 @@
 		th:replace="../fragments/core/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
 
 	<div class="container">
+		<div th:if="${search != null}">
+			<div
+				th:replace="../fragments/core/heading :: heading(${title},${search})"></div>
+		</div>
+		<div th:if="${search == null}">
+			<div th:replace="../fragments/core/heading :: heading(${title},'')"></div>
+		</div>
+	
 		<div th:if="${title == 'Browse'}">
-			<div th:if="${search != null}" th:with="small='&raquo; ' + ${search}">
-				<div
-					th:replace="../fragments/core/heading :: heading(${title},${small})"></div>
-			</div>
-			<div th:if="${search == null}">
-				<div th:replace="../fragments/core/heading :: heading(${title},'')"></div>
-			</div>
 			<div th:replace="../fragments/songs :: songs(false)"></div>
 		</div>
-		<div th:if="${title == 'Result'}">
-			<div th:replace="../fragments/core/heading :: heading(${title},'')"></div>
+		<div th:if="${title == 'Search'}">
 			<div th:replace="../fragments/searchForm"></div>
 			<div th:replace="../fragments/songs :: songs(true)"></div>
 		</div>

@@ -1,6 +1,8 @@
 package de.uni_koeln.dh.lyra.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -50,38 +52,61 @@ public class BrowseController {
 			@RequestParam("compilationForm") Optional<String> compilation,
 			@RequestParam(value = "formRequired", required = false) boolean required, Model model)
 			throws IOException, ParseException {
-		String search = null;
+		// TODO min, max for years
+		
+		List<String> list = new ArrayList<String>();
 		
 		if (!searchPhrase.isEmpty()) {
 			searchService.setSearchPhrase(searchPhrase);
-			search = searchPhrase;
+			list.add(searchPhrase);
 		}
 		searchService.setField(field);
 		if (fuzzy.isPresent()) {
 			searchService.setFuzzy(true);
+			list.add("Fuzzy");
 		} else {
 			searchService.setFuzzy(false);
 		}
 		if (compilation.isPresent()) {
 			searchService.setCompilation(true);
+			list.add("Compilations");
 		} else {
 			searchService.setCompilation(false);
 		}
 		if (yearsTo.isPresent() && yearsFrom.isPresent()) {
 			int[] yearsRange = { yearsFrom.get(), yearsTo.get() };
 			searchService.setYears(yearsRange);
-			search = String.valueOf(yearsFrom.get());
+			
+			if (yearsRange[0] != yearsRange[1]) {
+				if (list.size() == 0) 
+					list.add("All");
+				else 
+					list.add(yearsRange[0] + "-" + yearsRange[1]);
+			} else 
+				list.add(String.valueOf(yearsRange[0]));
 		}
-		
+
 		String title = null;
 		
 		if (required) {
-			title = "Result";
+			title = "Search";
+			
+			if (list.size() > 1) {
+				String search = "";
+
+				for (int i = 0; i < list.size(); i++) {
+					search += "» " + list.get(i) + " ";
+				}
+
+				model.addAttribute("search", search);
+			}
 		} else {
 			title = "Browse";
-			model.addAttribute("search", search);
 		}
-			
+		
+		if (list.size() == 1)
+			model.addAttribute("search", "» " + list.get(0));
+		
 		model.addAttribute("title", title);
 		model.addAttribute("songs", searchService.search());
 		return "browse";

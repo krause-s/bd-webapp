@@ -28,7 +28,7 @@ import de.uni_koeln.dh.lyra.util.IO;
 public class CorpusService {
 
 	// public static String dataPath =
-	// "src/main/resources/data/lyrics_database.xlsx";
+	// "src/main/resources/data/lyrics_bobDylan.xlsx";
 	public static String dataPath = "src/main/resources/data/lyrics_mcCartney_beatles.xlsx";
 	private static Map<String, Artist> artists = new HashMap<String, Artist>();
 
