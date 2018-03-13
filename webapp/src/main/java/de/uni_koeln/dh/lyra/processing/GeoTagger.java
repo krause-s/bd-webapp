@@ -1,88 +1,84 @@
 package de.uni_koeln.dh.lyra.processing;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-
 import org.jsoup.Jsoup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-
-import de.uni_koeln.dh.lyra.data.Song;
-import de.uni_koeln.dh.lyra.model.place.Place;
 
 public class GeoTagger {
 
 	
 
-	private Logger logger = LoggerFactory.getLogger(getClass());
+//	private Logger logger = LoggerFactory.getLogger(getClass());
 	private String nominatimJsonResponse;
 
-	HashMap<String, Double[]> geoDatesPlacesMap = new HashMap<String, Double[]>();
+//	HashMap<String, Double[]> geoDatesPlacesMap = new HashMap<String, Double[]>();
 
-	@Deprecated
-	public Map<Place, List<Song>> getGeoDatesFromList(Map<String, List<Song>> places)
-			throws InterruptedException, IOException {
+//	@Deprecated
+//	public Map<Place, List<Song>> getGeoDatesFromList(Map<String, List<Song>> places)
+//			throws InterruptedException, IOException {
+//
+//		// Set<Location> locationsSet = new HashSet<Location>();
+//		Map<Place, List<Song>> locationsMap = new HashMap<Place, List<Song>>();
+//		for (Map.Entry<String, List<Song>> e : places.entrySet()) {
+//			String currentToken = e.getKey();
+//			Double[] latLon;
+//			if (geoDatesPlacesMap.containsKey(currentToken)) { // placename has
+//																// already been
+//																// queried
+//				latLon = geoDatesPlacesMap.get(currentToken);
+//			} else { // query placename
+//				latLon = findGeoData(currentToken);
+//				if (latLon == null) // if query didn't deliver a result
+//					continue;
+//
+//				if (geoDatesPlacesMap.containsValue(latLon)) {
+//
+//					logger.info(
+//							"Coordinates are already listed: " + currentToken + " - " + latLon[0] + " - " + latLon[1]);
+//				}
+//
+//				geoDatesPlacesMap.put(currentToken, latLon);
+//				Thread.sleep(1000);
+//			}
+//
+//			logger.info(currentToken + " - " + latLon[0] + " - " + latLon[1]);
+//			// TODO new Place
+//			new Place(latLon[0], latLon[1]);
+//			// TODO e.getValue()?
+//			locationsMap.put(new Place(latLon[0], latLon[1]), e.getValue());
+//
+//		}
+//
+//		return locationsMap;
+//	}
+//
+//	@Deprecated
+//	public HashMap<String, Double[]> getGeoDatesFromString(String text) throws InterruptedException, IOException {
+//		Scanner scan = new Scanner(text);
+//		HashMap<String, Double[]> geoDatesPlacesMap = new HashMap<String, Double[]>();
+//		while (scan.hasNext()) {
+//			String currentToken = scan.next().toLowerCase().replaceAll("[^a-zöäü]", "");
+//			if (!geoDatesPlacesMap.containsKey(currentToken)) {
+//				Double[] latLon = findGeoData(currentToken);
+//				if (latLon != null) {
+//					geoDatesPlacesMap.put(currentToken, latLon);
+//				}
+//				Thread.sleep(1000);
+//			}
+//		}
+//		scan.close();
+//		return geoDatesPlacesMap;
+//	}
 
-		// Set<Location> locationsSet = new HashSet<Location>();
-		Map<Place, List<Song>> locationsMap = new HashMap<Place, List<Song>>();
-		for (Map.Entry<String, List<Song>> e : places.entrySet()) {
-			String currentToken = e.getKey();
-			Double[] latLon;
-			if (geoDatesPlacesMap.containsKey(currentToken)) { // placename has
-																// already been
-																// queried
-				latLon = geoDatesPlacesMap.get(currentToken);
-			} else { // query placename
-				latLon = findGeoData(currentToken);
-				if (latLon == null) // if query didn't deliver a result
-					continue;
-
-				if (geoDatesPlacesMap.containsValue(latLon)) {
-
-					logger.info(
-							"Coordinates are already listed: " + currentToken + " - " + latLon[0] + " - " + latLon[1]);
-				}
-
-				geoDatesPlacesMap.put(currentToken, latLon);
-				Thread.sleep(1000);
-			}
-
-			logger.info(currentToken + " - " + latLon[0] + " - " + latLon[1]);
-			// TODO new Place
-			new Place(latLon[0], latLon[1]);
-			// TODO e.getValue()?
-			locationsMap.put(new Place(latLon[0], latLon[1]), e.getValue());
-
-		}
-
-		return locationsMap;
-	}
-
-	@Deprecated
-	public HashMap<String, Double[]> getGeoDatesFromString(String text) throws InterruptedException, IOException {
-		Scanner scan = new Scanner(text);
-		HashMap<String, Double[]> geoDatesPlacesMap = new HashMap<String, Double[]>();
-		while (scan.hasNext()) {
-			String currentToken = scan.next().toLowerCase().replaceAll("[^a-zöäü]", "");
-			if (!geoDatesPlacesMap.containsKey(currentToken)) {
-				Double[] latLon = findGeoData(currentToken);
-				if (latLon != null) {
-					geoDatesPlacesMap.put(currentToken, latLon);
-				}
-				Thread.sleep(1000);
-			}
-		}
-		scan.close();
-		return geoDatesPlacesMap;
-	}
-
+	/**
+	 * searches for coordinates that nominatim provides for the given string. if
+	 * nominatim don't give a result, method returns null
+	 * @param query String to search in nominatim
+	 * @return Array with lat[0] and lon[1]
+	 * @throws IOException
+	 */
 	public Double[] findGeoData(String query) throws IOException {
 
 		Double[] geoDates = new Double[2];
@@ -111,6 +107,12 @@ public class GeoTagger {
 		return null;
 	}
 
+	/**
+	 * searches for meta data that nominatim provides for the given string (e.g. country,...). 
+	 * if nominatim don't give a result, method returns empty string
+	 * @return
+	 * @throws IOException
+	 */
 	public String findMetaData() throws IOException {
 		String meta = "";
 		JsonFactory factory = new JsonFactory();

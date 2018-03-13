@@ -41,6 +41,11 @@ public class Song implements Serializable{
 		this.comment = comment;
 	}
 	
+	/**
+	 * initializes a song object with the given lyrics and generates a
+	 * random UUID for the song object
+	 * @param lyrics
+	 */
 	public Song(String lyrics) {
 		this.lyrics = lyrics;
 		this.lyricsBR = lyrics.replaceAll("\n", "<br />");
@@ -91,6 +96,10 @@ public class Song implements Serializable{
 		return artist;
 	}
 
+	/**
+	 * returns release (e.g. Album) title
+	 * @return
+	 */
 	public String getRelease() {
 		return release;
 	}
@@ -103,6 +112,10 @@ public class Song implements Serializable{
 		this.year = year;
 	}
 	
+	/**
+	 * returns annotated year (e.g. release year)
+	 * @return
+	 */
 	public int getYear() {
 		return year;
 	}
@@ -153,9 +166,4 @@ public class Song implements Serializable{
 		this.title = title;
 	}
 	
-//	public void setRelease(String release){
-//		this.release = release;
-//	}
-	
-
 }

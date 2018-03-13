@@ -8,6 +8,65 @@ public class PopUp implements Serializable{
 
 	private static final long serialVersionUID = -158703385862088096L;
 
+	
+	/**
+	 * place name from bio data or lyrics (Reference String)
+	 */
+	private String placeName;
+	/**
+	 * lyrics snippet or decription of bio data
+	 */
+	private String content;
+	/**
+	 * if popUp stores lyrics snippet: refered song object
+	 */
+	private Song referredSong;
+	
+//	public PopUp(String placeName){
+//		this.placeName = placeName;
+//	}
+	
+	/**
+	 * used to generate lyrics quote
+	 * @param placeName referred in the lyrics
+	 * @param content lyrics snippet
+	 * @param referredSong song that contains the lyrics
+	 */
+	public PopUp(String placeName, String content, Song referredSong) {
+		this.placeName = placeName;
+		this.content = content;
+		this.referredSong = referredSong;
+	}
+
+	/**
+	 * used to generate pop up for bio data
+	 * @param placeName
+	 * @param content
+	 */
+	public PopUp(String placeName, String content) {
+		this.placeName = placeName;
+		this.content = content;
+	}
+	
+	public Song getReferredSong() {
+		return referredSong;
+	}
+
+	public String getPlaceName() {
+		return placeName;
+	}
+	public void setPlaceName(String placeName) {
+		this.placeName = placeName;
+	}
+
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -44,69 +103,5 @@ public class PopUp implements Serializable{
 			return false;
 		return true;
 	}
-	// Placename from lyrics or metadata
-	String placeName;
-	// for songs = songtitle. For place the hallname etc.
-//	String title;
-	// lyricssnippet or metadescription text
-	String content;
-	// if it's a song this is the link to full lyrics
-//	String lyricsLocation;
-	// Publicationdate or eventdate
-//	Date date;
-	
-	private Song referredSong;
-	
-	public PopUp(String placeName){
-		this.placeName = placeName;
-	}
-	
-	public PopUp(String placeName, String content, Song referredSong) {
-		this.placeName = placeName;
-		this.content = content;
-		this.referredSong = referredSong;
-	}
-
-	public PopUp(String placeName, String content) {
-		this.placeName = placeName;
-		this.content = content;
-	}
-	
-	public Song getReferredSong() {
-		return referredSong;
-	}
-
-	public String getPlaceName() {
-		return placeName;
-	}
-	public void setPlaceName(String placeName) {
-		this.placeName = placeName;
-	}
-//	public String getTitle() {
-//		return title;
-//	}
-//	public void setTitle(String title) {
-//		this.title = title;
-//	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-//	public String getLyricsLocation() {
-//		return lyricsLocation;
-//	}
-//	public void setLyricsLocation(String lyricsLocation) {
-//		this.lyricsLocation = lyricsLocation;
-//	}
-//	public Date getDate() {
-//		return date;
-//	}
-//	public void setDate(Date date) {
-//		this.date = date;
-//	}
-
-	
 	
 }

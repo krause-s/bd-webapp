@@ -81,15 +81,6 @@ public class PreprocessingApp {
 		// System.out.println(allSongs.size());
 		LyricsAnalyzer analyzer = new LyricsAnalyzer(allSongs);
 		allSongs = analyzer.getWeights();
-		
-		
-		Map<Integer, Double> tokenAv = analyzer.getAverageTokenCount();
-		
-		for(Map.Entry<Integer, Double> e : tokenAv.entrySet()) {
-			System.out.println(e.getKey() + ": " + e.getValue() + " tokens");
-		}
-		
-		
 
 		int from = 1976;
 		int to = 1986;

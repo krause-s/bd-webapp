@@ -12,16 +12,23 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.uni_koeln.dh.lyra.data.Song;
 
+/**
+ * class contains methods concerning analysis like token frequencies.
+ * 
+ * @author Johanna
+ *
+ */
 public class LyricsAnalyzer {
 
-	private Logger logger = LoggerFactory.getLogger(getClass());
-
+	/**
+	 * feature units (sorted) of the whole corpus
+	 */
 	private List<String> featureUnitOrder;
+	/**
+	 * document (song) frequencies of all feature units
+	 */
 	private Map<String, Integer> docFrequencies = new HashMap<String, Integer>();
 	private List<Song> corpus = new ArrayList<Song>();
 
@@ -38,10 +45,20 @@ public class LyricsAnalyzer {
 		}
 	};
 
+	/**
+	 * class contains methods concerning analysis like token frequencies.
+	 * methods are applied on the given song corpus
+	 * @param allSongs
+	 */
 	public LyricsAnalyzer(List<Song> allSongs) {
 		this.corpus = allSongs;
 	}
 
+	/**
+	 * creates for each song in the corpus (list in contructor) a feature weight vector.
+	 * configuration: tfidf
+	 * @return corpus with weights for each song
+	 */
 	public List<Song> getWeights() {
 
 		if (featureUnitOrder == null)
@@ -65,7 +82,6 @@ public class LyricsAnalyzer {
 
 			song.setWeights(vector);
 		}
-
 		return corpus;
 	}
 
@@ -116,7 +132,12 @@ public class LyricsAnalyzer {
 		return new ArrayList<String>(tokenSet);
 	}
 
-	private Map<String, Integer> getDocFrequencies(/* List<Song> songs */) {
+	/**
+	 * counts for each token in how many documents (songs) it
+	 * appears
+	 * @return
+	 */
+	private Map<String, Integer> getDocFrequencies() {
 
 		Map<String, Integer> toReturn = new HashMap<String, Integer>();
 
@@ -204,48 +225,25 @@ public class LyricsAnalyzer {
 		return toReturn;
 	}
 
-	private List<String> getXMostPopular(Map<String, Double> weights, int numOfSongs) {
+	/**
+	 * sorts the map by doubles (descending) and returns the first X (numOfTokens) 
+	 * @param weights
+	 * @param numOfTokens
+	 * @return
+	 */
+	private List<String> getXMostPopular(Map<String, Double> weights, int numOfTokens) {
 
 		List<String> mostPopularTokens = new ArrayList<String>();
 
 		List<Map.Entry<String, Double>> list = new LinkedList<Map.Entry<String, Double>>(weights.entrySet());
 		Collections.sort(list, comp);
 
-		for (int i = 0; i < numOfSongs; i++) {
+		for (int i = 0; i < numOfTokens; i++) {
 			mostPopularTokens.add(list.get(i).getKey());
 		}
 		return mostPopularTokens;
 	}
 
-	public Map<Integer, Double> getAverageTokenCount() {
-		Map<Integer, Double> tokenCountPerYear = new HashMap<Integer, Double>();
-		Map<Integer, Integer> totalCount = new HashMap<Integer, Integer>();
-		Map<Integer, Integer> songCount = new HashMap<Integer, Integer>();
-		
-		for (Song song : corpus) {
-			int year = song.getYear();
-			int currentTokens = song.getTokens().length;
-			
-			Integer count = 0;
-			if (totalCount.containsKey(year))
-				count = totalCount.get(year);
-			totalCount.put(year, count + currentTokens);
-			
-			Integer songs = 0;
-			if (songCount.containsKey(year))
-				songs = songCount.get(year);
-			songCount.put(year, songs + 1);		
-		}
-		
-		for(Map.Entry<Integer, Integer> t : totalCount.entrySet()) {
-			Integer year = t.getKey();
-			Double av = ((double)t.getValue()) / songCount.get(year);
-			System.out.println(av);
-			tokenCountPerYear.put(year, av);
-		}
-
-		return tokenCountPerYear;
-		
-	}
+	
 
 }

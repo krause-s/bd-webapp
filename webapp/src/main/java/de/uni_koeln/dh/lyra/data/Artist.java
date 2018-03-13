@@ -7,6 +7,11 @@ import java.util.List;
 import de.uni_koeln.dh.lyra.model.place.Place;
 import de.uni_koeln.dh.lyra.util.ColorGenerator;
 
+/**
+ * stores all information on an artist
+ * @author Johanna
+ *
+ */
 public class Artist implements Serializable{
 
 	private static final long serialVersionUID = -991552598655095147L;
@@ -17,6 +22,11 @@ public class Artist implements Serializable{
 	private List<Song> songs;
 	private String color;
 
+	/**
+	 * creates an artist object for an artist with the given name.
+	 * generates random color (stock, places) for the artist
+	 * @param name
+	 */
 	public Artist(String name) {
 		this.name = name;
 		this.bioPlaces = new ArrayList<Place>();
@@ -41,6 +51,10 @@ public class Artist implements Serializable{
 		this.name = name;
 	}
 
+	/**
+	 * returns list with all biographical places
+	 * @return
+	 */
 	public List<Place> getBioPlaces() {
 		return bioPlaces;
 	}
@@ -53,6 +67,10 @@ public class Artist implements Serializable{
 		bioPlaces.add(bioPlace);
 	}
 
+	/**
+	 * returns all songs of this artist in the corpus
+	 * @return
+	 */
 	public List<Song> getSongs() {
 		return songs;
 	}
@@ -65,6 +83,10 @@ public class Artist implements Serializable{
 		songs.add(song);
 	}
 
+	/**
+	 * returns list with all places mentioned in lyrics
+	 * @return
+	 */
 	public List<Place> getLyricsPlaces() {
 		return lyricsPlaces;
 	}

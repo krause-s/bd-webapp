@@ -59,26 +59,4 @@ public class PlaceEvaluator {
 		return artists;
 	}
 
-	// public static Map<String, Artist> sortPopUpsToArtists (List<Place>
-	// evaluatedPlaces, Map<String, Artist> artists) {
-	//
-	// for(Place place : evaluatedPlaces) {
-	//
-	// for(PopUp popUp : place.getPopUps()) {
-	// String artistName = popUp.getReferredSong().getArtist();
-	// Artist currArtist = artists.get(artistName);
-	// if(currArtist.getLyricsPlaces().contains(place)) {
-	// Place artistPlace = currArtist.getLyricsPlaces()
-	// .get(currArtist.getLyricsPlaces().indexOf(place));
-	// artistPlace.addPopUp(popUp);
-	// } else {
-	// Place artistPlace = new Place(place.getLongitude(), place.getLatitude());
-	// artistPlace.addPopUp(popUp);
-	// currArtist.addLyricsPlace(artistPlace);
-	// }
-	// }
-	// }
-	// return artists;
-	// }
-
 }

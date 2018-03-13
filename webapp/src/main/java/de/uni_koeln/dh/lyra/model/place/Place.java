@@ -4,6 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * class represents a geographical place. 
+ * 
+ * @author Johanna
+ *
+ */
 public class Place implements Serializable{
 
 	private static final long serialVersionUID = -7407350195770959386L;
@@ -12,20 +18,34 @@ public class Place implements Serializable{
 	double latitude;
 	List<PopUp> popUps = new ArrayList<PopUp>();
 	private String meta;
+	
+	/**
+	 * creates a geographical Place with the given latitude
+	 * and longitude
+	 * @param longitude
+	 * @param latitude
+	 */
+	public Place(double longitude, double latitude) {
+		this.longitude = longitude;
+		this.latitude = latitude;
+	}
 
+	/**
+	 * 
+	 * @return String with meta data (country, town,...)
+	 */
 	public String getMeta() {
 		return meta;
 	}
 
 	public void setMeta(String meta) {
 		this.meta = meta;
-	}
+	}	
 
-	public Place(double longitude, double latitude) {
-		this.longitude = longitude;
-		this.latitude = latitude;
-	}
-
+	/**
+	 * 
+	 * @return longitude value
+	 */
 	public double getLongitude() {
 		return longitude;
 	}
@@ -34,6 +54,10 @@ public class Place implements Serializable{
 		this.longitude = longitude;
 	}
 
+	/**
+	 *
+	 * @return latitude value
+	 */
 	public double getLatitude() {
 		return latitude;
 	}
@@ -42,6 +66,11 @@ public class Place implements Serializable{
 		this.latitude = latitude;
 	}
 
+	/**
+	 * returns a list of referred information to the geographical place.
+	 * may contain quotes of lyrics or biographical information
+	 * @return
+	 */
 	public List<PopUp> getPopUps() {
 		return popUps;
 	}
@@ -50,10 +79,19 @@ public class Place implements Serializable{
 		this.popUps = popUps;
 	}
 
+	/**
+	 * add a popUp containing quote or biographical information
+	 * @param popUp
+	 */
 	public void addPopUp(PopUp popUp) {
 		this.popUps.add(popUp);
 	}
 
+	/**
+	 * filters the popUps by the given years
+	 * @param start
+	 * @param end
+	 */
 	public void removePopUpByYears(int start, int end) {
 		if (this.popUps != null) {
 			List<PopUp> toRemove = new ArrayList<>();
@@ -66,7 +104,9 @@ public class Place implements Serializable{
 		}
 	}
 
-	// TODO define equals
+	/**
+	 * compares latitudes and longitudes
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		Place place = (Place) obj;

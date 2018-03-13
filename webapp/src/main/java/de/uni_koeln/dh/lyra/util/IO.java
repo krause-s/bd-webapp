@@ -1,11 +1,8 @@
 package de.uni_koeln.dh.lyra.util;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +20,11 @@ import de.uni_koeln.dh.lyra.data.Song;
 import de.uni_koeln.dh.lyra.model.place.Place;
 import de.uni_koeln.dh.lyra.model.place.PopUp;
 import de.uni_koeln.dh.lyra.processing.SongPreprocessor;
-
+/**
+ * coordination of .xlsx-Input. 
+ * @author Johanna
+ *
+ */
 public class IO {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -62,6 +63,11 @@ public class IO {
 		return artists;
 	}
 
+	/**
+	 * reads the sheet that contains biographical information.
+	 * creates for each row a popUp and adds it to the refered artist
+	 * @param bioSheet
+	 */
 	private void generateBio(XSSFSheet bioSheet) {
 		int row = 1;
 
@@ -100,6 +106,13 @@ public class IO {
 		}
 	}
 
+	/**
+	 * reads the sheet that contains the songs
+	 * for each row that contains at least lyrics a song object
+	 * will be created
+	 * @param songSheet
+	 * @return all found places in all lyrics
+	 */
 	private List<Place> readSongs(XSSFSheet songSheet) {
 
 		logger.info("read songs");
@@ -138,12 +151,17 @@ public class IO {
 
 		}
 		List<Place> placesToEvaluate = prep.getPlacesToEvaluate();
-		return placesToEvaluate;
-		
-		
+		return placesToEvaluate;	
 
 	}
 
+	/**
+	 * gets the string value of the given cell.
+	 * returns value or "" (never null)
+	 * @param r
+	 * @param i
+	 * @return
+	 */
 	private String getString(XSSFRow r, int i) {
 		Cell c = r.getCell(i);
 		if (c != null) 
@@ -152,6 +170,13 @@ public class IO {
 			return "";
 	}
 	
+	/**
+	 * gets the Interger value of the given cell.
+	 * returns value or 0 (never null)
+	 * @param r
+	 * @param i
+	 * @return
+	 */
 	private Integer getInteger(XSSFRow r, int i) {
 		Cell c = r.getCell(i);
 		if (c != null) 
@@ -160,25 +185,5 @@ public class IO {
 			return 0;
 	}
 
-	private static BufferedReader getReader(File file) throws FileNotFoundException {
-		FileInputStream fis = new FileInputStream(file);
-		InputStreamReader isr = new InputStreamReader(fis);
-		return new BufferedReader(isr);
-	}
-
-	public static String getContent(File file) throws IOException {
-		BufferedReader bfr = getReader(file);
-
-		StringBuilder sb = new StringBuilder();
-		String curLine;
-
-		while ((curLine = bfr.readLine()) != null)
-			sb.append(curLine);
-
-		bfr.close();
-		return sb.toString();
-	}
-
-	
 
 }
