@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import de.uni_koeln.dh.lyra.data.Artist;
-import de.uni_koeln.dh.lyra.data.Song;
 import de.uni_koeln.dh.lyra.services.AnalysisService;
 import de.uni_koeln.dh.lyra.services.CorpusService;
 
@@ -38,6 +36,7 @@ public class AnalysisController {
 			int yearsFrom = Integer.valueOf(years.get(0));
 			int yearsTo = Integer.valueOf(years.get(1));
 			artists = corpusService.getArtistSongsByYears(yearsFrom, yearsTo);
+			model.addAttribute("years", years);
 		} else {
 			artists = corpusService.getArtistList();
 		}

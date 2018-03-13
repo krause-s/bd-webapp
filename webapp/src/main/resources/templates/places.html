@@ -20,9 +20,14 @@
 		/*]]>*/
 	</script>
 	
-	<form id="yearsFilter" action="places">
+	<form id="yearsFilter" th:action="@{/analytics/places}">
 		<button class="btn btn-danger">GO</button>
-		<div th:replace="../fragments/freqCol :: slider('')"></div>
+		<div th:if="${years != null}">
+			<div th:replace="../fragments/freqCol :: slider(${years})"></div>
+		</div>
+		<div th:if="${years == null}">
+			<div th:replace="../fragments/freqCol :: slider('')"></div>
+		</div>
 	</form>
 	
 	<footer th:replace="../fragments/core/footer"></footer>
