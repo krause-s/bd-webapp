@@ -43,27 +43,24 @@ public class SearchService {
 	private boolean fuzzy;
 	private String searchPhrase = "";
 
-
 	@Autowired
 	private CorpusService corpusService;
 
 	public void initIndex() throws IOException {
 		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 		File folder = new File(indexDirPath);
-		if (!folder.exists() || folder.list().length <= 1) {
-			folder.mkdirs();
-			IndexWriterConfig writerConfig = new IndexWriterConfig(new StandardAnalyzer());
-			IndexWriter writer = new IndexWriter(dir, writerConfig);
-			for (Artist artist : corpusService.getArtistList()) {
-				for (Document doc : convertToLuceneDoc(artist)) {
-					writer.addDocument(doc);
-				}
+		folder.mkdirs();
+		IndexWriterConfig writerConfig = new IndexWriterConfig(new StandardAnalyzer());
+		IndexWriter writer = new IndexWriter(dir, writerConfig);
+		for (Artist artist : corpusService.getArtistList()) {
+			for (Document doc : convertToLuceneDoc(artist)) {
+				writer.addDocument(doc);
 			}
-			writer.close();
 		}
+		writer.close();
 	}
-	
-	public void updateIndex(){
+
+	public void updateIndex() {
 		try {
 			initIndex();
 		} catch (IOException e) {
@@ -112,7 +109,7 @@ public class SearchService {
 		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 		DirectoryReader dirReader = DirectoryReader.open(dir);
 		IndexSearcher is = new IndexSearcher(dirReader);
-		
+
 		String q = searchPhrase;
 		if (fuzzy && !q.isEmpty()) {
 			q = q + "~";

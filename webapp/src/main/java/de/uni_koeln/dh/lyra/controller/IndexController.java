@@ -28,14 +28,13 @@ import de.uni_koeln.dh.lyra.services.SearchService;
 public class IndexController {
 
 	@Autowired
-	CorpusService corpusService;
+	public CorpusService corpusService;
 
 	@Autowired
-	SearchService searchService;
+	public SearchService searchService;
 
 	@RequestMapping(value = { "", "/" })
 	public String index(Model model) {
-		System.out.println("NO index -> overlay");
 		initStock(model);
 		model.addAttribute("upload", false);
 		return "index";
@@ -43,7 +42,6 @@ public class IndexController {
 
 	@RequestMapping(value = { "/info" })
 	public String indexIntro(Model model) {
-		System.out.println("NO index -> overlay");
 		initStock(model);
 		model.addAttribute("upload", true);
 		return "index";
@@ -100,7 +98,7 @@ public class IndexController {
 
 		// TODO idle
 		initStock(model);
-		
+
 		return "index";
 	}
 
