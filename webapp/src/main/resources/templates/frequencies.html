@@ -5,9 +5,6 @@
 <head th:replace="../fragments/core/header :: header(${title})"></head>
 
 <body>
-	<script th:src="@{/webjars/bootstrap-slider/bootstrap-slider.min.js}"></script>
-	<script type="text/javascript" th:src="@{/js/frequencies.js}"></script>
-
 	<nav
 		th:replace="../fragments/core/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
 

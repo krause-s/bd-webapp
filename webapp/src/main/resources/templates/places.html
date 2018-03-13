@@ -7,17 +7,10 @@
 <body>
 	<!-- <script th:src="@{/webjars/leaflet/leaflet.js}"></script> -->
 	<script type="text/javascript" th:src="@{/js/leaflet/leaflet.js}"></script>
-	<!--  needed? -->
-
-	<script th:src="@{/webjars/bootstrap-slider/bootstrap-slider.min.js}"></script>
-	<script type="text/javascript" th:src="@{/js/frequencies.js}"></script>
 	<script type="text/javascript" th:src="@{/js/places.js}"></script>
 
 	<nav
 		th:replace="../fragments/core/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
-
-
-	<!-- /#config -->
 
 	<div id="map"></div>
 
@@ -26,10 +19,12 @@
 		buildMap(/*[[${artistsList}]]*/); // see places.js
 		/*]]>*/
 	</script>
+	
 	<form id="yearsFilter" action="places">
 		<button class="btn btn-danger">GO</button>
 		<div th:replace="../fragments/freqCol :: slider('')"></div>
 	</form>
+	
 	<footer th:replace="../fragments/core/footer"></footer>
 </body>
 

@@ -8,6 +8,12 @@ $(document).ready(function($) {
 			scrollTop : 0
 		}, "slow");
 	});
+	
+	$('.bs-slider').slider({
+//		tooltip: 'always',
+//		tooltip_position:'bottom',
+		range: true
+	});
 });
 
 function setDimensions() {
