@@ -23,12 +23,11 @@
 			<div class="col-md-5 noLine">
 				<h3>Input</h3>
 				<hr />
-				<!-- <a th:href="@{/info}" class="btn btn-danger btn-block" role="button">
-					<span class="glyphicon glyphicon-upload"></span> Upload lyrics
-				</a> -->
 				<form id="upload-file-form">
-					<label class="btn btn-danger" for="upload-file-input"><span class="glyphicon glyphicon-upload"></span> Upload lyrics</label>
-					<input id="upload-file-input" type="file" name="uploadfile" accept="*"></input>
+					<label class="btn btn-danger btn-block" for="upload-file-input">
+						<input id="upload-file-input" type="file" name="uploadfile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+						class="glyphicon glyphicon-upload"></span> Upload lyrics
+					</label>
 				</form>
 
 				<div th:replace="../fragments/index/text :: quotes"></div>
