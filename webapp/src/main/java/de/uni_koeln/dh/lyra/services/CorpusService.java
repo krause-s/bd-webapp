@@ -35,29 +35,29 @@ public class CorpusService {
 	private List<Place> placesToEvaluate;
 
 	@PostConstruct
+	public void initExistingData() {
+		if (corpusExists()) {
+			readExistingCorpus();
+		}
+	}
+
 	public List<Place> init() {
 		System.out.println("initializing corpus");
 		IO io = new IO();
-		if (corpusExists()) {
-			readExistingCorpus();
-		} else {
-			try {
-				artists.putAll(io.getDataFromXLSX(dataPath));
-				placesToEvaluate = io.getPlacesToEvaluate();
-				serializeCorpus();
-				return placesToEvaluate;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		try {
+			artists.putAll(io.getDataFromXLSX(dataPath));
+			placesToEvaluate = io.getPlacesToEvaluate();
+			return placesToEvaluate;
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		serializeCorpus();
 		return null;
 	}
 
 	public void init2(Map<Place, Set<String>> deletionMap) {
 		System.out.println(deletionMap);
 		artists.putAll(PlaceEvaluator.evaluatePlaces(placesToEvaluate, deletionMap, artists));
-//		serializeCorpus();
+		serializeCorpus();
 	}
 
 	public List<Artist> getArtistList() {
@@ -149,8 +149,9 @@ public class CorpusService {
 	}
 
 	/**
-	 * chooses three random songs, takes the first three lines of
-	 * the lyrics and sets them as lyrics
+	 * chooses three random songs, takes the first three lines of the lyrics and
+	 * sets them as lyrics
+	 * 
 	 * @return
 	 */
 	public List<Song> getRandomQuotes() {
@@ -158,7 +159,7 @@ public class CorpusService {
 		List<Song> allSongs = getAllSongs();
 		List<Song> quotes = new ArrayList<Song>();
 		while (quotes.size() < 3) {
-			Song original = allSongs.get(rand.nextInt(allSongs.size()));
+			Song original = allSongs.get(rand.nextInt(allSongs.size() - 1));
 			allSongs.get(rand.nextInt(allSongs.size()));
 			String tempLyrics = "";
 			// for (int i = 0; i < 20; i++) {
@@ -172,13 +173,13 @@ public class CorpusService {
 			} else {
 				for (int i = 0; i <= limit; i++) {
 					String line = original.getLyrics().split("\n")[i];
-					if (line.equals("")) { //don't count empty lines
+					if (line.equals("")) { // don't count empty lines
 						limit++;
 						continue;
 					}
 					tempLyrics += original.getLyrics().split("\n")[i];
 					if (i != limit)
-						tempLyrics += "\n"; //don't add line break to last line
+						tempLyrics += "\n"; // don't add line break to last line
 				}
 				tempLyrics += "...";
 			}

@@ -47,7 +47,6 @@ public class SearchService {
 	@Autowired
 	private CorpusService corpusService;
 
-	@PostConstruct
 	public void initIndex() throws IOException {
 		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 		File folder = new File(indexDirPath);

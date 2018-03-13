@@ -36,14 +36,15 @@ public class IndexController {
 	@RequestMapping(value = { "", "/" })
 	public String index(Model model) {
 		System.out.println("NO index -> overlay");
-		model.addAttribute("upload", false);
 		initStock(model);
+		model.addAttribute("upload", false);
 		return "index";
 	}
-	
-	@RequestMapping(value = {"/info" })
+
+	@RequestMapping(value = { "/info" })
 	public String indexIntro(Model model) {
 		System.out.println("NO index -> overlay");
+		initStock(model);
 		model.addAttribute("upload", true);
 		return "index";
 	}
@@ -78,8 +79,8 @@ public class IndexController {
 	Map<Place, Set<String>> map;
 
 	@PostMapping(value = "/evaluation")
-	public String evaluation(@RequestParam(value = "placeName", required = false) List<String> placeNames,
-			Model model) throws IOException {
+	public String evaluation(@RequestParam(value = "placeName", required = false) List<String> placeNames, Model model)
+			throws IOException {
 		System.out.println("EVALUATION");
 
 		// TODO placeNames == null
@@ -96,9 +97,10 @@ public class IndexController {
 
 		corpusService.init2(map);
 		searchService.updateIndex();
-		
-		// TODO idle
 
+		// TODO idle
+		initStock(model);
+		
 		return "index";
 	}
 
@@ -108,33 +110,35 @@ public class IndexController {
 	}
 
 	private void initStock(Model model) {
-		int totalCount = corpusService.getAllSongs().size();
-		
-		Map<Integer, List<Artist>> map = new TreeMap<Integer, List<Artist>>(Collections.reverseOrder());
-		
-		List<Artist> artists = corpusService.getArtistList();
-		int percentages = 0;
-		
-		for (int i = 0; i < artists.size(); i++) {
-			int percentage;
-			
-			if (i == artists.size()-1) {
-				percentage = 100-percentages;
-			} else {
-				int cnt = artists.get(i).getSongs().size();
-				percentage = (int)((100 / (float)totalCount) * cnt);
+		if (corpusService.getArtistList() != null && !corpusService.getArtistList().isEmpty()) {
+			int totalCount = corpusService.getAllSongs().size();
+
+			Map<Integer, List<Artist>> map = new TreeMap<Integer, List<Artist>>(Collections.reverseOrder());
+
+			List<Artist> artists = corpusService.getArtistList();
+			int percentages = 0;
+
+			for (int i = 0; i < artists.size(); i++) {
+				int percentage;
+
+				if (i == artists.size() - 1) {
+					percentage = 100 - percentages;
+				} else {
+					int cnt = artists.get(i).getSongs().size();
+					percentage = (int) ((100 / (float) totalCount) * cnt);
+				}
+
+				if (!map.containsKey(percentage)) {
+					map.put(percentage, new ArrayList<Artist>());
+					percentages += percentage;
+				}
+
+				map.get(percentage).add(artists.get(i));
 			}
-			
-			if (!map.containsKey(percentage)) {
-				map.put(percentage, new ArrayList<Artist>());
-				percentages += percentage;
-			}
-						
-			map.get(percentage).add(artists.get(i));
+			model.addAttribute("quotes", corpusService.getRandomQuotes());
+			model.addAttribute("songCount", totalCount);
+			model.addAttribute("artistMap", map);
 		}
-		model.addAttribute("quotes", corpusService.getRandomQuotes());
-		model.addAttribute("songCount", totalCount);
-		model.addAttribute("artistMap", map);
 	}
-	
+
 }
