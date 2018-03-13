@@ -55,40 +55,6 @@ public class IndexController {
 		return "index";
 	}
 
-	// @RequestMapping(value = { "/info" })
-	// public String indexIntro(Model model) {
-	// initStock(model); // TODO
-	// model.addAttribute("upload", true);
-	// return "index";
-	// }
-
-	// @PostMapping(value = "/upload")
-	// public String upload(Model model) {
-	// System.out.println("UPLOAD");
-	//
-	// // TODO file upload (idle)
-	// List<Place> placesToEvaluate = corpusService.init();
-	//
-	// if (placesToEvaluate != null) {
-	// map = new HashMap<Place, Set<String>>();
-	//
-	// for (Place place : placesToEvaluate) {
-	// Set<String> set = new TreeSet<String>();
-	//
-	// for (PopUp popup : place.getPopUps())
-	// set.add(popup.getPlaceName());
-	//
-	// map.put(place, set);
-	// }
-	//
-	// model.addAttribute("places", map);
-	// } else {
-	// // TODO no places -> no evaluation
-	// }
-	//
-	// return "index";
-	// }
-
 	@PostMapping(value = "/evaluation")
 	public String evaluation(@RequestParam(value = "placeName", required = false) List<String> placeNames, Model model)
 			throws IOException {
