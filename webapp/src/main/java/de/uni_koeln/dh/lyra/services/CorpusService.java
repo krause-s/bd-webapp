@@ -192,5 +192,25 @@ public class CorpusService {
 		}
 		return quotes;
 	}
+	
+	public int[] getMinAndMaxYears(){
+		int min = 0, max = 0;
+		for (Song song : getAllSongs()) {
+			int cur = song.getYear();
+			
+			if ((min == 0) && (max == 0)) {
+				min = cur;
+				max = cur;
+			} else {	
+				if (cur > max) {
+					max = cur;
+				} else
+					if (cur < min) {
+					min = cur;
+				}
+			}
+		}
+		return new int[] {min, max};
+	}
 
 }

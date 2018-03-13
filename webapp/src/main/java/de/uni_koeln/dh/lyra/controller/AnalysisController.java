@@ -26,20 +26,22 @@ public class AnalysisController {
 
 	@Autowired
 	private CorpusService corpusService;
-	
+
 	@Autowired
 	private AnalysisService analysisService;
 
 	@RequestMapping(value = { "/places" })
-	public String places(@RequestParam("yearsFrom") Optional<Integer> yearsFrom,
-			@RequestParam("yearsTo") Optional<Integer> yearsTo, Model model) throws ParseException, IOException {
+	public String places(@RequestParam(value = "yearSlider", required = false) List<String> years, Model model)
+			throws ParseException, IOException {
 		List<Artist> artists = new ArrayList<>();
-		if (yearsFrom.isPresent() && yearsTo.isPresent()) {
-			artists = corpusService.getArtistSongsByYears(yearsFrom.get(), yearsTo.get());
+		if (years != null) {
+			int yearsFrom = Integer.valueOf(years.get(0));
+			int yearsTo = Integer.valueOf(years.get(1));
+			artists = corpusService.getArtistSongsByYears(yearsFrom, yearsTo);
 		} else {
 			artists = corpusService.getArtistList();
 		}
-		
+		model.addAttribute("songYears", corpusService.getMinAndMaxYears());
 		model.addAttribute("artistsList", artists);
 		return "places";
 	}
@@ -48,8 +50,8 @@ public class AnalysisController {
 	public String frequencies(@RequestParam(value = "artistSelect", required = false) List<String> artists,
 			@RequestParam(value = "yearSlider", required = false) List<String> years,
 			@RequestParam(value = "compCheck", required = false) boolean compilation,
-			@RequestParam(value = "countSelect", required = false) String count, Model model ) {
-		if (artists != null) { 
+			@RequestParam(value = "countSelect", required = false) String count, Model model) {
+		if (artists != null) {
 			List<Map<Integer, Set<String>>> result = analysisService.doSth(artists, years, compilation, count);
 
 			model.addAttribute("artists", artists);
@@ -58,34 +60,16 @@ public class AnalysisController {
 			model.addAttribute("count", count);
 			model.addAttribute("mapList", result);
 		}
-						
+
 		List<String> artistList = new ArrayList<String>();
 		for (Artist artist : corpusService.getArtistList()) {
 			artistList.add(artist.getName());
 		}
-		
-		Collections.sort(artistList);		
+
+		Collections.sort(artistList);
 		model.addAttribute("artistsList", artistList);
-		
-		int min = 0, max = 0;
-		for (Song song : corpusService.getAllSongs()) {
-			int cur = song.getYear();
-			
-			if ((min == 0) && (max == 0)) {
-				min = cur;
-				max = cur;
-			} else {	
-				if (cur > max) {
-					max = cur;
-				} else
-					if (cur < min) {
-					min = cur;
-				}
-			}
-		}
-		System.out.println("min: " + min + " - max: " + max);
-		model.addAttribute("songYears", new int[] {min, max});
-		
+		model.addAttribute("songYears", corpusService.getMinAndMaxYears());
+
 		return "frequencies";
 	}
 

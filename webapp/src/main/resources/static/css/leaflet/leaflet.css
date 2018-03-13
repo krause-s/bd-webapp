@@ -1,5 +1,17 @@
 /* required styles */
 
+#map {
+	z-index: 0;
+}
+
+#yearsFilter {
+	text-align: center;
+	position: fixed;
+	bottom:50px;
+	width: 100%;
+	z-index:2;
+}
+
 .leaflet-pane,
 .leaflet-tile,
 .leaflet-marker-icon,

@@ -7,43 +7,16 @@
 <body>
 	<!-- <script th:src="@{/webjars/leaflet/leaflet.js}"></script> -->
 	<script type="text/javascript" th:src="@{/js/leaflet/leaflet.js}"></script>
+	<!--  needed? -->
 
+	<script th:src="@{/webjars/bootstrap-slider/bootstrap-slider.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/frequencies.js}"></script>
 	<script type="text/javascript" th:src="@{/js/places.js}"></script>
 
 	<nav
 		th:replace="../fragments/core/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
 
-	<!-- TODO -->
-	<div id="config">
-		<!-- <div class="panel-group"> -->
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h4 class="panel-title">
-					<a data-toggle="collapse" href="#collapse1">Filter by years</a>
-				</h4>
-			</div>
-			<!-- /.panel-heading -->
-			<div id="collapse1" class="panel-collapse collapse">
-				<div class="panel-body">
-					<form action="places">
-						<div class="form-group">
-							<label for="from">From:</label> <input class="form-control"
-								id="from" name="yearsFrom" type="number" value="0" max="2018"
-								min="0" /> <label for="to">to:</label> <input
-								class="form-control" id="to" name="yearsTo" type="number"
-								value="2018" max="2018" min="0" />
-						</div>
-						<!-- /.form-group -->
-						<button class="btn btn-danger">GO</button>
-					</form>
-				</div>
-				<!-- /.panel-body -->
-			</div>
-			<!-- /#collapse1 -->
-		</div>
-		<!-- /.panel -->
-		<!-- </div> -->
-	</div>
+
 	<!-- /#config -->
 
 	<div id="map"></div>
@@ -53,7 +26,10 @@
 		buildMap(/*[[${artistsList}]]*/); // see places.js
 		/*]]>*/
 	</script>
-
+	<form id="yearsFilter" action="places">
+		<button class="btn btn-danger">GO</button>
+		<div th:replace="../fragments/freqCol :: slider('')"></div>
+	</form>
 	<footer th:replace="../fragments/core/footer"></footer>
 </body>
 
