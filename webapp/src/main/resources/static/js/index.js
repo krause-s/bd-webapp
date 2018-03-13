@@ -1,9 +1,7 @@
 $(document).ready(function($) {
 	 $("#upload-file-input").on("change", uploadFile);
 	overlay("evaluation");	
-	
-	setCollapseHandler("show", "up");
-	setCollapseHandler("hide", "down");
+
 
 	setQuoteHandler();
 	
@@ -37,14 +35,6 @@ function uploadFile() {
 
 function overlay(second) {
 	$("#" + second + "Dialog").modal();
-}
-
-function setCollapseHandler(event, direction) {
-	var arrow = 'glyphicon glyphicon-chevron-' + direction;
-
-	$(".collapse").on(event + '.bs.collapse', function() {
-		$("#stockCtrl").attr('class', arrow);
-	});
 }
 
 function setQuoteHandler() {

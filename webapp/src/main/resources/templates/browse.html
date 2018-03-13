@@ -26,6 +26,7 @@
 		</div>
 		<div th:if="${title == 'Search'}">
 			<div th:replace="../fragments/searchForm"></div>
+			<hr/>
 			<div th:replace="../fragments/songs :: songs(true)"></div>
 		</div>
 	</div>

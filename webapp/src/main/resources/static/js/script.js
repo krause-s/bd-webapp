@@ -3,6 +3,9 @@ var topBottomHeight;
 $(document).ready(function($) {
 	setDimensions();
 	
+	setCollapseHandler("show", "up");
+	setCollapseHandler("hide", "down");
+	
 	$("footer a").click(function() {
 		$("html, body").animate({
 			scrollTop : 0
@@ -39,4 +42,12 @@ function getInnerHeight() {
 		topBottomHeight = getTopBottomHeight();
 
 	return winHeight - (2 * topBottomHeight);
+}
+
+function setCollapseHandler(event, direction) {
+	var arrow = 'glyphicon glyphicon-chevron-' + direction;
+
+	$(".collapse").on(event + '.bs.collapse', function() {
+		$("#collapsePanel").attr('class', arrow);
+	});
 }
