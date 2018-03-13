@@ -41,17 +41,16 @@ public class CorpusService {
 		}
 	}
 
-	public List<Place> init() {
+	public List<Place> init(File file) {
 		System.out.println("initializing corpus");
 		IO io = new IO();
 		try {
-			artists.putAll(io.getDataFromXLSX(dataPath));
+			artists.putAll(io.getDataFromXLSX(file));
 			placesToEvaluate = io.getPlacesToEvaluate();
-			return placesToEvaluate;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return placesToEvaluate;
 	}
 
 	public void init2(Map<Place, Set<String>> deletionMap) {

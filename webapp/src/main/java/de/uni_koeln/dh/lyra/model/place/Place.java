@@ -21,13 +21,6 @@ public class Place implements Serializable{
 		this.meta = meta;
 	}
 
-	public Place(double longitude, double latitude, List<PopUp> popUps, boolean isMeta) {
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.popUps = popUps;
-		// this.isMeta = isMeta;
-	}
-
 	public Place(double longitude, double latitude) {
 		this.longitude = longitude;
 		this.latitude = latitude;

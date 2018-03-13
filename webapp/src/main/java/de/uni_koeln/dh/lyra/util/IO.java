@@ -45,11 +45,11 @@ public class IO {
 	 * @return
 	 * @throws IOException
 	 */
-	public Map<String, Artist> getDataFromXLSX(String dataPath) throws IOException {
+	public Map<String, Artist> getDataFromXLSX(File file) throws IOException {
 
 		prep = new SongPreprocessor();
 
-		FileInputStream fis = new FileInputStream(new File(dataPath));
+		FileInputStream fis = new FileInputStream(file);
 		XSSFWorkbook wb = new XSSFWorkbook(fis);
 		XSSFSheet songSheet = wb.getSheetAt(0);
 

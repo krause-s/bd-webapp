@@ -7,9 +7,7 @@
 <body>
 	<script type="text/javascript" th:src="@{/js/index.js}"></script>
 
-	<!-- TODO deprecated -->
-	<div th:replace="../fragments/index/evaluation :: upload"></div>
-	<div th:replace="../fragments/index/evaluation :: evaluation"></div>
+	<div th:replace="../fragments/index/evaluation"></div>
 
 	<nav th:replace="../fragments/core/navbar :: navbar('')"></nav>
 	<div th:replace="../fragments/index/text :: jumbotron"></div>
@@ -25,9 +23,13 @@
 			<div class="col-md-5 noLine">
 				<h3>Input</h3>
 				<hr />
-				<a th:href="@{/info}" class="btn btn-danger btn-block" role="button">
+				<!-- <a th:href="@{/info}" class="btn btn-danger btn-block" role="button">
 					<span class="glyphicon glyphicon-upload"></span> Upload lyrics
-				</a>
+				</a> -->
+				<form id="upload-file-form">
+					<label class="btn btn-danger" for="upload-file-input"><span class="glyphicon glyphicon-upload"></span> Upload lyrics</label>
+					<input id="upload-file-input" type="file" name="uploadfile" accept="*"></input>
+				</form>
 
 				<div th:replace="../fragments/index/text :: quotes"></div>
 			</div>

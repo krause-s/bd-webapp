@@ -1,5 +1,6 @@
 package de.uni_koeln.dh.lyra;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class PreprocessingApp {
 
 		IO io = new IO();
 		try {
-			artists = io.getDataFromXLSX(dataPath);
+			artists = io.getDataFromXLSX(new File(dataPath));
 			List<Place> placesToEvaluate = io.getPlacesToEvaluate();
 			artists = PlaceEvaluator.evaluatePlaces(placesToEvaluate, new HashMap<Place, Set<String>>(), artists);
 //			artists = PlaceEvaluator.sortPopUpsToArtists(evaluatedPlaces, artists);

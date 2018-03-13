@@ -1,5 +1,6 @@
 $(document).ready(function($) {
-	overlay("upload", "evaluation");	
+	 $("#upload-file-input").on("change", uploadFile);
+	overlay("evaluation");	
 	
 	setCollapseHandler("show", "up");
 	setCollapseHandler("hide", "down");
@@ -15,8 +16,26 @@ $(document).ready(function($) {
 	});
 });
 
-function overlay(first, second) {
-	$("#" + first + "Dialog").modal();	// TODO deprecated
+function uploadFile() {
+	  $.ajax({
+	    url: "/uploadFile",
+	    type: "POST",
+	    data: new FormData($("#upload-file-form")[0]),
+	    enctype: 'multipart/form-data',
+	    processData: false,
+	    contentType: false,
+	    cache: false,
+	    success: function () {
+	    		window.location.replace("/");
+	    },
+	    error: function () {
+	      // Handle upload error
+	      // ...
+	    }
+	  });
+	} // function uploadFile
+
+function overlay(second) {
 	$("#" + second + "Dialog").modal();
 }
 
