@@ -29,7 +29,7 @@
 						<tr class="row">
 							<td class="col-xs-5"><h5>Year</h5></td>
 							<td class="col-xs-7"><a th:text="${song.year}"
-								th:href="@{/result?fieldForm=lyrics&amp;searchForm=&amp;rangefrom=} + ${song.year} + '&amp;rangeto=' + ${song.year}"></a>
+								th:href="@{/result?fieldForm=lyrics&amp;searchForm=&amp;yearSlider=} + ${song.year} + '%2C' + ${song.year}"></a>
 							</td>
 						</tr>
 					</table>

@@ -28,7 +28,7 @@
 					<td><a th:text="${song.release}"
 						th:href="@{/result?fieldForm=release} + '&amp;searchForm=' + ${song.release} + '&amp;formRequired=' + ${required}"></a></td>
 					<td><a th:text="${song.year}"
-						th:href="@{/result?searchForm=&amp;fieldForm=lyrics&amp;rangefrom=} + ${song.year} + '&amp;rangeto=' + ${song.year} + '&amp;formRequired=' + ${required}"></a></td>
+						th:href="@{/result?searchForm=&amp;fieldForm=lyrics&amp;yearSlider=} + ${song.year} + '%2C' + ${song.year} + '&amp;formRequired=' + ${required}"></a></td>
 					<td th:switch="${song.compilation}" class="text-center"><span
 						th:case="true" class="glyphicon glyphicon-ok"></span></td>
 				</tr>

@@ -1,46 +1,58 @@
-<!-- TODO -->
+<!-- TODO wip!!!!! -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head></head>
 
 <body>
-	<div class="panel-group" th:fragment="searchForm">
-		<form action="/result">
+	<div th:fragment="searchForm">
+		<form th:action="@{/result}">
+			<!-- SEARCH-INPUT ********** -->
 			<input type="text" class="form-control" name="searchForm" />
+			
+			<!-- ************************** ADVANCED start ************************** -->
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<a data-toggle="collapse" href="#collapse1">advanced</a>
-				</div>
+				</div>	
+				<!-- /.panel-heading -->
+				
 				<div id="collapse1" class="panel-collapse collapse">
-					<div class="panel-body"></div>
-
+					<!-- FIELD ********** -->
 					<select class="form-control" name="fieldForm">
 						<option value="artist">Artist</option>
 						<option value="title">Song title</option>
 						<option value="release">Medium</option>
 						<option value="comment">Comment</option>
 						<option selected="selected" value="lyrics">lyrics</option>
-					</select> <label class="checkbox-inline"> <input type="checkbox"
-						value="true" name="fuzzyForm" />Fuzzy?
-					</label> <label class="checkbox-inline"> <input type="checkbox"
-						value="true" name="compilationForm" />Compilations?
+					</select> 
+					
+					<!-- FUZZY ********** -->
+					<label class="checkbox-inline"> 
+						<input type="checkbox" value="true" name="fuzzyForm" />Fuzzy?
+					</label> 
+					
+					<!-- COMPILATIONS ********** -->
+					<label class="checkbox-inline"> 
+						<input type="checkbox" value="true" name="compilationForm" />Compilations?
 					</label>
-					<div class="form-group">
-						<label for="from">From:</label> <input class="form-control"
-							id="from" name="rangefrom" type="number" value="0" max="2018"
-							min="0" /> <label for="to">to:</label> <input
-							class="form-control" id="to" name="rangeto" type="number"
-							value="2018" max="2018" min="0" />
-					</div>
-
-				</div>
-			</div>
-			<button class="btn btn-danger">GO</button>
+					
+					<!-- YEARS ********** -->
+					<div th:replace="../fragments/freqCol :: slider('')"></div>
+					
+					<!-- HIDDEN CHECKBOX ********** -->
+					<input type="checkbox" value="true" name="formRequired" checked="checked" style="visibility: hidden" />
+				</div>	
+				<!-- /.panel-collapse -->
+			</div>	
+			<!-- /.panel -->
+			<!-- ************************** ADVANCED end ************************** -->
 			
-			<input type="checkbox" value="true" name="formRequired" checked="checked" style="visibility: hidden"/>
+			<!-- SUBMIT-BUTTON ********** -->
+			<button class="btn btn-danger">GO</button>
 		</form>
-	</div>
+	</div>	
+	<!-- /fragment:searchForm -->
 </body>
 
 </html>

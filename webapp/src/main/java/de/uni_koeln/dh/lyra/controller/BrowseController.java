@@ -41,19 +41,18 @@ public class BrowseController {
 	}
 
 	@RequestMapping(value = "/search")
-	public String search() throws IOException, ParseException {
+	public String search(Model model) throws IOException, ParseException {
+		model.addAttribute("songYears", corpusService.getMinAndMaxYears());
 		return "search";
 	}
 
 	@RequestMapping(value = { "/result" })
 	public String search(@RequestParam("searchForm") String searchPhrase, @RequestParam("fieldForm") String field,
-			@RequestParam("rangefrom") Optional<Integer> yearsFrom, @RequestParam("rangeto") Optional<Integer> yearsTo,
+			@RequestParam(value = "yearSlider", required = false) List<String> years,
 			@RequestParam("fuzzyForm") Optional<String> fuzzy,
 			@RequestParam("compilationForm") Optional<String> compilation,
 			@RequestParam(value = "formRequired", required = false) boolean required, Model model)
 			throws IOException, ParseException {
-		// TODO min, max for years
-		
 		List<String> list = new ArrayList<String>();
 		
 		if (!searchPhrase.isEmpty()) {
@@ -73,17 +72,14 @@ public class BrowseController {
 		} else {
 			searchService.setCompilation(false);
 		}
-		if (yearsTo.isPresent() && yearsFrom.isPresent()) {
-			int[] yearsRange = { yearsFrom.get(), yearsTo.get() };
+		if (years != null) {			
+			int[] yearsRange = { Integer.valueOf(years.get(0)), Integer.valueOf(years.get(1)) };
 			searchService.setYears(yearsRange);
 			
-			if (yearsRange[0] != yearsRange[1]) {
-				if (list.size() == 0) 
-					list.add("All");
-				else 
-					list.add(yearsRange[0] + "-" + yearsRange[1]);
-			} else 
-				list.add(String.valueOf(yearsRange[0]));
+			if (yearsRange[0] != yearsRange[1]) 
+				list.add(years.get(0) + "-" + years.get(1));
+			else 
+				list.add(years.get(0));
 		}
 
 		String title = null;
@@ -100,6 +96,8 @@ public class BrowseController {
 
 				model.addAttribute("search", search);
 			}
+			
+			model.addAttribute("songYears", corpusService.getMinAndMaxYears());
 		} else {
 			title = "Browse";
 		}
