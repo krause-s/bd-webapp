@@ -79,6 +79,10 @@ td:not(.col-xs-12) {
 	transform: translateY(-50%);
 }
 
+  .tab-pane:not(.active) {
+      display: none;
+  }
+
 /* ************** MEDIA ************** */
 
 @media(max-width: 402px) {	/* "XS" */

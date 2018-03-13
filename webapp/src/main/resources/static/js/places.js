@@ -14,7 +14,7 @@ function buildMap(artistsList) {
 	
 	/* leaflet components start */
 	var map = L.map('map', {center: [ 36.754187, 3.058785 ],
-		zoom: /*2*/3
+		zoom: /* 2 */3
 	});
 	
 	L.tileLayer(
@@ -112,8 +112,10 @@ function buildMap(artistsList) {
 			var places = currArtist.lyricsPlaces;
 			var currentPlace = places[k]; 
 			var marker = L.marker([currentPlace.longitude, currentPlace.latitude], {icon: lyricsIcon});
+
 			var tabs = buildTabs(currentPlace);
 			var content = buildPopUpContent(currentPlace);
+			
 			marker.bindPopup(tabs + content);
 			currentLyricsLayers.push(marker);
 			}
@@ -122,9 +124,11 @@ function buildMap(artistsList) {
 			var places = currArtist.bioPlaces;
 			var currentPlace = places[l]; 
 			var marker = L.marker([currentPlace.longitude, currentPlace.latitude], {icon: bioIcon});
+			
 			var tabs = buildTabs(currentPlace);
 			var content = buildPopUpContent(currentPlace);
-			marker.bindPopup(tabs + content);
+			
+			marker.bindPopup(tabs + "<div class=\"tab-content\">" + content + "</div>");
 			currentMetaLayers.push(marker);
 			}
 		
@@ -140,20 +144,32 @@ function buildMap(artistsList) {
 
 /* Building the tabs inside the popup */
 function buildTabs(place){
+	var moreTabs = false; 
 	if(place.popUps.length == 1){
 		return "";
 	}
-	var tabs = "<div class='tab'>";
+	var tabs = "<div class=\"container\">" 
+		+ "<ul class=\"nav nav-tabs\">";
 	for(var j = 0; j < place.popUps.length; j++){
+		if(j == 5){
+			moreTabs = true;
+			tabs += " <li class=\"dropdown\"><a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">more<span class=\"caret\"></span></a>"
+			+ "<ul class=\"dropdown-menu\">";
+		}
+		
+		var hrefString = place.popUps[0].placeName + j;
 		if (j == 0) {
-			active = " active";
+			active = " class=\" active\"";
 		}else{
 			active = "";
 		}
-		tabs += "<button class=\"tablinks " + active + "\" onclick=\"openPopUpContent(event, '" + place.popUps[0].placeName + j
-		+ "')\">" + (j + 1) + "</button>"
+		tabs += "<li" + active + "><a data-toggle=\"tab\" href=\"#" + hrefString.replace(/\s/g,'')
+		+ "\">" + (j + 1) + "</a></li>"
 	}
-	tabs += "</div>";
+	if(moreTabs){
+		tabs += "</li></ul></li>";
+	}
+	tabs += "</ul></div>";
 	return tabs;
 }
 
@@ -163,20 +179,21 @@ function buildPopUpContent(place) {
 	var active = "";
 	var currentPlaceName = place.popUps[0].placeName;
 	for (var m = 0; m < place.popUps.length; m++){
+		var idString = place.popUps[0].placeName + m;
 		if (m == 0) {
-			active = " active\" style=\"display: block;";
+			active = " in active";
 		}else{
 			active = "";
 		}
 		if(place.popUps[m].placeName){
 			currentPlaceName = place.popUps[m].placeName;
 		}
-		content += "<div class=\"tabcontent" + active + "\" id=\"" + place.popUps[0].placeName + m + "\">"
+		content += "<div id=\"" + idString.replace(/\s/g,'') + "\" class=\"tab-pane fade" + active + "\">"
 		+ "<h3>"
 		+ currentPlaceName
 		+ "</h3>"
-		+ "<p>" + place.popUps[m].content + "</p>";
-		content += place.popUps[m].referredSong ? '<p><a href="/browse/songs/' + place.popUps[m].referredSong.uuid + '">' + place.popUps[m].referredSong.title + "</a>(" + place.popUps[m].referredSong.year + ")</p>" : "";
+		+ "<p> \" " + place.popUps[m].content + " \" </p>";
+		content += place.popUps[m].referredSong ? '<p> <a href="/browse/' + place.popUps[m].referredSong.uuid + '">' + place.popUps[m].referredSong.title + " </a>(" + place.popUps[m].referredSong.year + ")</p>" : "";
 		content += "</div>";
 	}
 	return content;
