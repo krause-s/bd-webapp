@@ -23,7 +23,7 @@ function buildMap(artistsList) {
 				attribution : 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 				maxZoom : 18,
 				id : 'mapbox.streets',
-				accessToken : 'pk.eyJ1IjoicHNlaXBlbCIsImEiOiJjamJxaXdnb3MwNHBkMzJyNjQ1c3F1eHd3In0.XeYHykHhoy2uuXv0GqD6Og'
+				accessToken : ''
 			}).addTo(map);
 
 	var layerControl = new L.control.layers();
@@ -193,7 +193,7 @@ function buildPopUpContent(place) {
 		+ currentPlaceName
 		+ "</h3>"
 		+ "<p> \" " + place.popUps[m].content + " \" </p>";
-		content += place.popUps[m].referredSong ? '<p> <a href="/browse/songs/' + place.popUps[m].referredSong.uuid + '">' + place.popUps[m].referredSong.title + " </a>(" + place.popUps[m].referredSong.year + ")</p>" : "";
+		content += place.popUps[m].referredSong ? '<p> <a href="/browse/' + place.popUps[m].referredSong.uuid + '">' + place.popUps[m].referredSong.title + " </a>(" + place.popUps[m].referredSong.year + ")</p>" : "";
 		content += "</div>";
 	}
 	return content;
