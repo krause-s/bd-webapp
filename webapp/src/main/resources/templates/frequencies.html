@@ -12,6 +12,14 @@
 		<div th:replace="../fragments/core/heading :: heading(${title},'')"></div>
 
 		<form th:action="@{/analytics/frequencies}" method="post">
+			<p class="text-justify">This section enables you to compare the words used by
+				different artists or in different time sections. You can choose an
+				artist (or all) on each side and a time span that you want to
+				compare. "Count" means how many words you want to get back on each
+				side. If you choose "Compilations" the result includes lyrics from
+				compilations. The result contains the most relevant words and their
+				absolute frequency on each side.</p>
+			<br />
 			<div class="row">
 				<div th:replace="../fragments/freqCol :: content(0)"></div>
 				<div th:replace="../fragments/freqCol :: control"></div>
