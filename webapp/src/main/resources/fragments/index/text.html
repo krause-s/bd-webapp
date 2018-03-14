@@ -73,7 +73,7 @@
 		<p th:text="${quotes == null} ? '(No data available)'" class="text-center"></p>
 		
 		<div th:each="song,iter : ${quotes}">
-			<a th:href="@{/browse/} + ${song.uuid}">
+			<a class="testStyle" th:href="@{/browse/} + ${song.uuid}">
 				<blockquote th:id="${iter.index == 1} ? 'middleQuote'">
 					<h5>
 						<b th:text="${song.title}"></b>&nbsp;(<span th:text="${song.year}"></span>)

@@ -9,12 +9,6 @@ html {
 	min-height: 100%;
 }
 
-/* TODO */ 
-a:not(footer a),
-.bsStyle {
-	color: #333333;	
-}
-
 td:not(.col-xs-12) {
 	white-space: nowrap;
 }
@@ -25,8 +19,12 @@ td:not(.col-xs-12) {
 	padding: 0;
 }
 
-.noLine a:focus,
-.noLine a:hover {
+.bsStyle, .testStyle {
+	color: #333333;
+}
+
+.testStyle:focus,
+.testStyle:hover {
 	text-decoration: none;
 }
 
