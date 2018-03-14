@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+
+<body>
+	<div th:fragment="slider(sliderVal)" class="panel-footer text-center">
+		<label for="slider">Years</label>
+		<div class="row">
+			<div class="col-xs-2">
+				<b th:text="${songYears[0]}"></b>
+			</div>
+			<div class="col-xs-8">
+				<input id="slider" class="bs-slider" type="text" name="yearSlider"
+					th:attr="data-slider-min=${songYears[0]},data-slider-max=${songYears[1]},data-slider-value=${sliderVal != '' ? '[' + sliderVal + ']' : null}"
+					style="width: 100%" />
+			</div>
+			<div class="col-xs-2">
+				<b th:text="${songYears[1]}"></b>
+			</div>
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /fragment:slider -->
+</body>
+
+</html>

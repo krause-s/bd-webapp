@@ -3,8 +3,8 @@ var topBottomHeight;
 $(document).ready(function($) {
 	setDimensions();
 	
-	setCollapseHandler("show", "up");
-	setCollapseHandler("hide", "down");
+	setCollapseHandler("show", "#collapsePanel", "up", "#yearPanel", "down");
+	setCollapseHandler("hide", "#collapsePanel", "down", "#yearPanel", "up");
 	
 	$("footer a").click(function() {
 		$("html, body").animate({
@@ -44,10 +44,18 @@ function getInnerHeight() {
 	return winHeight - (2 * topBottomHeight);
 }
 
-function setCollapseHandler(event, direction) {
-	var arrow = 'glyphicon glyphicon-chevron-' + direction;
+function setCollapseHandler(event, selector1, direction1, selector2, direction2) {
+	if ($(selector1).size() != 0) {
+		collapse(event, selector1, direction1);
+	} else if ($(selector2).size() != 0) {
+		collapse(event, selector2, direction2);
+	}
+}
 
+function collapse(event, selector, direction) {
+	var arrow = 'glyphicon glyphicon-chevron-' + direction;
+	
 	$(".collapse").on(event + '.bs.collapse', function() {
-		$("#collapsePanel").attr('class', arrow);
+		$(selector).attr('class', arrow);
 	});
 }

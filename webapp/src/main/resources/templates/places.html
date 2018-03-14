@@ -19,17 +19,31 @@
 		buildMap(/*[[${artistsList}]]*/); // see places.js
 		/*]]>*/
 	</script>
-	
-	<form id="yearsFilter" th:action="@{/analytics/places}">
-		<button class="btn btn-danger">GO</button>
-		<div th:if="${years != null}">
-			<div th:replace="../fragments/freqCol :: slider(${years})"></div>
+
+	<div id="yearsFilter" class="panel panel-default" style="background-color: rgba(0, 0, 0, 0.2); border: 0; margin-bottom: 0;">
+		<a data-toggle="collapse" href="#years"> <span id="yearPanel"
+			class="glyphicon glyphicon-chevron-up"></span>
+		</a>
+
+		<div id="years" class="panel-collapse collapse">
+			<form th:action="@{/analytics/places}">
+				<div class="panel-heading">
+					<button class="btn btn-danger">Show</button>
+				</div>
+				<!-- /.panel-heading -->
+
+				<div th:if="${years != null}">
+					<div th:replace="../fragments/slider :: slider(${years})"></div>
+				</div>
+				<div th:if="${years == null}">
+					<div th:replace="../fragments/slider :: slider('')"></div>
+				</div>
+			</form>
 		</div>
-		<div th:if="${years == null}">
-			<div th:replace="../fragments/freqCol :: slider('')"></div>
-		</div>
-	</form>
-	
+		<!-- /.collapse -->
+	</div>
+	<!-- /.panel -->
+
 	<footer th:replace="../fragments/core/footer"></footer>
 </body>
 
