@@ -9,7 +9,7 @@
 	<!-- <packaging>jar</packaging> -->
 
 	<name>lyra</name>
-	<description>Web app</description>
+	<description>lyrics-analyzer</description>
 	<url>https://github.com/krause-s/lyra</url>
 
 	<parent>
