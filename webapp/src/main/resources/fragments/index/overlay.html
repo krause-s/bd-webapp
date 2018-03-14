@@ -4,6 +4,17 @@
 <head></head>
 
 <body>
+	<div th:fragment="upload" id="uploadDialog" class="modal"
+		data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="text-center">
+				<i class="fa fa-spinner fa-pulse fa-5x" style="color: #d9534f;"></i>
+			</div>
+		</div>
+		<!-- /.modal -->
+	</div>
+	<!-- /fragment:upload -->
+
 	<div th:if="${places != null}" id="evaluationDialog"
 		th:fragment="evaluation" class="modal" role="dialog"
 		data-backdrop="static">
@@ -46,7 +57,7 @@
 		</div>
 		<!-- /.modal-dialog -->
 	</div>
-	<!-- /.modal -->
+	<!-- /fragment:evaluation -->
 </body>
 
 </html>

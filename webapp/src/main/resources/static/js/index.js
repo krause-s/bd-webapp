@@ -1,6 +1,6 @@
 $(document).ready(function($) {
 	 $("#upload-file-input").on("change", uploadFile);
-	overlay("evaluation");	
+	 $("#evaluationDialog").modal();	
 
 
 	setQuoteHandler();
@@ -15,6 +15,8 @@ $(document).ready(function($) {
 });
 
 function uploadFile() {
+	$("#uploadDialog").modal();
+	
 	  $.ajax({
 	    url: "/uploadFile",
 	    type: "POST",
@@ -32,10 +34,6 @@ function uploadFile() {
 	    }
 	  });
 	} // function uploadFile
-
-function overlay(second) {
-	$("#" + second + "Dialog").modal();
-}
 
 function setQuoteHandler() {
 	$(window).on('resize', function() {
