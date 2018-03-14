@@ -70,6 +70,8 @@
 	<div th:fragment="quotes">
 		<h3>Random lyrics</h3>
 		<hr />
+		<p th:text="${quotes == null} ? '(No data available)'" class="text-center"></p>
+		
 		<div th:each="song,iter : ${quotes}">
 			<a th:href="@{/browse/} + ${song.uuid}">
 				<blockquote th:id="${iter.index == 1} ? 'middleQuote'">
