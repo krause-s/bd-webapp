@@ -160,6 +160,11 @@ public class CorpusService {
 		System.out.println("serializing corpus");
 		new File("data/corpus").mkdirs();
 		try {
+			File d = new File("data/corpus");
+			for (int i = 0; i < d.listFiles().length; i++) {
+				d.listFiles()[i].delete();
+			}
+			
 			FileOutputStream fileOut = new FileOutputStream("data//corpus/corpus.ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(artists);

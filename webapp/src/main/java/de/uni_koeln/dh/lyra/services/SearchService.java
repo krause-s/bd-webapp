@@ -50,12 +50,17 @@ public class SearchService {
 	/**
 	 * @throws IOException
 	 * 
-	 *             readsthe corpus given by corpusService and writes an index
+	 *             reads the corpus given by corpusService and writes an index
+	 *             deletes previous index files
 	 */
 	public void initIndex() throws IOException {
 		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 		File folder = new File(indexDirPath);
 		folder.mkdirs();
+		
+		for (int i = 0; i < folder.listFiles().length; i++) {
+			folder.listFiles()[0].delete();
+		}
 		IndexWriterConfig writerConfig = new IndexWriterConfig(new StandardAnalyzer());
 		IndexWriter writer = new IndexWriter(dir, writerConfig);
 		for (Artist artist : corpusService.getArtistList()) {
