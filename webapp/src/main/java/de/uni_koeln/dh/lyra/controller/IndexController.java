@@ -181,8 +181,8 @@ public class IndexController {
     public StreamingResponseBody getSteamingFile(HttpServletResponse response) throws IOException {
 
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");//("text/html;charset=UTF-8");
-        response.setHeader("Content-Disposition", "attachment; filename=\"sample_database.xlsx\"");
-        InputStream inputStream = new FileInputStream(new File("src/main/resources/sample/sample_database.xlsx"));
+        response.setHeader("Content-Disposition", "attachment; filename=\"sample.xlsx\"");
+        InputStream inputStream = new FileInputStream(new File("src/main/resources/sample/sample.xlsx"));
 
         return outputStream -> {
             int nRead;
