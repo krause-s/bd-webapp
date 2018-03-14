@@ -14,7 +14,6 @@ $(document).ready(function($) {
 	
 	$('.bs-slider').slider({
 //		tooltip: 'always',
-//		tooltip_position:'bottom',
 		range: true
 	});
 });
@@ -26,7 +25,6 @@ function setDimensions() {
 	$("footer").height(topBottomHeight);
 
 	var margin = topBottomHeight + "px 0px " + topBottomHeight + "px";
-	//	console.log("margin: " + margin)
 	$("body").css("margin", margin);
 }
 

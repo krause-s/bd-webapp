@@ -19,12 +19,12 @@ td:not(.col-xs-12) {
 	padding: 0;
 }
 
-.bsStyle, .testStyle {
+.bsStyle, .noLine {
 	color: #333333;
 }
 
-.testStyle:focus,
-.testStyle:hover {
+.noLine:focus,
+.noLine:hover {
 	text-decoration: none;
 }
 

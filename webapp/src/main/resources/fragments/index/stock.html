@@ -12,14 +12,14 @@
 			<div class="panel-heading">
 				<div class="row">
 					<div class="col-xs-5 text-right">
-						<a th:href="@{/browse}" class="testStyle"> <span
+						<a th:href="@{/browse}" class="noLine"> <span
 							class="glyphicon glyphicon-user"></span>&nbsp;<span><b
 								th:text="${artistMap != null} ? ${artistMap.values().size()} : '0'"></b>
 						</span> <span>Artists</span>
 						</a>
 					</div>
 					<div class="col-xs-5 col-xs-offset-2">
-						<a th:href="@{/browse}" class="testStyle"> <span
+						<a th:href="@{/browse}" class="noLine"> <span
 							class="glyphicon glyphicon-music"></span>&nbsp;<span><b
 								th:text="${songCount != null} ? ${songCount} : '0'"></b> </span> <span>Lyrics</span>
 						</a>

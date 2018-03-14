@@ -12,12 +12,18 @@
 		<div th:replace="../fragments/core/heading :: heading(${title},'')"></div>
 
 		<form th:action="@{/analytics/frequencies}" method="post">
-			<p class="text-justify">This section enables you to detect relevant words of an artist in a chosen period.
-			 In this case, relevant means that the words appear more often in this period than in the remaining corpus. 
-			 Furthermore, you can compare the detected words to the words of another period and/or another artist. 
-			<br />With "Count" you can define how many words you want to get back. If you choose "Compilations" the result includes lyrics 
-			from compilations, too. If you are only interested in the original releases you leave this field unchecked. 
-			The result contains the most relevant words for the chosen period and artist and their absolute frequencies.</p>
+			<p class="text-justify">
+				This section enables you to detect relevant words of an artist in a
+				chosen period. In this case, relevant means that the words appear
+				more often in this period than in the remaining corpus. Furthermore,
+				you can compare the detected words to the words of another period
+				and/or another artist. <br />With "Count" you can define how many
+				words you want to get back. If you choose "Compilations" the result
+				includes lyrics from compilations, too. If you are only interested
+				in the original releases you leave this field unchecked. The result
+				contains the most relevant words for the chosen period and artist
+				and their absolute frequencies.
+			</p>
 			<br />
 			<div class="row">
 				<div th:replace="../fragments/freqCol :: content(0)"></div>

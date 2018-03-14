@@ -56,11 +56,11 @@ public class SearchService {
 		File folder = new File(indexDirPath);
 		folder.mkdirs();
 		
-		for (int i = 0; i < folder.listFiles().length; i++) {
-			folder.listFiles()[0].delete();
-		}
 		IndexWriterConfig writerConfig = new IndexWriterConfig(new StandardAnalyzer());
 		IndexWriter writer = new IndexWriter(dir, writerConfig);
+		
+		writer.deleteAll();
+		
 		for (Artist artist : corpusService.getArtistList()) {
 			for (Document doc : convertToLuceneDoc(artist)) {
 				writer.addDocument(doc);
