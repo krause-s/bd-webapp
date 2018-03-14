@@ -8,22 +8,24 @@ import de.uni_koeln.dh.lyra.util.ColorGenerator;
 
 /**
  * stores all information on an artist
+ * 
  * @author Johanna
  *
  */
-public class Artist implements Serializable{
+public class Artist implements Serializable, Comparable<Artist> {
 
 	private static final long serialVersionUID = -991552598655095147L;
-	
+
 	private String name;
 	private List<Place> bioPlaces;
 	private List<Place> lyricsPlaces;
 	private List<Song> songs;
-	private String color;
+	public String color;
 
 	/**
-	 * creates an artist object for an artist with the given name.
-	 * generates random color (stock, places) for the artist
+	 * creates an artist object for an artist with the given name. generates
+	 * random color (stock, places) for the artist
+	 * 
 	 * @param name
 	 */
 	public Artist(String name) {
@@ -52,6 +54,7 @@ public class Artist implements Serializable{
 
 	/**
 	 * returns list with all biographical places
+	 * 
 	 * @return
 	 */
 	public List<Place> getBioPlaces() {
@@ -68,6 +71,7 @@ public class Artist implements Serializable{
 
 	/**
 	 * returns all songs of this artist in the corpus
+	 * 
 	 * @return
 	 */
 	public List<Song> getSongs() {
@@ -84,6 +88,7 @@ public class Artist implements Serializable{
 
 	/**
 	 * returns list with all places mentioned in lyrics
+	 * 
 	 * @return
 	 */
 	public List<Place> getLyricsPlaces() {
@@ -106,6 +111,17 @@ public class Artist implements Serializable{
 	public boolean equals(Object obj) {
 		Artist artist = (Artist) obj;
 		return artist.getName().equals(this.getName());
+	}
+
+	@Override
+	public int compareTo(Artist o) {
+		if (getName().equals(o.getName()) && getBioPlaces().equals(o.getBioPlaces())
+				&& getLyricsPlaces().equals(o.getLyricsPlaces())) {
+			return 0;
+		}
+		if(getSongs().size() > o.getSongs().size())
+			return +1;
+		return -1;
 	}
 
 }

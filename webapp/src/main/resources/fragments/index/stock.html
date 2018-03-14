@@ -33,11 +33,9 @@
 			<a href="#details" data-toggle="collapse"
 				title="Click for stock details">
 				<div class="progress">
-					<span th:each="percentage : ${artistMap}">
-						<div th:each="artist : ${percentage.value}" class="progress-bar"
+						<div th:each="artist : ${artistMap}" class="progress-bar"
 							role="progressbar"
-							th:style="'width: ' + ${percentage.key} + '%; background-color: ' + ${artist.getColor()}"></div>
-					</span>
+							th:style="'width: ' + ${artist.value} + '%; background-color: ' + ${artist.key.getColor()}"></div>
 				</div> <!-- /.progress -->
 			</a>
 
@@ -46,16 +44,14 @@
 				<div class="panel-body">
 					<table class="table table-hover table-condensed">
 						<tbody>
-							<span th:each="percentage : ${artistMap}">
-								<tr th:each="artist : ${percentage.value}">
+								<tr th:each="artist : ${artistMap}">
 									<td class="col-xs-6 text-right"><a
-										th:href="@{/result?fieldForm=artist} + '&amp;searchForm=' + ${artist.getName()}"
-										th:text="${artist.getName()}"></a></td>
+										th:href="@{/result?fieldForm=artist} + '&amp;searchForm=' + ${artist.key.getName()}"
+										th:text="${artist.key.getName()}"></a></td>
 									<td class="col-xs-6"><span class="badge"
-										th:style="'background-color: ' + ${artist.getColor()}"
-										th:text="${artist.getSongs().size()}"></span></td>
+										th:style="'background-color: ' + ${artist.key.getColor()}"
+										th:text="${artist.key.getSongs().size()}"></span></td>
 								</tr>
-							</span>
 							<!-- /each:percentage -->
 						</tbody>
 					</table>

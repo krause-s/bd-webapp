@@ -56,7 +56,7 @@ public class IndexController {
 		if (map != null) {
 			model.addAttribute("places", map);
 		}
-		
+
 		return "index";
 	}
 
@@ -86,7 +86,7 @@ public class IndexController {
 		map = null;
 		return "index";
 	}
-	
+
 	@RequestMapping(value = "/about")
 	public String about() {
 		return "about";
@@ -96,31 +96,18 @@ public class IndexController {
 		if (corpusService.getArtistList() != null && !corpusService.getArtistList().isEmpty()) {
 			int totalCount = corpusService.getAllSongs().size();
 
-			Map<Integer, List<Artist>> map = new TreeMap<Integer, List<Artist>>(Collections.reverseOrder());
+			Map<Artist, Integer> stockMap = new TreeMap<Artist, Integer>(Collections.reverseOrder());
 
 			List<Artist> artists = corpusService.getArtistList();
-			int percentages = 0;
 
 			for (int i = 0; i < artists.size(); i++) {
-				int percentage;
-
-				if (i == artists.size() - 1) {
-					percentage = 100 - percentages;
-				} else {
-					int cnt = artists.get(i).getSongs().size();
-					percentage = (int) ((100 / (float) totalCount) * cnt);
-				}
-
-				if (!map.containsKey(percentage)) {
-					map.put(percentage, new ArrayList<Artist>());
-					percentages += percentage;
-				}
-
-				map.get(percentage).add(artists.get(i));
+				int cnt = artists.get(i).getSongs().size();
+				int percentage = (int) ((100 / (float) totalCount) * cnt);
+				stockMap.put(artists.get(i), percentage);
 			}
 			model.addAttribute("quotes", corpusService.getRandomQuotes());
 			model.addAttribute("songCount", totalCount);
-			model.addAttribute("artistMap", map);
+			model.addAttribute("artistMap", stockMap);
 		}
 	}
 
@@ -148,7 +135,7 @@ public class IndexController {
 			List<Place> placesToEvaluate = corpusService.prepareEvaluation(tmpFile);
 
 			if (placesToEvaluate != null) {
-				
+
 				map = new HashMap<Place, Set<String>>();
 
 				for (Place place : placesToEvaluate) {
@@ -160,10 +147,10 @@ public class IndexController {
 					map.put(place, set);
 				}
 
-//				model.addAttribute("places", map);
+				// model.addAttribute("places", map);
 			}
-			
-			//delete files in tmp dir
+
+			// delete files in tmp dir
 			File[] tmps = dir.listFiles();
 			for (int i = 0; i < tmps.length; i++) {
 				tmps[i].delete();
@@ -172,26 +159,26 @@ public class IndexController {
 			// TODO clear map/list
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-//			return "index";// new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			// return "index";// new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
-    public StreamingResponseBody getSteamingFile(HttpServletResponse response) throws IOException {
+	public StreamingResponseBody getSteamingFile(HttpServletResponse response) throws IOException {
 
-        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");//("text/html;charset=UTF-8");
-        response.setHeader("Content-Disposition", "attachment; filename=\"sample.xlsx\"");
-        InputStream inputStream = new FileInputStream(new File("src/main/resources/sample/sample.xlsx"));
+		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");// ("text/html;charset=UTF-8");
+		response.setHeader("Content-Disposition", "attachment; filename=\"sample.xlsx\"");
+		InputStream inputStream = new FileInputStream(new File("src/main/resources/sample/sample.xlsx"));
 
-        return outputStream -> {
-            int nRead;
-            byte[] data = new byte[1024];
-            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-                outputStream.write(data, 0, nRead);
-            }
-            inputStream.close();
-        };
-    }
+		return outputStream -> {
+			int nRead;
+			byte[] data = new byte[1024];
+			while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+				outputStream.write(data, 0, nRead);
+			}
+			inputStream.close();
+		};
+	}
 
 }
