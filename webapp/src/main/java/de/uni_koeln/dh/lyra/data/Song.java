@@ -9,9 +9,9 @@ import java.util.UUID;
 public class Song implements Serializable{
 	
 	private static final long serialVersionUID = 930011990465438709L;
-	private String title, lyrics, lyricsBR, artist, release, comment;
+	private String title, lyrics, lyricsBR, artist, releaseMediumName, comment;
 	private int year;
-	private boolean compilation;
+	private boolean isCompilation;
 	private String uuid;
 	private String[] tokens;
 	private double[] weights;
@@ -23,21 +23,21 @@ public class Song implements Serializable{
 	 * @param title
 	 * @param lyrics
 	 * @param artist
-	 * @param release
+	 * @param releaseMediumName
 	 * @param year
-	 * @param compilation
+	 * @param isCompilation
 	 * @param comment
 	 */
 	public Song(String title, String lyrics, String artist,
-			String release, int year, boolean compilation, String comment) {
+			String releaseMediumName, int year, boolean isCompilation, String comment) {
 		this.uuid = UUID.randomUUID().toString();
 		this.title = title;
 		this.lyricsBR = lyrics.replaceAll("\n", "<br />");
 		this.lyrics = lyrics;
 		this.artist = artist;
-		this.release = release;
+		this.releaseMediumName = releaseMediumName;
 		this.year = year;
-		this.compilation = compilation;
+		this.isCompilation = isCompilation;
 		this.comment = comment;
 	}
 	
@@ -101,7 +101,7 @@ public class Song implements Serializable{
 	 * @return
 	 */
 	public String getRelease() {
-		return release;
+		return releaseMediumName;
 	}
 
 	public String getComment() {
@@ -121,7 +121,7 @@ public class Song implements Serializable{
 	}
 
 	public boolean isCompilation() {
-		return compilation;
+		return isCompilation;
 	}
 	
 	/**
