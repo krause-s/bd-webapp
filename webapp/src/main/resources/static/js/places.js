@@ -1,9 +1,10 @@
+function resize() {
+	$("#map").css("height", 
+			getInnerHeight());	// see script.js
+}
+
 function buildMap(artistsList) {
-	$(window).on('resize', function() {
-		$("#map").css("height", 
-				getInnerHeight());	// see script.js
-	});
-	
+	$(window).on('resize', resize);
 	$(window).trigger('resize');
 	
 	/* input map keys (i.e. names of the artists) */

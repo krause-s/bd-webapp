@@ -6,12 +6,8 @@ $(document).ready(function($) {
 	setCollapseHandler("show", "#collapsePanel", "up", "#yearPanel", "down");
 	setCollapseHandler("hide", "#collapsePanel", "down", "#yearPanel", "up");
 	
-	$("footer a").click(function() {
-		$("html, body").animate({
-			scrollTop : 0
-		}, "slow");
-	});
-	
+	$("footer a").click(scroll);
+		
 	$('.bs-slider').slider({
 //		tooltip: 'always',
 		range: true
@@ -56,4 +52,10 @@ function collapse(event, selector, direction) {
 	$(".collapse").on(event + '.bs.collapse', function() {
 		$(selector).attr('class', arrow);
 	});
+}
+
+function scroll() {
+	$("html, body").animate({
+		scrollTop : 0
+	}, "slow");
 }
