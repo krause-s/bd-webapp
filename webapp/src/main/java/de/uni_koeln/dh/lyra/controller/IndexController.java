@@ -33,8 +33,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import de.uni_koeln.dh.lyra.data.Artist;
-import de.uni_koeln.dh.lyra.model.place.Place;
-import de.uni_koeln.dh.lyra.model.place.PopUp;
+import de.uni_koeln.dh.lyra.data.Place;
+import de.uni_koeln.dh.lyra.data.PopUp;
 import de.uni_koeln.dh.lyra.services.CorpusService;
 import de.uni_koeln.dh.lyra.services.SearchService;
 

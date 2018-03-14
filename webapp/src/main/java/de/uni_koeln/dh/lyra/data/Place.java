@@ -1,4 +1,4 @@
-package de.uni_koeln.dh.lyra.model.place;
+package de.uni_koeln.dh.lyra.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;

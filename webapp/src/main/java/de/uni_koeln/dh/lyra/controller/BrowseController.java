@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import de.uni_koeln.dh.lyra.services.CorpusService;
 import de.uni_koeln.dh.lyra.services.SearchService;
 
-// TODO name
 @Controller
 public class BrowseController {
 
@@ -26,7 +25,6 @@ public class BrowseController {
 	@Autowired
 	CorpusService corpusService;
 
-	// TODO browse
 	@RequestMapping(value = "/browse/{songID}")
 	public String browse(@PathVariable("songID") String songID, Model model) {
 		model.addAttribute("song", corpusService.getSongByID(songID));

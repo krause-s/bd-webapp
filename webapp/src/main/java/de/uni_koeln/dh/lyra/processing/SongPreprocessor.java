@@ -12,9 +12,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.uni_koeln.dh.lyra.data.Place;
+import de.uni_koeln.dh.lyra.data.PopUp;
 import de.uni_koeln.dh.lyra.data.Song;
-import de.uni_koeln.dh.lyra.model.place.Place;
-import de.uni_koeln.dh.lyra.model.place.PopUp;
 import opennlp.tools.namefind.NameFinderME;
 import opennlp.tools.namefind.TokenNameFinderModel;
 import opennlp.tools.tokenize.TokenizerME;

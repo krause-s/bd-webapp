@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.uni_koeln.dh.lyra.model.place.Place;
 import de.uni_koeln.dh.lyra.util.ColorGenerator;
 
 /**

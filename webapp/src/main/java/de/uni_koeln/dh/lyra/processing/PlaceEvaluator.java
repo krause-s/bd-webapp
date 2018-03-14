@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import de.uni_koeln.dh.lyra.data.Artist;
-import de.uni_koeln.dh.lyra.model.place.Place;
-import de.uni_koeln.dh.lyra.model.place.PopUp;
+import de.uni_koeln.dh.lyra.data.Place;
+import de.uni_koeln.dh.lyra.data.PopUp;
 
 public class PlaceEvaluator {
 
