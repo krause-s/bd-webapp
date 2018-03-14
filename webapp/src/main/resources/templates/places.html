@@ -5,7 +5,6 @@
 <head th:replace="../fragments/core/header :: header(${title})"></head>
 
 <body>
-	<!-- <script th:src="@{/webjars/leaflet/leaflet.js}"></script> -->
 	<script type="text/javascript" th:src="@{/js/leaflet/leaflet.js}"></script>
 	<script type="text/javascript" th:src="@{/js/places.js}"></script>
 
@@ -20,15 +19,17 @@
 		/*]]>*/
 	</script>
 
-	<div id="yearsFilter" class="panel panel-default" style="background-color: rgba(0, 0, 0, 0.2); border: 0; margin-bottom: 0;">
-		<a class="bsStyle" data-toggle="collapse" href="#years" title="Years"> <span id="yearPanel"
-			class="glyphicon glyphicon-chevron-up"></span>
+	<div id="yearsFilter" class="panel panel-default">
+		<a class="bsStyle" data-toggle="collapse" href="#years" title="Years">
+			<span id="yearPanel" class="glyphicon glyphicon-chevron-up"></span>
 		</a>
 
 		<div id="years" class="panel-collapse collapse">
 			<form th:action="@{/analytics/places}">
 				<div class="panel-heading">
-					<button class="btn btn-danger"><span class="glyphicon glyphicon-globe"></span> Show</button>
+					<button class="btn btn-danger">
+						<span class="glyphicon glyphicon-globe"></span> Show
+					</button>
 				</div>
 				<!-- /.panel-heading -->
 

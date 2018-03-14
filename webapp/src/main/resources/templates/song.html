@@ -10,7 +10,7 @@
 	<div class="container">
 		<div
 			th:replace="../fragments/core/heading :: heading(${song.title},${song.artist})"></div>
-		<div th:replace="../fragments/title"></div>
+		<div th:replace="../fragments/title :: song"></div>
 	</div>
 	
 	<footer th:replace="../fragments/core/footer"></footer>

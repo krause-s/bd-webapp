@@ -1,3 +1,7 @@
+#compilationTitle {
+	padding: 0;
+}
+
 /* "Show X entries" */
 .dataTables_length label {
 	margin-bottom: 0;

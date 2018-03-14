@@ -14,30 +14,18 @@
 
 				<div class="panel-body">
 					<table class="table-hover">
-						<tr class="row">
-							<td class="col-xs-5"><h5>Artist</h5></td>
-							<td class="col-xs-7"><a th:text="${song.artist}"
-								th:href="@{/result?fieldForm=artist} + '&amp;searchForm=' + ${song.artist}"></a>
-							</td>
-						</tr>
-						<tr class="row">
-							<td class="col-xs-5"><h5>Medium</h5></td>
-							<td class="col-xs-7"><a th:text="${song.release}"
-								th:href="@{/result?fieldForm=release} + '&amp;searchForm=' + ${song.release}"></a>
-							</td>
-						</tr>
-						<tr class="row">
-							<td class="col-xs-5"><h5>Year</h5></td>
-							<td class="col-xs-7"><a th:text="${song.year}"
-								th:href="@{/result?fieldForm=lyrics&amp;searchForm=&amp;yearSlider=} + ${song.year} + '%2C' + ${song.year}"></a>
-							</td>
-						</tr>
+						<tr
+							th:replace="../fragments/title :: releaseRow('Artist', ${song.artist})"></tr>
+						<tr
+							th:replace="../fragments/title :: releaseRow('Medium', ${song.release})"></tr>
+						<tr
+							th:replace="../fragments/title :: releaseRow('Year', ${song.year})"></tr>
 					</table>
 				</div>
 				<!-- /.panel-body -->
 
-				<div th:if="${song.compilation}" class="panel-footer"
-					style="padding: 0;">
+				<div id="compilationTitle" th:if="${song.compilation}"
+					class="panel-footer">
 					<table>
 						<tr class="row">
 							<td class="col-xs-5"><h5>Compilation</h5></td>
@@ -72,6 +60,22 @@
 		</div>
 	</div>
 	<!-- /.row -->
+
+	<tr th:fragment="releaseRow(category,content)" class="row">
+		<td class="col-xs-5">
+			<h5 th:text="${category}"></h5>
+		</td>
+		<td class="col-xs-7"
+			th:with="searchForm='&amp;searchForm=' + ${content}"><a
+			th:if="${category == 'Artist'}" th:text="${content}"
+			th:href="@{/result?fieldForm=artist} + ${searchForm}"></a> <a
+			th:if="${category == 'Medium'}" th:text="${content}"
+			th:href="@{/result?fieldForm=release} + ${searchForm}"></a> <a
+			th:if="${category == 'Year'}" th:text="${content}"
+			th:href="@{/result?fieldForm=lyrics&amp;searchForm=&amp;yearSlider=} + ${content} + '%2C' + ${content}"></a>
+		</td>
+	</tr>
+	<!-- /fragment:releaseRow -->
 </body>
 
 </html>

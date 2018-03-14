@@ -17,19 +17,6 @@
 	<div th:fragment="instructions">
 		<h3>Instructions</h3>
 		<hr />
-		<!--<p class="text-justify">Lyra is an open lyrics analyzer tool.
-					After you uploaded your Excel file you can analyze the given data
-					in different ways. You got a searchsection that allows you to
-					search for terms or phrases in your lyrics, song titles, artist
-					names and so on. Another section is the map area. Here you will see
-					all the places mentioned in the lyrics and the biographical dates
-					of the different artists you entered in your data table. All these
-					places are detected and localized automatically.</p>
-				<p class="text-justify">In the last area you can find tools
-					concerning the weighted word frequencies. So you can either compare
-					the important terms used by an artist with those of another artist
-					or compare phases of one artist.
-				</p>  -->
 		<p>Welcome to lyra, a lyrics-analyzer with machine learning tools
 			that helps you to get an overview of lyrics.</p>
 		<p>What does lyra give?</p>
@@ -47,7 +34,7 @@
 			<li>biographical information on the artists you want to analyze</li>
 		</ul>
 		<p>
-			You can download a empty sample of the table <a href="/download">here</a>.
+			You can download a empty sample of the table <a th:href="@{/download}">here</a>.
 		</p>
 		<p>
 			In the table, each row represents a different song.<br /> The artist
@@ -70,8 +57,9 @@
 	<div th:fragment="quotes">
 		<h3>Random lyrics</h3>
 		<hr />
-		<p th:text="${quotes == null} ? '(No data available)'" class="text-center"></p>
-		
+		<p th:text="${quotes == null} ? '(No data available)'"
+			class="text-center"></p>
+
 		<div th:each="song,iter : ${quotes}">
 			<a class="testStyle" th:href="@{/browse/} + ${song.uuid}">
 				<blockquote th:id="${iter.index == 1} ? 'middleQuote'">
