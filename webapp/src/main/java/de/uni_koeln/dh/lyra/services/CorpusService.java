@@ -24,25 +24,40 @@ import de.uni_koeln.dh.lyra.model.place.PopUp;
 import de.uni_koeln.dh.lyra.processing.PlaceEvaluator;
 import de.uni_koeln.dh.lyra.util.IO;
 
+/**
+ * @author Peter
+ *
+ *         This service generates, serializes, updates and reads the given
+ *         corpus
+ */
+
 @Service
 public class CorpusService {
 
-	// public static String dataPath =
-	// "src/main/resources/data/lyrics_bobDylan.xlsx";
-	public static String dataPath = "src/main/resources/data/lyrics_mcCartney_beatles.xlsx";
+	public static String dataPath;
 	private static Map<String, Artist> artists = new HashMap<String, Artist>();
 
 	private List<Place> placesToEvaluate;
 
+	/**
+	 * @author Peter
+	 *
+	 *         if an corpus allready exists, it is deserialized
+	 */
 	@PostConstruct
 	public void initExistingData() {
-		if (corpusExists()) {
-			readExistingCorpus();
-		}
+		readExistingCorpus();
 	}
 
-	public List<Place> init(File file) {
-		System.out.println("initializing corpus");
+	/**
+	 * @param file
+	 * @return List<Place>
+	 * 
+	 *         this method prepares the places evaluation. The artist map and
+	 *         the detected places is filled temporarily.
+	 * 
+	 */
+	public List<Place> prepareEvaluation(File file) {
 		IO io = new IO();
 		try {
 			artists.putAll(io.getDataFromXLSX(file));
@@ -53,12 +68,20 @@ public class CorpusService {
 		return placesToEvaluate;
 	}
 
-	public void init2(Map<Place, Set<String>> deletionMap) {
-		System.out.println(deletionMap);
+	/**
+	 * @param deletionMap
+	 *            overrides artist map with evaluation result
+	 */
+	public void completeCorpus(Map<Place, Set<String>> deletionMap) {
 		artists.putAll(PlaceEvaluator.evaluatePlaces(placesToEvaluate, deletionMap, artists));
 		serializeCorpus();
 	}
 
+	/**
+	 * @return
+	 * 
+	 * 		returns the map values as a list
+	 */
 	public List<Artist> getArtistList() {
 		List<Artist> artistsList = new ArrayList<Artist>();
 		for (String artistKey : artists.keySet()) {
@@ -67,6 +90,9 @@ public class CorpusService {
 		return artistsList;
 	}
 
+	/**
+	 * @return returns all songs
+	 */
 	public List<Song> getAllSongs() {
 		List<Song> allSongs = new ArrayList<>();
 		for (Artist artist : getArtistList()) {
@@ -77,6 +103,11 @@ public class CorpusService {
 		return allSongs;
 	}
 
+	/**
+	 * @param uuid
+	 * @return returns one specific song with the given id. Especially for
+	 *         search and browse results
+	 */
 	public Song getSongByID(String uuid) {
 		for (Song song : getAllSongs()) {
 			if (song.getUuid().equals(uuid)) {
@@ -87,6 +118,15 @@ public class CorpusService {
 		return null;
 	}
 
+	/**
+	 * @param yearsFrom
+	 * @param yearsTo
+	 * @return
+	 * 
+	 * 		returns an submap of the class map artists concerning the given
+	 *         range fo years
+	 * 
+	 */
 	public List<Artist> getArtistSongsByYears(int yearsFrom, int yearsTo) {
 		List<Artist> filteredArtists = new ArrayList<>();
 		List<Artist> currArtists = new ArrayList<>();
@@ -113,6 +153,9 @@ public class CorpusService {
 		return filteredArtists;
 	}
 
+	/**
+	 * serializes the corpus
+	 */
 	public void serializeCorpus() {
 		System.out.println("serializing corpus");
 		new File("data/corpus").mkdirs();
@@ -127,24 +170,33 @@ public class CorpusService {
 		}
 	}
 
-	public boolean corpusExists() {
-		return new File("data/corpus/corpus.ser").exists();
+	/**
+	 * deserializes the corpus. Useful for restarting the app.
+	 */
+	public void readExistingCorpus() {
+		if (corpusExists()) {
+			try {
+				FileInputStream fileIn = new FileInputStream("data/corpus/corpus.ser");
+				ObjectInputStream in = new ObjectInputStream(fileIn);
+				artists = (Map<String, Artist>) in.readObject();
+				in.close();
+				fileIn.close();
+			} catch (IOException i) {
+				i.printStackTrace();
+				return;
+			} catch (ClassNotFoundException c) {
+				c.printStackTrace();
+				return;
+			}
+		}
 	}
 
-	public void readExistingCorpus() {
-		try {
-			FileInputStream fileIn = new FileInputStream("data/corpus/corpus.ser");
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			artists = (Map<String, Artist>) in.readObject();
-			in.close();
-			fileIn.close();
-		} catch (IOException i) {
-			i.printStackTrace();
-			return;
-		} catch (ClassNotFoundException c) {
-			c.printStackTrace();
-			return;
-		}
+	/**
+	 * @return checks if there is already a corpus. Useful for restarting the
+	 *         app.
+	 */
+	public boolean corpusExists() {
+		return new File("data/corpus/corpus.ser").exists();
 	}
 
 	/**
@@ -161,9 +213,6 @@ public class CorpusService {
 			Song original = allSongs.get(rand.nextInt(allSongs.size() - 1));
 			allSongs.get(rand.nextInt(allSongs.size()));
 			String tempLyrics = "";
-			// for (int i = 0; i < 20; i++) {
-			// tempLyrics += original.getLyrics().split(" ")[i] + " ";
-			// }
 			String[] lines = original.getLyrics().split("\n");
 			int limit = 2;
 			// if lyrics are shorter than 3 lines
@@ -192,25 +241,30 @@ public class CorpusService {
 		}
 		return quotes;
 	}
-	
-	public int[] getMinAndMaxYears(){
+
+	/**
+	 * @return
+	 * 
+	 * 		returns the oldest and the newest year of all songs in the corpus
+	 * 
+	 */
+	public int[] getMinAndMaxYears() {
 		int min = 0, max = 0;
 		for (Song song : getAllSongs()) {
 			int cur = song.getYear();
-			
+
 			if ((min == 0) && (max == 0)) {
 				min = cur;
 				max = cur;
-			} else {	
+			} else {
 				if (cur > max) {
 					max = cur;
-				} else
-					if (cur < min) {
+				} else if (cur < min) {
 					min = cur;
 				}
 			}
 		}
-		return new int[] {min, max};
+		return new int[] { min, max };
 	}
 
 }

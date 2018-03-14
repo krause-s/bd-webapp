@@ -77,7 +77,7 @@ public class IndexController {
 				iter.remove();
 		}
 
-		corpusService.init2(map);
+		corpusService.completeCorpus(map);
 		searchService.updateIndex();
 
 		// TODO idle
@@ -145,7 +145,7 @@ public class IndexController {
 			stream.close();
 
 			File tmpFile = new File(filepath);
-			List<Place> placesToEvaluate = corpusService.init(tmpFile);
+			List<Place> placesToEvaluate = corpusService.prepareEvaluation(tmpFile);
 
 			if (placesToEvaluate != null) {
 				

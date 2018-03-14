@@ -47,6 +47,11 @@ public class SearchService {
 	@Autowired
 	private CorpusService corpusService;
 
+	/**
+	 * @throws IOException
+	 * 
+	 *             readsthe corpus given by corpusService and writes an index
+	 */
 	public void initIndex() throws IOException {
 		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 		File folder = new File(indexDirPath);
@@ -61,6 +66,10 @@ public class SearchService {
 		writer.close();
 	}
 
+	/**
+	 * Updating the index is equivalent to initializing. Index is completely
+	 * rewritten instead of appended, because of references to the song UUID
+	 */
 	public void updateIndex() {
 		try {
 			initIndex();
@@ -69,22 +78,51 @@ public class SearchService {
 		}
 	}
 
+	/**
+	 * @param field
+	 *            for query building
+	 */
 	public void setField(String field) {
 		this.field = field;
 	}
 
+	/**
+	 * @param years
+	 *            for query building
+	 */
 	public void setYears(int[] years) {
 		this.years = years;
 	}
 
+	/**
+	 * @param fuzzy
+	 *            for query building
+	 */
 	public void setFuzzy(boolean fuzzy) {
 		this.fuzzy = fuzzy;
 	}
 
+	/**
+	 * @param compilation
+	 *            for query building
+	 */
 	public void setCompilation(boolean compilation) {
 		this.compilation = compilation;
 	}
 
+	/**
+	 * @param searchPhrase
+	 *            for query building
+	 */
+	public void setSearchPhrase(String searchPhrase) {
+		this.searchPhrase = searchPhrase;
+	}
+
+	/**
+	 * @param artist
+	 * @return a List of Lucene Docs converts all songs of an artist to Lucene
+	 *         Documents
+	 */
 	private List<Document> convertToLuceneDoc(Artist artist) {
 		List<Document> luceneDocLists = new ArrayList<Document>();
 		for (Song song : artist.getSongs()) {
@@ -93,6 +131,10 @@ public class SearchService {
 		return luceneDocLists;
 	}
 
+	/**
+	 * @param song
+	 * @return one Lucene Document converts a Song to Lucene Document
+	 */
 	private Document convertToLuceneDoc(Song song) {
 		Document doc = new Document();
 		doc.add(new TextField("title", song.getTitle(), Store.YES));
@@ -106,28 +148,24 @@ public class SearchService {
 		return doc;
 	}
 
-	public List<Song> search() throws ParseException, IOException {
-		
-		DirectoryReader dirReader;
-		IndexSearcher is;
-		try {
-			Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());		
-			dirReader = DirectoryReader.open(dir);
-			is = new IndexSearcher(dirReader);
-		} catch (IndexNotFoundException e) {
-			return new ArrayList<Song>();
-		}
-
+	/**
+	 * @return BooleanQuery for Search uses the query fields set before to build
+	 *         a query
+	 */
+	private BooleanQuery buildQuery() {
 		String q = searchPhrase;
 		if (fuzzy && !q.isEmpty()) {
 			q = q + "~";
 		}
-
 		QueryParser parser = new QueryParser(field, new StandardAnalyzer());
 		Builder builder = new BooleanQuery.Builder();
-
 		if (!q.isEmpty()) {
-			Query queryText = parser.parse(q);
+			Query queryText = null;
+			try {
+				queryText = parser.parse(q);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			BooleanClause bcText = new BooleanClause(queryText, Occur.MUST);
 			builder.add(bcText);
 		}
@@ -140,28 +178,67 @@ public class SearchService {
 
 		if (compilation) {
 			parser = new QueryParser("compilation", new StandardAnalyzer());
-			builder.add(new BooleanClause(parser.parse("true"), Occur.MUST));
+			try {
+				builder.add(new BooleanClause(parser.parse("true"), Occur.MUST));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
+		return builder.build();
+	}
 
-		BooleanQuery booleanQuery = builder.build();
-
-		System.out.println("booleanQuery: " + booleanQuery);
-		TopDocs hits = is.search(booleanQuery, dirReader.numDocs());
-		System.out.println(hits.totalHits);
-		List<Song> resultList = new ArrayList<Song>();
-		for (int i = 0; i < hits.scoreDocs.length; i++) {
-			ScoreDoc scoreDoc = hits.scoreDocs[i];
-			Document doc = is.doc(scoreDoc.doc);
-			Song currentSong = corpusService.getSongByID(doc.get("uuid"));
-			if (currentSong != null)
-				resultList.add(currentSong);
+	/**
+	 * @return List of songs as result
+	 * @throws ParseException
+	 * @throws IOException
+	 * 
+	 * reads an index and returns all retrieved results as a list of songs
+	 */
+	public List<Song> search() throws ParseException, IOException {
+		DirectoryReader dirReader;
+		IndexSearcher is;
+		try {
+			Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
+			dirReader = DirectoryReader.open(dir);
+			is = new IndexSearcher(dirReader);
+		} catch (IndexNotFoundException e) {
+			return new ArrayList<Song>();
 		}
+		TopDocs hits = is.search(buildQuery(), dirReader.numDocs());
+		List<Song> resultList = getSearchResults(is, hits);
+
+		// resetting all query fields for next query
 		resetQueries();
-
 		dirReader.close();
 		return resultList;
 	}
 
+	/**
+	 * @param is
+	 * @param hits
+	 * @return search result as list of songs
+	 * 
+	 */
+	private List<Song> getSearchResults(IndexSearcher is, TopDocs hits) {
+		List<Song> resultList = new ArrayList<Song>();
+		for (int i = 0; i < hits.scoreDocs.length; i++) {
+			ScoreDoc scoreDoc = hits.scoreDocs[i];
+			Document doc = null;
+			try {
+				doc = is.doc(scoreDoc.doc);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Song currentSong = corpusService.getSongByID(doc.get("uuid"));
+			if (currentSong != null)
+				resultList.add(currentSong);
+		}
+		return resultList;
+	}
+
+	/**
+	 * helper method to reset query for next search
+	 */
 	private void resetQueries() {
 		setCompilation(false);
 		setField("");
@@ -169,10 +246,6 @@ public class SearchService {
 		setSearchPhrase("");
 		years[0] = 0;
 		years[1] = 3000;
-	}
-
-	public void setSearchPhrase(String searchPhrase) {
-		this.searchPhrase = searchPhrase;
 	}
 
 }
