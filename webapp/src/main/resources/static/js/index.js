@@ -39,7 +39,6 @@ function quoteAlign() {
 }
 
 function disable() {
-	alert("disable");
 	var row = $(this).parent().parent();
 	var name = row.find("input:first");
 
