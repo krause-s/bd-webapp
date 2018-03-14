@@ -21,32 +21,54 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h1>Evaluation of found places</h1>
+					<div class="row">
+						<div th:replace="../fragments/index/overlay :: icon"></div>
+
+						<div class="col-xs-6 col-sm-4">
+							<h2 class="modal-title">Evaluation</h2>
+							<span>Places</span>
+						</div>
+
+						<div th:replace="../fragments/index/overlay :: icon"></div>
+					</div>
+					<!-- /.row -->
 				</div>
 				<!-- /.modal-header -->
 
 				<form th:action="@{/evaluation}" method="post">
 					<div class="modal-body">
-						<p>The Named Entity Recognition and nominatim found the
-							following places in your lyrics. You can select the ones you want
-							to keep with the checkboxes and confirm you decision afterwards.</p>
-						<div th:each="place : ${places}"
-							style="background-color: #cccccc; margin-bottom: 20px;">
-							<div class="row" th:each="name : ${place.value}">
-								<div class="col-xs-5">
-									<input type="text" class="form-control" name="placeName"
-										th:value="${name}" readonly="readonly" />
+						<div class="form-group">
+							<p class="text-justify">The Named Entity Recognition and
+								nominatim found the following places in your lyrics. You can
+								select the ones you want to keep with the checkboxes and confirm
+								your decision afterwards.</p>
+						</div>
+						<!-- /.form-group -->
+
+						<div th:each="place : ${places}">
+							<div class="form-group">
+								<div class="row" th:each="name : ${place.value}">
+									<div class="col-xs-4">
+										<input type="text" class="form-control" name="placeName"
+											th:value="${name}" readonly="readonly" />
+									</div>
+
+									<div class="col-xs-7">
+										<i th:text="${place.key.getMeta()}"></i>
+									</div>
+
+									<div class="col-xs-1 text-right">
+										<input class="placeCheck" type="checkbox" checked="checked" />
+									</div>
 								</div>
-								<div class="col-xs-5" th:text="${place.key.getMeta()}"></div>
-								<div class="col-xs-2">
-									<input class="checkTest" type="checkbox" checked="checked" />
-								</div>
+								<!-- /.row -->
 							</div>
-							<!-- /.row -->
+							<!-- /.form-group -->
 						</div>
 						<!-- /each:place -->
 					</div>
 					<!-- /.modal-body -->
+
 					<div class="modal-footer">
 						<button class="btn btn-danger">Confirm</button>
 					</div>
@@ -58,6 +80,13 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /fragment:evaluation -->
+
+	<div th:fragment="icon" class="col-xs-3 col-sm-4">
+		<h2>
+			<b><span class="glyphicon glyphicon-globe"></span></b>
+		</h2>
+	</div>
+	<!-- /fragment:icon -->
 </body>
 
 </html>

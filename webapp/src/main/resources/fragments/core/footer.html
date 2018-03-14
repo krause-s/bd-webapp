@@ -4,12 +4,15 @@
 <head></head>
 
 <body>
-	<footer th:fragment="footer" id="pageFooter" style="border-top: 1px solid #ddd;">
+	<footer th:fragment="footer" id="pageFooter"
+		style="border-top: 1px solid #ddd;">
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-11">
-					<span th:replace="../fragments/copyright :: copyright"></span>
-					&bull; <a th:href="@{/about}">About</a>
+					<span>&copy; <span
+						th:text="${#dates.year(#dates.createNow())}"></span> <span>Johanna
+							Binnewitt</span>, <span>Stefan Krause</span>, <span>Peter Seipel</span>
+					</span> &bull; <a th:href="@{/about}">About</a>
 				</div>
 
 				<div class="col-xs-1 text-right">

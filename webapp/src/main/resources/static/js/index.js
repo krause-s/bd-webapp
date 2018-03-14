@@ -7,10 +7,15 @@ $(document).ready(function($) {
 	
 	
 	
-	$('.checkTest').change(function() {
+	$('.placeCheck').change(function() {
 		var row = $(this).parent().parent();
 		var name = row.find("input:first");
-		name.attr("disabled", "disabled");
+		
+		if ($(this).is(':checked')) {
+			name.removeAttr("disabled");
+		} else {
+			name.attr("disabled", "disabled");
+		}
 	});
 });
 
