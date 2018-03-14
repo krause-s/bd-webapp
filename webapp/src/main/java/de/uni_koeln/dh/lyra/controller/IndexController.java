@@ -121,12 +121,12 @@ public class IndexController {
 
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<?> uploadFile(@RequestParam("uploadfile") MultipartFile uploadfile, Model model) {
-		System.out.println("!!UPLOAD");
+	public ResponseEntity<?> uploadFile(@RequestParam("uploadfile") MultipartFile uploadFile, Model model) {
+		System.out.println("Upload new file:" + uploadFile.getOriginalFilename());
 
 		try {
 
-			String filename = uploadfile.getOriginalFilename();
+			String filename = uploadFile.getOriginalFilename();
 			String directory = "data/tmp";
 			File dir = new File(directory);
 			if (!dir.isDirectory()) {
@@ -136,14 +136,14 @@ public class IndexController {
 
 			// Save the file locally
 			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
-			stream.write(uploadfile.getBytes());
+			stream.write(uploadFile.getBytes());
 			stream.close();
 
 			File tmpFile = new File(filepath);
 			List<Place> placesToEvaluate = corpusService.init(tmpFile);
 
 			if (placesToEvaluate != null) {
-				System.out.println(placesToEvaluate.get(0).toString());
+				
 				map = new HashMap<Place, Set<String>>();
 
 				for (Place place : placesToEvaluate) {
@@ -157,8 +157,14 @@ public class IndexController {
 
 //				model.addAttribute("places", map);
 			}
+			
+			//delete files in tmp dir
+			File[] tmps = dir.listFiles();
+			for (int i = 0; i < tmps.length; i++) {
+				tmps[i].delete();
+			}
 
-			// TODO delete file, clear map/list
+			// TODO clear map/list
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 //			return "index";// new ResponseEntity<>(HttpStatus.BAD_REQUEST);

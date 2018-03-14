@@ -239,7 +239,11 @@ public class LyricsAnalyzer {
 		Collections.sort(list, comp);
 
 		for (int i = 0; i < numOfTokens; i++) {
-			mostPopularTokens.add(list.get(i).getKey());
+			try {
+				mostPopularTokens.add(list.get(i).getKey());
+			} catch (IndexOutOfBoundsException e) {
+				return mostPopularTokens;
+			}
 		}
 		return mostPopularTokens;
 	}

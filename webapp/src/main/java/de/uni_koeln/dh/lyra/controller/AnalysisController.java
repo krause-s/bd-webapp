@@ -50,8 +50,9 @@ public class AnalysisController {
 			@RequestParam(value = "yearSlider", required = false) List<String> years,
 			@RequestParam(value = "compCheck", required = false) boolean compilation,
 			@RequestParam(value = "countSelect", required = false) String count, Model model) {
+
 		if (artists != null) {
-			List<Map<Integer, Set<String>>> result = analysisService.doSth(artists, years, compilation, count);
+			List<Map<Integer, Set<String>>> result = analysisService.getFrequencies(artists, years, compilation, count);
 
 			model.addAttribute("artists", artists);
 			model.addAttribute("years", years);

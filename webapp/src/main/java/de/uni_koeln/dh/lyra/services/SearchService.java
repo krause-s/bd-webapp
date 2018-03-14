@@ -13,6 +13,7 @@ import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexNotFoundException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -106,9 +107,16 @@ public class SearchService {
 	}
 
 	public List<Song> search() throws ParseException, IOException {
-		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
-		DirectoryReader dirReader = DirectoryReader.open(dir);
-		IndexSearcher is = new IndexSearcher(dirReader);
+		
+		DirectoryReader dirReader;
+		IndexSearcher is;
+		try {
+			Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());		
+			dirReader = DirectoryReader.open(dir);
+			is = new IndexSearcher(dirReader);
+		} catch (IndexNotFoundException e) {
+			return new ArrayList<Song>();
+		}
 
 		String q = searchPhrase;
 		if (fuzzy && !q.isEmpty()) {

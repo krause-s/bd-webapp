@@ -23,8 +23,9 @@ public class AnalysisService {
 	
 
 	// TODO johanna
-	public List<Map<Integer, Set<String>>> doSth(List<String> artists, List<String> years, boolean compilation, String count) {
-		System.out.println(artists + "\n" + years + "\n" + compilation + "\n" + count + "\n-----");	
+	public List<Map<Integer, Set<String>>> getFrequencies(List<String> artists, List<String> years, boolean compilation, String count) {
+
+//		System.out.println(artists + "\n" + years + "\n" + compilation + "\n" + count + "\n-----");	
 		analyzer = new LyricsAnalyzer(corpusService.getAllSongs());
 		analyzer.getWeights();
 		
@@ -36,27 +37,27 @@ public class AnalysisService {
 		int secondFrom = Integer.parseInt(secondYears[0]);
 		int secondTo = Integer.parseInt(secondYears[1]);
 		
-		int numOfTokens = Integer.parseInt(count);
+		int numOfTokens = Integer.parseInt(count);		
+				
+		List<String> firstArtists = createRequestArtistsList(artists.get(0));
+//		String first = artists.get(0);
+//		if (first.equals("(All)")) {
+//			List<Artist> allArtists = corpusService.getArtistList();
+//			for(Artist a : allArtists) {
+//				firstArtists.add(a.getName());
+//			}
+//		} else
+//			firstArtists.add(first);
 		
-		List<String> firstArtists = new ArrayList<String>();
-		String first = artists.get(0);
-		if (first.equals("(All)")) {
-			List<Artist> allArtists = corpusService.getArtistList();
-			for(Artist a : allArtists) {
-				firstArtists.add(a.getName());
-			}
-		} else
-			firstArtists.add(first);
-		
-		List<String> secondArtists = new ArrayList<String>();
-		String second = artists.get(1);
-		if (second.equals("(All)")) {
-			List<Artist> allArtists = corpusService.getArtistList();
-			for(Artist a : allArtists) {
-				secondArtists.add(a.getName());
-			}
-		} else
-			secondArtists.add(second);
+		List<String> secondArtists = createRequestArtistsList(artists.get(1));
+//		String second = artists.get(1);
+//		if (second.equals("(All)")) {
+//			List<Artist> allArtists = corpusService.getArtistList();
+//			for(Artist a : allArtists) {
+//				secondArtists.add(a.getName());
+//			}
+//		} else
+//			secondArtists.add(second);
 		
 		Map<Integer, Set<String>> firstResult = analyzer.getMostRelevantTokens(firstFrom, firstTo,
 				compilation, numOfTokens, firstArtists);
@@ -69,6 +70,20 @@ public class AnalysisService {
 		result.add(secondResult);
 		
 		return result;
+	}
+
+
+
+	private List<String> createRequestArtistsList(String artists) {
+		List<String> toReturn = new ArrayList<String>();
+		if (artists.equals("(All)")) {
+			List<Artist> allArtists = corpusService.getArtistList();
+			for(Artist a : allArtists) {
+				toReturn.add(a.getName());
+			}
+		} else
+			toReturn.add(artists);
+		return toReturn;
 	} 
 	
 }
