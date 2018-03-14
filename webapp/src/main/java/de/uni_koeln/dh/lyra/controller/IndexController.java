@@ -2,8 +2,10 @@ package de.uni_koeln.dh.lyra.controller;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +16,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.model.place.Place;
@@ -171,5 +176,22 @@ public class IndexController {
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+    public StreamingResponseBody getSteamingFile(HttpServletResponse response) throws IOException {
+
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");//("text/html;charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment; filename=\"sample_database.xlsx\"");
+        InputStream inputStream = new FileInputStream(new File("src/main/resources/sample/sample_database.xlsx"));
+
+        return outputStream -> {
+            int nRead;
+            byte[] data = new byte[1024];
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                outputStream.write(data, 0, nRead);
+            }
+            inputStream.close();
+        };
+    }
 
 }
