@@ -18,10 +18,22 @@ import de.uni_koeln.dh.lyra.data.Song;
 
 import de.uni_koeln.dh.lyra.util.Strings;
 
+/**
+ * Web Crawler to generate song objects from web contents
+ * @author Johanna
+ *
+ */
 public class Crawler {
 
 	private int songCounter = 1;
 
+	/**
+	 * takes every url in the file and creates a song object from
+	 * information on the url web page
+	 * @param path
+	 * @return
+	 * @throws IOException
+	 */
 	public List<Song> getSongsFromURLs(String path) throws IOException {
 
 		File file = new File(path);

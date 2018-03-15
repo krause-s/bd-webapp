@@ -34,6 +34,11 @@ public class IO {
 	List<Place> placesToEvaluate = new ArrayList<Place>();
 	SongPreprocessor prep;
 	
+	/**
+	 * returns all found places that are ready to evaluate
+	 * by the user
+	 * @return
+	 */
 	public List<Place> getPlacesToEvaluate() {
 		return placesToEvaluate;
 	}
@@ -43,7 +48,7 @@ public class IO {
 	 * compilation, lyrics, comment initializes for each row a song object, adds it
 	 * to the referred artist and returns a list of all artist objects
 	 * 
-	 * @param dataPath
+	 * @param file
 	 * @return
 	 * @throws IOException
 	 */

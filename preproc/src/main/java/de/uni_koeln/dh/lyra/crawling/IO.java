@@ -18,8 +18,21 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import de.uni_koeln.dh.lyra.data.Song;
 
+/**
+ * handles export of songs to xlsx
+ * @author Johanna
+ *
+ */
 public class IO {
-	
+
+	/**
+	 * exports generated songs to .xlsx-file. Columns are
+	 * artist, title, release, year, compilation, lyrics, comment
+	 * 
+	 * output to src/main/resources/lyrics_database.xlsx
+	 * @param songs
+	 * @throws IOException
+	 */
 public void exportSongsToXLSX(List<Song> songs) throws IOException {
 		
 		Map<String, Song> songMap = new HashMap<String, Song>();

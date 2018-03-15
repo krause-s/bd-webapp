@@ -19,6 +19,11 @@ import de.uni_koeln.dh.lyra.services.AnalysisService;
 import de.uni_koeln.dh.lyra.services.CorpusService;
 
 
+/**
+ * @author Johanna
+ * interface for all data processing in
+ * places and frequencies
+ */
 @Controller
 @RequestMapping(value = "/analytics")
 public class AnalysisController {

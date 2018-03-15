@@ -34,7 +34,10 @@ import de.uni_koeln.dh.lyra.util.IO;
 @Service
 public class CorpusService {
 
-	public static String dataPath;
+//	/**
+//	 * 
+//	 */
+//	public static String dataPath;
 	private static Map<String, Artist> artists = new HashMap<String, Artist>();
 
 	private List<Place> placesToEvaluate;

@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.processing.LyricsAnalyzer;
 
+/**
+ * @author Johanna
+ * service to process all data for token frequency analysis
+ */
 @Service
 public class AnalysisService {
 	

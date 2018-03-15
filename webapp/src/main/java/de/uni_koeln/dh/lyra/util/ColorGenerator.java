@@ -1,5 +1,10 @@
 package de.uni_koeln.dh.lyra.util;
 
+/**
+ * contains method to generate (random) color
+ * 
+ *
+ */
 public class ColorGenerator {
 
 	/**
