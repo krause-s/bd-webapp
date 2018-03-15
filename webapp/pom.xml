@@ -60,10 +60,6 @@
 			<version>${lucene.version}</version>
 		</dependency>
 
-		<!-- TODO required? -->
-		<!-- <dependency> <groupId>org.apache.lucene</groupId> <artifactId>lucene-queries</artifactId> 
-			<version>7.2.1</version> </dependency> -->
-
 		<!-- WebJars versioning -->
 		<dependency>
 			<groupId>org.webjars</groupId>
