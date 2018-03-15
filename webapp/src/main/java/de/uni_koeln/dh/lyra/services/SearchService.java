@@ -32,6 +32,12 @@ import org.springframework.stereotype.Service;
 import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.data.Song;
 
+/**
+ * Contains methods to manage lucene index and
+ * search queries
+ *
+ *
+ */
 @Service
 public class SearchService {
 

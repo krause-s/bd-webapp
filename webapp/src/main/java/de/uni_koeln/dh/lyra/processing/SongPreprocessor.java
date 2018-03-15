@@ -18,6 +18,12 @@ import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 import opennlp.tools.util.Span;
 
+/**
+ * class manages song preprocessing in terms of
+ * tokenization and name entity recognition
+ * @author Johanna
+ *
+ */
 public class SongPreprocessor {
 
 	private TokenizerME tokenizer;
@@ -151,7 +157,7 @@ public class SongPreprocessor {
 	 * if one place name is references several times in the lyrics, the quotes
 	 * are contained in one pop up
 	 * 
-	 * @param lyrics
+	 * @param song
 	 * @return
 	 */
 	public List<PopUp> createPopUps(Song song) {

@@ -9,6 +9,11 @@ import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.data.Place;
 import de.uni_koeln.dh.lyra.data.PopUp;
 
+/**
+ * class to process evaluation results of found places
+ * @author Johanna
+ *
+ */
 public class PlaceEvaluator {
 
 	/**

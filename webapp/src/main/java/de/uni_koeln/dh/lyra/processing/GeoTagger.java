@@ -6,6 +6,11 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
+/**
+ * processes geo data for reference strings by using
+ * nominatim
+ *
+ */
 public class GeoTagger {
 
 	private String nominatimJsonResponse;
