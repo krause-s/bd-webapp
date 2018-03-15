@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -129,6 +130,7 @@ public class IO {
 			String compilationString = getString(r, 4);
 			String lyrics = getString(r, 5);
 			String comment = getString(r, 6);
+			
 
 			boolean compilation = false;
 			if (compilationString.equals("x"))
@@ -164,9 +166,14 @@ public class IO {
 	 */
 	private String getString(XSSFRow r, int i) {
 		Cell c = r.getCell(i);
-		if (c != null) 
-			return r.getCell(i).getStringCellValue();
-		else
+		if (c != null) {
+			if (c.getCellTypeEnum().equals(CellType.STRING))
+				return c.getStringCellValue();
+			else if (c.getCellTypeEnum().equals(CellType.NUMERIC)) {
+//				String value = String.valueOf(c.getNumericCellValue());
+				return String.valueOf((int)c.getNumericCellValue());
+			}
+		}					
 			return "";
 	}
 	
@@ -179,9 +186,15 @@ public class IO {
 	 */
 	private Integer getInteger(XSSFRow r, int i) {
 		Cell c = r.getCell(i);
-		if (c != null) 
-			return (int) r.getCell(i).getNumericCellValue();
-		else
+		if (c != null) {
+			
+			if(c.getCellTypeEnum().equals(CellType.NUMERIC))
+				return (int) c.getNumericCellValue();
+			else
+				return 0;
+
+		}
+
 			return 0;
 	}
 
