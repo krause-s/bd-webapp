@@ -99,12 +99,22 @@ public class IndexController {
 			Map<Artist, Integer> stockMap = new TreeMap<Artist, Integer>(Collections.reverseOrder());
 
 			List<Artist> artists = corpusService.getArtistList();
-
+			int alreadyTaken = 0;
+			
 			for (int i = 0; i < artists.size(); i++) {
 				int cnt = artists.get(i).getSongs().size();
-				int percentage = (int) ((100 / (float) totalCount) * cnt);
+				int percentage;
+							
+				if (i == artists.size() - 1) 
+					percentage = 100 - alreadyTaken; //last artist takes the difference to 100%
+				else {
+					percentage = (int) ((100 / (float) totalCount) * cnt); //percentage on the corpus (incl. rounding)
+					alreadyTaken += percentage;
+				}
+										
 				stockMap.put(artists.get(i), percentage);
 			}
+
 			model.addAttribute("quotes", corpusService.getRandomQuotes());
 			model.addAttribute("songCount", totalCount);
 			model.addAttribute("artistMap", stockMap);
