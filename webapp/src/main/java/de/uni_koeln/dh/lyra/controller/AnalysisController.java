@@ -18,6 +18,7 @@ import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.services.AnalysisService;
 import de.uni_koeln.dh.lyra.services.CorpusService;
 
+
 @Controller
 @RequestMapping(value = "/analytics")
 public class AnalysisController {
@@ -28,6 +29,14 @@ public class AnalysisController {
 	@Autowired
 	private AnalysisService analysisService;
 
+	/**
+	 * filters the songs by the given years
+	 * @param years if null, all songs are return to places
+	 * @param model
+	 * @return
+	 * @throws ParseException
+	 * @throws IOException
+	 */
 	@RequestMapping(value = { "/places" })
 	public String places(@RequestParam(value = "yearSlider", required = false) List<String> years, Model model)
 			throws ParseException, IOException {
@@ -45,6 +54,16 @@ public class AnalysisController {
 		return "places";
 	}
 
+	/**
+	 * initializes the computation of relevant tokens.
+	 * sets attribute "mapList" for the result
+	 * @param artists list of two artist groups
+	 * @param years list of two time sections
+	 * @param compilation if compilations are regarded (in general)
+	 * @param count number of tokens per result 
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/frequencies")
 	public String frequencies(@RequestParam(value = "artistSelect", required = false) List<String> artists,
 			@RequestParam(value = "yearSlider", required = false) List<String> years,
