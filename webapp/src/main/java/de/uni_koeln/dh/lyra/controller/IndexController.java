@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -49,6 +48,11 @@ public class IndexController {
 
 	private Map<Place, Set<String>> map;
 
+	/**
+	 * @param model
+	 * @return if data is available, this leads to a filled index page. If not
+	 *         this page just shows instructions and welcome text.
+	 */
 	@RequestMapping(value = { "", "/" })
 	public String index(Model model) {
 		initStock(model);
@@ -60,38 +64,46 @@ public class IndexController {
 		return "index";
 	}
 
+	/**
+	 * @param placeNames
+	 * @param model
+	 * @return
+	 * @throws IOException
+	 *             if a user finishes his place evaluation this path is
+	 *             navigated to. The Index and the Corpus are refreshed
+	 *             afterwards to make sure the references stay valid. The stock
+	 *             is updated and map is set to null for following uploads.
+	 */
 	@PostMapping(value = "/evaluation")
 	public String evaluation(@RequestParam(value = "placeName", required = false) List<String> placeNames, Model model)
 			throws IOException {
-		System.out.println("EVALUATION");
-
-		// TODO placeNames == null
-
 		Iterator<Map.Entry<Place, Set<String>>> iter = map.entrySet().iterator();
-
 		while (iter.hasNext()) {
 			Set<String> set = iter.next().getValue();
-
 			set.removeAll(placeNames);
 			if (set.isEmpty())
 				iter.remove();
 		}
-
 		corpusService.completeCorpus(map);
 		searchService.updateIndex();
-
-		// TODO idle
 		initStock(model);
-
 		map = null;
 		return "index";
 	}
 
+	/**
+	 * @return Leads to the about area
+	 */
 	@RequestMapping(value = "/about")
 	public String about() {
 		return "about";
 	}
 
+	/**
+	 * @param model
+	 *            stock shows the number of artists in the corpus and the song
+	 *            distribution.
+	 */
 	private void initStock(Model model) {
 		if (corpusService.getArtistList() != null && !corpusService.getArtistList().isEmpty()) {
 			int totalCount = corpusService.getAllSongs().size();
@@ -100,18 +112,20 @@ public class IndexController {
 
 			List<Artist> artists = corpusService.getArtistList();
 			int alreadyTaken = 0;
-			
+
 			for (int i = 0; i < artists.size(); i++) {
 				int cnt = artists.get(i).getSongs().size();
 				int percentage;
-							
-				if (i == artists.size() - 1) 
-					percentage = 100 - alreadyTaken; //last artist takes the difference to 100%
+
+				if (i == artists.size() - 1)
+					// last artist takes the difference to 100%
+					percentage = 100 - alreadyTaken;
 				else {
-					percentage = (int) ((100 / (float) totalCount) * cnt); //percentage on the corpus (incl. rounding)
+					// percentage on the corpus (incl. rounding)
+					percentage = (int) ((100 / (float) totalCount) * cnt);
 					alreadyTaken += percentage;
 				}
-										
+
 				stockMap.put(artists.get(i), percentage);
 			}
 
@@ -121,13 +135,17 @@ public class IndexController {
 		}
 	}
 
+	/**
+	 * @param uploadFile
+	 * @param model
+	 * @return
+	 * organizes the file upload and saves file locally. After evaluation process the saved file is deleted again.
+	 */
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<?> uploadFile(@RequestParam("uploadfile") MultipartFile uploadFile, Model model) {
 		System.out.println("Upload new file:" + uploadFile.getOriginalFilename());
-
 		try {
-
 			String filename = uploadFile.getOriginalFilename();
 			String directory = "data/tmp";
 			File dir = new File(directory);
@@ -145,19 +163,13 @@ public class IndexController {
 			List<Place> placesToEvaluate = corpusService.prepareEvaluation(tmpFile);
 
 			if (placesToEvaluate != null) {
-
 				map = new HashMap<Place, Set<String>>();
-
 				for (Place place : placesToEvaluate) {
 					Set<String> set = new TreeSet<String>();
-
 					for (PopUp popup : place.getPopUps())
 						set.add(popup.getPlaceName());
-
 					map.put(place, set);
 				}
-
-				// model.addAttribute("places", map);
 			}
 
 			// delete files in tmp dir
@@ -165,19 +177,22 @@ public class IndexController {
 			for (int i = 0; i < tmps.length; i++) {
 				tmps[i].delete();
 			}
-
-			// TODO clear map/list
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			// return "index";// new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			System.err.println(e.getMessage());
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	/**
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 * empty sample file download
+	 */
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
 	public StreamingResponseBody getSteamingFile(HttpServletResponse response) throws IOException {
 
-		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");// ("text/html;charset=UTF-8");
+		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 		response.setHeader("Content-Disposition", "attachment; filename=\"sample.xlsx\"");
 		InputStream inputStream = new FileInputStream(new File("src/main/resources/sample/sample.xlsx"));
 

@@ -9,9 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.uni_koeln.dh.lyra.data.Place;
 import de.uni_koeln.dh.lyra.data.PopUp;
 import de.uni_koeln.dh.lyra.data.Song;
@@ -21,10 +18,7 @@ import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 import opennlp.tools.util.Span;
 
-//TODO class name? processes bio places too
 public class SongPreprocessor {
-
-	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	private TokenizerME tokenizer;
 	private NameFinderME nameFinder;
