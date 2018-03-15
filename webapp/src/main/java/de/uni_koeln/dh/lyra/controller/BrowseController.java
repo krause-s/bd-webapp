@@ -25,12 +25,23 @@ public class BrowseController {
 	@Autowired
 	CorpusService corpusService;
 
+	/**
+	 * @param songID
+	 * @param model
+	 * @return 
+	 * leads via an unique id to a certain song and presents it in the song template
+	 */
 	@RequestMapping(value = "/browse/{songID}")
 	public String browse(@PathVariable("songID") String songID, Model model) {
 		model.addAttribute("song", corpusService.getSongByID(songID));
 		return "song";
 	}
 
+	/**
+	 * @param model
+	 * @return
+	 * returns all songs in the browse template
+	 */
 	@RequestMapping(value = { "/browse/", "/browse" })
 	public String browse(Model model) {
 		model.addAttribute("title", "Browse");
@@ -38,12 +49,32 @@ public class BrowseController {
 		return "browse";
 	}
 
+	/**
+	 * @param model
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 * initial search view without any results shown. 
+	 */
 	@RequestMapping(value = "/search")
 	public String search(Model model) throws IOException, ParseException {
 		model.addAttribute("songYears", corpusService.getMinAndMaxYears());
 		return "search";
 	}
 
+	/**
+	 * @param searchPhrase
+	 * @param field
+	 * @param years
+	 * @param fuzzy
+	 * @param compilation
+	 * @param required
+	 * @param model
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 * sets all given parameters in the searchService for queryBuilder. Presents the results in the browse template as a table. 
+	 */
 	@RequestMapping(value = { "/result" })
 	public String search(@RequestParam("searchForm") String searchPhrase, @RequestParam("fieldForm") String field,
 			@RequestParam(value = "yearSlider", required = false) List<String> years,
