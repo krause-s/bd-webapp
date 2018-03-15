@@ -210,7 +210,6 @@ public class SearchService {
 		TopDocs hits = is.search(buildQuery(), dirReader.numDocs());
 		List<Song> resultList = getSearchResults(is, hits);
 
-		// resetting all query fields for next query
 		resetQueries();
 		dirReader.close();
 		return resultList;
