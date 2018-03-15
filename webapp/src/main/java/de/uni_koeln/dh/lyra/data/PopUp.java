@@ -20,10 +20,6 @@ public class PopUp implements Serializable{
 	 */
 	private Song referredSong;
 	
-//	public PopUp(String placeName){
-//		this.placeName = placeName;
-//	}
-	
 	/**
 	 * used to generate lyrics quote
 	 * @param placeName referred in the lyrics

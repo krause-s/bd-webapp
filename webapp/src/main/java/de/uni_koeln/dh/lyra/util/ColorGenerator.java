@@ -2,6 +2,10 @@ package de.uni_koeln.dh.lyra.util;
 
 public class ColorGenerator {
 
+	/**
+	 * @return
+	 * generates a random string value that represents a color
+	 */
 	public static String randomColor() {
 		    String[] letters = "0123456789ABCDEF".split("");
 		    String color = "#";

@@ -31,7 +31,6 @@ public class AnalysisService {
 	 */
 	public List<Map<Integer, Set<String>>> getFrequencies(List<String> artists, List<String> years, boolean compilation, String count) {
 
-//		System.out.println(artists + "\n" + years + "\n" + compilation + "\n" + count + "\n-----");	
 		analyzer = new LyricsAnalyzer(corpusService.getAllSongs());
 		analyzer.getWeights();
 		
