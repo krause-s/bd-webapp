@@ -3,8 +3,10 @@
 
 <head></head>
 
+<!-- fragments for index.html -->
 <body>
-	<div th:fragment="upload" id="uploadDialog" class="modal"
+	<!-- upload fragment: idle view (spinner), has to be triggered by index.js:uploadFile() -->
+	<div th:fragment="upload" id="idleDialog" class="modal"
 		data-backdrop="static">
 		<div class="modal-dialog">
 			<div class="text-center">
@@ -15,26 +17,30 @@
 	</div>
 	<!-- /fragment:upload -->
 
-	<div th:if="${places != null}" id="evaluationDialog"
-		th:fragment="evaluation" class="modal" role="dialog"
+	<!-- evaluation fragment: requires 'places' as model attribute to be shown -->
+	<div th:fragment="evaluation" th:if="${places != null}"
+		id="evaluationDialog" class="modal" role="dialog"
 		data-backdrop="static">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
+				<!-- ************** header ************** -->
 				<div class="modal-header">
 					<div class="row">
-						<div th:replace="../fragments/index/overlay :: icon"></div>
+						<div th:replace="../fragments/index/overlay :: iconColumn"></div>
 
 						<div class="col-xs-6 col-sm-4">
 							<h2 class="modal-title">Evaluation</h2>
 							<span>Places</span>
 						</div>
 
-						<div th:replace="../fragments/index/overlay :: icon"></div>
+						<div th:replace="../fragments/index/overlay :: iconColumn"></div>
 					</div>
 					<!-- /.row -->
 				</div>
 				<!-- /.modal-header -->
 
+				<!-- ************** body ************** -->
+				<!-- confirming this form calls IndexController.evaluation() -->
 				<form th:action="@{/evaluation}" method="post">
 					<div class="modal-body">
 						<div class="form-group">
@@ -45,18 +51,22 @@
 						</div>
 						<!-- /.form-group -->
 
+						<!-- list of all found places and the meta information by nominatim for evaluation -->
 						<div th:each="place : ${places}">
 							<div class="form-group">
 								<div class="row" th:each="name : ${place.value}">
+									<!-- place -->
 									<div class="col-xs-4">
 										<input type="text" class="form-control" name="placeName"
 											th:value="${name}" readonly="readonly" />
 									</div>
 
+									<!-- meta -->
 									<div class="col-xs-7">
 										<i th:text="${place.key.getMeta()}"></i>
 									</div>
 
+									<!-- checkbox -->
 									<div class="col-xs-1 text-right">
 										<input class="placeCheck" type="checkbox" checked="checked" />
 									</div>
@@ -69,6 +79,7 @@
 					</div>
 					<!-- /.modal-body -->
 
+					<!-- ************** footer ************** -->
 					<div class="modal-footer">
 						<button class="btn btn-danger">Confirm</button>
 					</div>
@@ -81,12 +92,12 @@
 	</div>
 	<!-- /fragment:evaluation -->
 
-	<div th:fragment="icon" class="col-xs-3 col-sm-4">
+	<div th:fragment="iconColumn" class="col-xs-3 col-sm-4">
 		<h2>
 			<b><span class="glyphicon glyphicon-globe"></span></b>
 		</h2>
 	</div>
-	<!-- /fragment:icon -->
+	<!-- /fragment:iconColumn -->
 </body>
 
 </html>

@@ -13,13 +13,11 @@ td:not(.col-xs-12) {
 	white-space: nowrap;
 }
 
-/* ************** CLASSES ************** */
-
 .panel-body {
 	padding: 0;
 }
 
-.bsStyle, .noLine {
+.a-danger-port, .noLine {
 	color: #333333;
 }
 
@@ -40,8 +38,8 @@ td:not(.col-xs-12) {
 	border-color: #d9534f;
 }
 
-.bsStyle:focus,
-.bsStyle:hover, 
+.a-danger-port:focus,
+.a-danger-port:hover, 
 .pagination > li > a:focus, 
 .pagination > li > a:hover {
 	color: #c9302c;
@@ -63,8 +61,6 @@ td:not(.col-xs-12) {
 .tab-pane:not(.active) {
 	display: none;
 }
-
-/* ************** IDs ************** */
 
 #pageFooter {
 	position: fixed;

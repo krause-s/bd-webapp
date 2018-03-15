@@ -4,7 +4,8 @@
 <head></head>
 
 <body>
-	<nav th:fragment="navbar(active)"
+	<!-- page navigation bar ('title' for activating current subpage) -->
+	<nav th:fragment="navbar(title)"
 		class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
@@ -19,18 +20,18 @@
 
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav" th:with="state='active'">
-					<li th:class="${active == 'browse'} ? ${state}"><a
+					<li th:class="${title == 'browse'} ? ${state}"><a
 						th:href="@{/browse}">Browse</a></li>
 
 					<li class="dropdown"
-						th:class="${active == 'places'} OR ${active == 'frequencies'} ? ${state}">
+						th:class="${title == 'places'} OR ${title == 'frequencies'} ? ${state}">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 							Analytics<span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu">
-							<li th:class="${active == 'places'} ? ${state}"><a
+							<li th:class="${title == 'places'} ? ${state}"><a
 								th:href="@{/analytics/places}">Places</a></li>
-							<li th:class="${active == 'frequencies'} ? ${state}"><a
+							<li th:class="${title == 'frequencies'} ? ${state}"><a
 								th:href="@{/analytics/frequencies}">Frequencies</a></li>
 						</ul>
 					</li>

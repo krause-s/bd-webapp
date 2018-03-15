@@ -4,11 +4,12 @@
 <head></head>
 
 <body>
+	<!-- stock fragment for index.html: overview of data (see IndexController.initStock();) -->
 	<div th:fragment="stock">
 		<h3>Stock</h3>
 		<hr />
 		<div class="panel panel-default">
-			<!-- ************** Header ************** -->
+			<!-- ************** header ************** -->
 			<div class="panel-heading">
 				<div class="row">
 					<div class="col-xs-5 text-right">
@@ -29,30 +30,33 @@
 			</div>
 			<!-- /.panel-heading -->
 
-			<!-- ************** Bar ************** -->
+			<!-- ************** bar ************** -->
 			<a href="#details" data-toggle="collapse"
 				title="Click for stock details">
+				<!-- progress/stock bar constructed by model attributes incl. percentage and artist specific colors -->
 				<div class="progress">
-						<div th:each="artist : ${artistMap}" class="progress-bar"
-							role="progressbar"
-							th:style="'width: ' + ${artist.value} + '%; background-color: ' + ${artist.key.getColor()}"></div>
-				</div> <!-- /.progress -->
+					<div th:each="artist : ${artistMap}" class="progress-bar"
+						role="progressbar"
+						th:style="'width: ' + ${artist.value} + '%; background-color: ' + ${artist.key.getColor()}"></div>
+				</div> 
+				<!-- /.progress -->
 			</a>
 
-			<!-- ************** Details ************** -->
+			<!-- ************** details ************** -->
 			<div id="details" class="collapse">
 				<div class="panel-body">
 					<table class="table table-hover table-condensed">
 						<tbody>
-								<tr th:each="artist : ${artistMap}">
-									<td class="col-xs-6 text-right"><a
-										th:href="@{/result?fieldForm=artist} + '&amp;searchForm=' + ${artist.key.getName()}"
-										th:text="${artist.key.getName()}"></a></td>
-									<td class="col-xs-6"><span class="badge"
-										th:style="'background-color: ' + ${artist.key.getColor()}"
-										th:text="${artist.key.getSongs().size()}"></span></td>
-								</tr>
-							<!-- /each:percentage -->
+							<!-- list of all artists and their number of songs -->
+							<tr th:each="artist : ${artistMap}">
+								<td class="col-xs-6 text-right"><a
+									th:href="@{/result?fieldForm=artist} + '&amp;searchForm=' + ${artist.key.getName()}"
+									th:text="${artist.key.getName()}"></a></td>
+								<td class="col-xs-6"><span class="badge"
+									th:style="'background-color: ' + ${artist.key.getColor()}"
+									th:text="${artist.key.getSongs().size()}"></span></td>
+							</tr>
+							<!-- /each:artist -->
 						</tbody>
 					</table>
 				</div>
@@ -60,8 +64,7 @@
 			</div>
 			<!-- /#details -->
 
-			<!-- ************** Glyphicon ************** -->
-			<a class="bsStyle" href="#details" data-toggle="collapse">
+			<a class="a-danger-port" href="#details" data-toggle="collapse">
 				<div class="text-center">
 					<span id="collapsePanel" class="glyphicon glyphicon-chevron-down"></span>
 				</div>

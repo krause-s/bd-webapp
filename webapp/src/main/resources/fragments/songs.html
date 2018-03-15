@@ -4,7 +4,8 @@
 <head></head>
 
 <body>
-	<div th:fragment="songs(required)" class="panel panel-default">
+	<!-- songs fragment ('formRequired' if search form is required in result page): generic dataTable of current 'songs' of the model (see BrowseController and browse.js) -->
+	<div th:fragment="songs(formRequired)" class="panel panel-default">
 		<table id="songs" class="table table-hover" style="width: 100%;">
 			<thead>
 				<tr>
@@ -21,13 +22,13 @@
 			<tbody>
 				<tr th:each="song : ${songs}">
 					<td><a th:text="${song.artist}"
-						th:href="@{/result?fieldForm=artist} + '&amp;searchForm=' + ${song.artist} + '&amp;formRequired=' + ${required}"></a></td>
+						th:href="@{/result?fieldForm=artist} + '&amp;searchForm=' + ${song.artist} + '&amp;formRequired=' + ${formRequired}"></a></td>
 					<td><a th:text="${song.title}"
 						th:href="@{/browse/} + ${song.uuid}"></a></td>
 					<td><a th:text="${song.release}"
-						th:href="@{/result?fieldForm=release} + '&amp;searchForm=' + ${song.release} + '&amp;formRequired=' + ${required}"></a></td>
+						th:href="@{/result?fieldForm=release} + '&amp;searchForm=' + ${song.release} + '&amp;formRequired=' + ${formRequired}"></a></td>
 					<td><a th:text="${song.year}"
-						th:href="@{/result?searchForm=&amp;fieldForm=lyrics&amp;yearSlider=} + ${song.year} + '%2C' + ${song.year} + '&amp;formRequired=' + ${required}"></a></td>
+						th:href="@{/result?searchForm=&amp;fieldForm=lyrics&amp;yearSlider=} + ${song.year} + '%2C' + ${song.year} + '&amp;formRequired=' + ${formRequired}"></a></td>
 					<td th:switch="${song.compilation}" class="text-center"><span
 						th:case="true" class="glyphicon glyphicon-ok"></span></td>
 				</tr>

@@ -4,6 +4,7 @@
 <head></head>
 
 <body>
+	<!-- song fragment: details of song incl. lyrics -->
 	<div th:fragment="song" class="row">
 		<div
 			class="col-md-5 col-md-push-7 col-sm-8 col-sm-offset-2 col-md-offset-0">
@@ -59,7 +60,7 @@
 			<p th:utext="${song.lyricsBR}"></p>
 		</div>
 	</div>
-	<!-- /.row -->
+	<!-- /fragment:song -->
 
 	<tr th:fragment="releaseRow(category,content)" class="row">
 		<td class="col-xs-5">

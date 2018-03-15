@@ -7,8 +7,9 @@ $(document).ready(function($) {
 	$('.placeCheck').change(disable);
 });
 
+/* upload of XLSX-file */
 function uploadFile() {
-	$("#uploadDialog").modal();
+	$("#idleDialog").modal();
 
 	$.ajax({
 		url : "/uploadFile",
@@ -24,11 +25,11 @@ function uploadFile() {
 	});
 }
 
+/* responsive alignment for 2nd quote */
 function setQuoteHandler() {
 	$(window).on('resize', quoteAlign);
 	$(window).trigger('resize');
 }
-
 function quoteAlign() {
 	var cls = "blockquote-reverse";
 
@@ -38,6 +39,7 @@ function quoteAlign() {
 		$("#middleQuote").removeClass(cls);
 }
 
+/* disabling/enabling of input in evaluation */
 function disable() {
 	var row = $(this).parent().parent();
 	var name = row.find("input:first");

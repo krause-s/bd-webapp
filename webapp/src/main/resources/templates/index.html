@@ -11,7 +11,7 @@
 	<div th:replace="../fragments/index/overlay :: evaluation"></div>
 
 	<nav th:replace="../fragments/core/navbar :: navbar('')"></nav>
-	<div th:replace="../fragments/index/text :: jumbotron"></div>
+	<div th:replace="../fragments/index/text :: start"></div>
 
 	<div class="container">
 		<div class="row">
@@ -24,6 +24,7 @@
 			<div class="col-md-5">
 				<h3>Input</h3>
 				<hr />
+				<!-- upload: see index.js:uploadFile() -->
 				<form id="upload-file-form">
 					<label class="btn btn-danger btn-block" for="upload-file-input">
 						<input id="upload-file-input" type="file" name="uploadfile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>

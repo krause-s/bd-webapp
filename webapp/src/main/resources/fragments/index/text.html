@@ -3,8 +3,10 @@
 
 <head></head>
 
+<!-- fragments for index.html -->
 <body>
-	<div th:fragment="jumbotron" class="jumbotron">
+	<!-- index heading -->
+	<div th:fragment="start" class="jumbotron">
 		<div class="container">
 			<h1>
 				<span>lyra </span> <small><b>lyr</b>ics-<b>a</b>nalyzer</small>
@@ -12,8 +14,9 @@
 			<p>Your personal Lyrics Analyzer.</p>
 		</div>
 	</div>
-	<!-- /fragment:jumbotron -->
+	<!-- /fragment:start -->
 
+	<!-- user instructions incl. XSLX-template download (see IndexController.getSteamingFile();) -->
 	<div th:fragment="instructions">
 		<h3>Instructions</h3>
 		<hr />
@@ -55,6 +58,7 @@
 	</div>
 	<!-- /fragment:instructions -->
 
+	<!-- quotes fragment: three random quotes (lyrics) if model contains any -->
 	<div th:fragment="quotes">
 		<h3>Random lyrics</h3>
 		<hr />

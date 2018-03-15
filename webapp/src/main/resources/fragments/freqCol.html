@@ -3,17 +3,19 @@
 
 <head></head>
 
+<!-- fragments for frequencies.html -->
 <body>
-	<div th:fragment="content(val)" class="col-md-5 col-xs-12">
+	<!-- content fragment: column containing more fragments -->
+	<div th:fragment="content(pos)" class="col-md-5 col-xs-12">
 		<div class="panel panel-default">
 			<div th:if="${artists != null}">
 				<div
-					th:replace="../fragments/freqCol :: selectArtist(${val},${artists[val]})"></div>
-				<div th:replace="../fragments/freqCol :: tokens(${mapList[val]})"></div>
-				<div th:replace="../fragments/slider :: slider(${years[val]})"></div>
+					th:replace="../fragments/freqCol :: artistSelect(${pos},${artists[pos]})"></div>
+				<div th:replace="../fragments/freqCol :: tokens(${mapList[pos]})"></div>
+				<div th:replace="../fragments/slider :: slider(${years[pos]})"></div>
 			</div>
 			<div th:if="${artists == null}">
-				<div th:replace="../fragments/freqCol :: selectArtist(${val},'')"></div>
+				<div th:replace="../fragments/freqCol :: artistSelect(${pos},'')"></div>
 				<div th:replace="../fragments/slider :: slider('')"></div>
 			</div>
 		</div>
@@ -21,13 +23,14 @@
 	</div>
 	<!-- /fragment:content -->
 
+	<!-- center fragment for filtering and submitting -->
 	<div th:fragment="control"
 		class="col-md-2 col-xs-6 col-xs-offset-3 col-md-offset-0 text-center">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<div class="form-group">
-					<label for="sel2">Count</label> <select class="form-control"
-						id="sel2" name="countSelect">
+					<label for="tokenCnt">Count</label> <select class="form-control"
+						id="tokenCnt" name="countSelect">
 						<option>10</option>
 						<option
 							th:selected="${count != null and count == '20'} ? 'selected'">20</option>
@@ -57,27 +60,27 @@
 	</div>
 	<!-- /fragment:control -->
 
-	<!-- ############################ -->
-
-	<div th:fragment="selectArtist(val,lastArtist)"
+	<!-- selecting of artists -->
+	<div th:fragment="artistSelect(pos,previous)"
 		class="panel-heading text-center">
-		<label for="sel1">Artist <span th:text="${val+1}"></span></label> <select
-			class="form-control" id="sel1" name="artistSelect">
+		<label for="freqArtists">Artist <span th:text="${pos+1}"></span></label> <select
+			class="form-control" id="freqArtists" name="artistSelect">
 
 			<option>(All)</option>
 
 			<optgroup>
 				<span th:each="artist : ${artistsList}">
 					<option th:text="${artist}"
-						th:selected="${lastArtist == artist} ? 'selected'"></option>
+						th:selected="${previous == artist} ? 'selected'"></option>
 				</span>
 			</optgroup>
 		</select>
 	</div>
-	<!-- /select -->
+	<!-- /fragment:artistSelect -->
 
-	<div th:fragment="tokens(map)" class="panel-body">
-		<table th:if="${map.size() != 0}" class="table table-hover">
+	<!-- tokens fragment: list of all relevant words -->
+	<div th:fragment="tokens(freqs)" class="panel-body">
+		<table th:if="${freqs.size() != 0}" class="table table-hover">
 			<thead>
 				<tr>
 					<th colspan="2" class="text-center">Top <span
@@ -85,7 +88,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<span th:each="freq : ${map}">
+				<span th:each="freq : ${freqs}">
 					<tr th:each="token : ${freq.value}">
 						<td class="col-xs-6 text-right"><a
 							th:href="@{/result?fieldForm=lyrics} + '&amp;searchForm=' + ${token} + '&amp;fuzzyForm'"
@@ -97,11 +100,11 @@
 			</tbody>
 		</table>
 
-		<div th:if="${map.size() == 0}" class="text-center">
+		<div th:if="${freqs.size() == 0}" class="text-center">
 			<label>Nothing found!</label>
 		</div>
 	</div>
-	<!-- /tokens -->
+	<!-- /fragment:tokens -->
 </body>
 
 </html>

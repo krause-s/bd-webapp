@@ -4,9 +4,10 @@
 <head></head>
 
 <body>
-	<div th:fragment="heading(title,small)" class="page-header">
+	<!-- page heading ('secondary' optional) -->
+	<div th:fragment="heading(title,secondary)" class="page-header">
 		<h2>
-			<span th:text="${title}"></span>&nbsp;<small th:text="${small}"></small>
+			<span th:text="${title}"></span>&nbsp;<small th:text="${secondary}"></small>
 		</h2>
 	</div>
 </body>

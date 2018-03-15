@@ -4,16 +4,18 @@
 <head></head>
 
 <body>
+	<!-- search form incl. an advanced search (see BrowseController.search();) -->
 	<div th:fragment="searchForm">
 		<form th:action="@{/result}" class="text-center">
 			<div class="row">
 				<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-					<div class="panel panel-default">			
+					<div class="panel panel-default">	
+						<!-- ************** header ************** -->		
 						<div class="panel-heading">
 							<div class="input-group">
-								<!-- SEARCH-INPUT ********** -->
+								<!-- search input -->
 								<input type="text" class="form-control" placeholder="..." name="searchForm" title="Search"/>
-								<!-- SUBMIT-BUTTON ********** -->
+								<!-- submit button -->
 								<div class="input-group-btn">
 									<button class="btn btn-danger">
 										<span class="glyphicon glyphicon-search"></span>
@@ -23,10 +25,11 @@
 							<!-- /.input-group -->
 						</div>
 						<!-- /.panel-heading -->
-							
+						
+						<!-- ************** body ************** -->	
 						<div id="advanced" class="panel-collapse collapse">
 							<div class="panel-body">
-								<!-- FIELD ********** -->
+								<!-- field -->
 								<div class="form-group">
 									<label class="radio-inline">
 										<input type="radio" name="fieldForm" value="lyrics" checked="checked"/>Lyrics
@@ -46,22 +49,23 @@
 								</div>
 								<!-- /.form-group -->
 								
-								<!-- FUZZY ********** -->
+								<!-- fuzzy -->
 								<label class="checkbox-inline"> 
 									<input type="checkbox" value="true" name="fuzzyForm" />Fuzzy
 								</label> 
 								
-								<!-- COMPILATIONS ********** -->
+								<!-- compilations -->
 								<label class="checkbox-inline"> 
 									<input type="checkbox" value="true" name="compilationForm" />Compilations
 								</label>
 		
-								<!-- HIDDEN CHECKBOX ********** -->
+								<!-- hidden checkbox for showing/hiding the search form in Browse and Search -->
 								<input type="checkbox" value="true" name="formRequired" checked="checked" style="visibility: hidden" />
 							</div>
 							<!-- /.panel-body -->
 							
-							<!-- YEARS ********** -->
+							<!-- ************** footer ************** -->
+							<!-- years -->
 							<div th:replace="../fragments/slider :: slider('')"></div>
 							<!-- /.panel-footer -->
 						</div>	
@@ -74,7 +78,7 @@
 			<!-- /.row -->
 			
 			<div class="form-group">
-				<a class="bsStyle" data-toggle="collapse" href="#advanced" title="Advanced search">
+				<a class="a-danger-port" data-toggle="collapse" href="#advanced" title="Advanced search">
 					<span id="collapsePanel" class="glyphicon glyphicon-chevron-down"></span>
 				</a>
 			</div>

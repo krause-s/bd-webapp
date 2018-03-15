@@ -4,9 +4,11 @@
 <head></head>
 
 <body>
+	<!-- page footer -->
 	<footer th:fragment="footer" id="pageFooter">
 		<div class="container">
 			<div class="row">
+				<!-- copyright notice incl. About link -->
 				<div class="col-xs-11">
 					<span>&copy; <span
 						th:text="${#dates.year(#dates.createNow())}"></span> <span>Johanna
@@ -14,8 +16,9 @@
 					</span> &bull; <a th:href="@{/about}">About</a>
 				</div>
 
+				<!-- "scroll to top"-button -->
 				<div class="col-xs-1 text-right">
-					<a class="bsStyle" href="#"><span
+					<a class="a-danger-port" href="#"><span
 						class="glyphicon glyphicon-chevron-up" title="Scroll to top"></span></a>
 				</div>
 			</div>

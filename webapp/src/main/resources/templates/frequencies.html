@@ -11,6 +11,7 @@
 	<div class="container">
 		<div th:replace="../fragments/core/heading :: heading(${title},'')"></div>
 
+		<!-- see AnalysisController.frequencies() -->
 		<form th:action="@{/analytics/frequencies}" method="post">
 			<p class="text-justify">
 				This section enables you to detect relevant words of an artist in a

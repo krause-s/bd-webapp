@@ -21,6 +21,7 @@
 			<div th:replace="../fragments/core/heading :: heading(${title},'')"></div>
 		</div>
 	
+		<!-- search form only required in Search -->
 		<div th:if="${title == 'Browse'}">
 			<div th:replace="../fragments/songs :: songs(false)"></div>
 		</div>

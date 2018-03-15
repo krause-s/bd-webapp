@@ -2,6 +2,7 @@ $(document).ready(function($) {
 	init();
 });
 
+/* initialization of DataTable for songs incl. DOM changes (layout) */
 function init() {
 	var table = "t";
 //	var processing = "r";
