@@ -148,10 +148,10 @@ function buildTabs(place){
 	if(place.popUps.length == 1){
 		return "";
 	}
-	var tabs = "<div class=\"container\">" 
+	var tabs = "<div>" 
 		+ "<ul class=\"nav nav-tabs\">";
 	for(var j = 0; j < place.popUps.length; j++){
-		if(j == 5){
+		if(j == 4){
 			moreTabs = true;
 			tabs += " <li class=\"dropdown\"><a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">more<span class=\"caret\"></span></a>"
 			+ "<ul class=\"dropdown-menu\">";
