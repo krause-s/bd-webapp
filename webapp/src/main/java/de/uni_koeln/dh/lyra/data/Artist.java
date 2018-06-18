@@ -2,7 +2,11 @@ package de.uni_koeln.dh.lyra.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import de.uni_koeln.dh.lyra.util.ColorGenerator;
 
@@ -107,6 +111,32 @@ public class Artist implements Serializable, Comparable<Artist> {
 		lyricsPlaces.remove(lyricsPlace);
 	}
 
+	/**
+	 * returns a map of words used by this artist with the number of occurrences of
+	 * this word as value sorted descending by occurrences
+	 **/
+	public HashMap<String, Integer> getVocabulary() {
+		HashMap<String, Integer> vocab = new HashMap<String, Integer>();
+		songs.forEach(song -> {
+			for (String token : song.getTokens()) {
+				token = token.toLowerCase();
+				Integer oldValue = vocab.get(token);
+				if (oldValue == null) {
+					oldValue = 0;
+				}
+				vocab.put(token, oldValue + 1);
+			}
+		});
+		return sortMapByValue(vocab);
+	}
+
+	private LinkedHashMap<String, Integer> sortMapByValue(HashMap<String, Integer> unsortedMap) {
+		return unsortedMap.entrySet().stream()
+				.sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue()))
+			    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
+			                              (e1, e2) -> e1, LinkedHashMap::new));
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		Artist artist = (Artist) obj;
@@ -119,7 +149,7 @@ public class Artist implements Serializable, Comparable<Artist> {
 				&& getLyricsPlaces().equals(o.getLyricsPlaces())) {
 			return 0;
 		}
-		if(getSongs().size() > o.getSongs().size())
+		if (getSongs().size() > o.getSongs().size())
 			return +1;
 		return -1;
 	}

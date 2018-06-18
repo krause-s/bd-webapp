@@ -271,4 +271,8 @@ public class CorpusService {
 		return new int[] { min, max };
 	}
 
+	public Artist getArtistByName(String artistName) {
+		return artists.get(artistName);
+	}
+
 }

@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +96,47 @@ public class AnalysisController {
 		model.addAttribute("songYears", corpusService.getMinAndMaxYears());
 
 		return "frequencies";
+	}
+
+	
+	
+	/**
+	 * This method takes care of the raw frequencies concerning the artists vocabulary
+	 * @param artist the chosen Artist. If no Artist is chosen, there will be an overview.
+	 * @param model 
+	 * @throws ParseException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = { "/artistvocab" })
+	public String artistsvocab(@RequestParam(value = "artist", required = false) Artist artist, Model model)
+			throws ParseException, IOException {
+		
+		if (artist != null) {
+			artist = corpusService.getArtistByName(artist.getName());
+			Map<String, Integer> vocab = artist.getVocabulary();
+			int wordsPerSong = 0;
+
+			if (artist.getSongs().size() != 0)
+				wordsPerSong = vocab.size() / artist.getSongs().size();
+			model.addAttribute("chosenArtist", artist);
+			model.addAttribute("artistVocabs", vocab);
+			model.addAttribute("artistVocabsSize", vocab.size());
+			model.addAttribute("wordsPerSong", wordsPerSong);
+		} else {
+			Map<String, Integer[]> vocabs = new TreeMap<>();
+			corpusService.getArtistList().forEach(currArtist -> {
+				Map<String, Integer> currVocab = currArtist.getVocabulary();
+				int wordsPerSong = 0;
+				if (currArtist.getSongs().size() != 0) {
+					wordsPerSong = currVocab.size() / currArtist.getSongs().size();
+				}
+				vocabs.put(currArtist.getName(),
+						new Integer[] { currVocab.size(), wordsPerSong });
+			});
+			model.addAttribute("allVocabs", vocabs);
+		}
+		model.addAttribute("artistsList", corpusService.getArtistList());
+		return "artistvocab";
 	}
 
 }
