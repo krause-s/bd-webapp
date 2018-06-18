@@ -81,6 +81,14 @@ public class Artist implements Serializable, Comparable<Artist> {
 	public List<Song> getSongs() {
 		return songs;
 	}
+	
+	public List<Song> getNotCompilationSongs() {
+		List<Song> notCompilationSongs = new ArrayList<>();
+		songs.forEach(song -> {if(!song.isCompilation()){
+			notCompilationSongs.add(song);
+		}});
+		return notCompilationSongs;
+	}
 
 	public void setSongs(List<Song> songs) {
 		this.songs = songs;
@@ -118,6 +126,7 @@ public class Artist implements Serializable, Comparable<Artist> {
 	public HashMap<String, Integer> getVocabulary() {
 		HashMap<String, Integer> vocab = new HashMap<String, Integer>();
 		songs.forEach(song -> {
+			if(!song.isCompilation())
 			for (String token : song.getTokens()) {
 				token = token.toLowerCase();
 				Integer oldValue = vocab.get(token);
@@ -152,6 +161,14 @@ public class Artist implements Serializable, Comparable<Artist> {
 		if (getSongs().size() > o.getSongs().size())
 			return +1;
 		return -1;
+	}
+
+	public Double getAverageSongLength() {
+		double numberOfAllTokens = 0;
+		for (Song song : songs){
+			numberOfAllTokens += song.getTokens().length;
+		};
+		return numberOfAllTokens / songs.size();		
 	}
 
 }

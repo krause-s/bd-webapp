@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:with="title='Songlenght'">
+
+<head th:replace="../fragments/core/header :: header(${title})"></head>
+
+<body>
+	<nav
+		th:replace="../fragments/core/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
+
+	<div class="container">
+		<div th:replace="../fragments/core/heading :: heading(${title},'')"></div>
+		<div class="panel-heading text-center">
+			<p class="row justify-content-md-center">This section shows
+				average number of words per song used by an artist</p>
+			<br/>
+		</div>
+		<div>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th class="text-center">artist</th>
+						<th class="text-center">words/song</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="songLength : ${allSongLengths}">
+						<td class="col-xs-6 text-center"><a
+							th:text="${songLength.key}"></a></td>
+						<td class="col-xs-6 text-center"><span class="badge"
+							th:text="${songLength.value}"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!-- /.container -->
+
+	<footer th:replace="../fragments/core/footer"></footer>
+</body>
+
+</html>

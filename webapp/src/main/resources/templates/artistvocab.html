@@ -12,17 +12,16 @@
 		<div th:replace="../fragments/core/heading :: heading(${title},'')"></div>
 		<form th:action="@{/analytics/artistvocab}" class="text-center">
 			<div class="panel-heading text-center">
-				<label for="freqArtists">Artist </label> 
-				<select class="form-control"
-					id="freqArtists" name="artist">
+				<label for="freqArtists">Artist </label> <select
+					class="form-control" id="freqArtists" name="artist">
 					<option>(All)</option>
 					<optgroup>
 						<span th:each="artist : ${artistsList}">
 							<option th:text="${artist.name}"
 								th:selected="${chosenArtist == artist} ? 'selected'"></option>
 						</span>
-						</optgroup>
-			
+					</optgroup>
+
 				</select>
 			</div>
 			<p class="row justify-content-md-center">This section shows the
@@ -33,32 +32,38 @@
 				<span class="glyphicon glyphicon-stats"></span> OK
 			</button>
 		</form>
-		
+
 		<div th:if="${artistVocabs != null}">
 			<h3 class="text-center"
 				th:text="'Vocabulary size: ' + ${artistVocabsSize} + ' and average unique words per song: ' + ${wordsPerSong}"></h3>
 			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th class="text-center">artist</th>
+						<th class="text-center">vocabulary size</th>
+					</tr>
+				</thead>
 				<tbody>
 					<tr th:each="artistVocab : ${artistVocabs}">
-						<td class="col-xs-6 text-right"><a
+						<td class="col-xs-6 text-center"><a
 							th:href="@{/result?fieldForm=lyrics} + '&amp;searchForm=' + ${artistVocab.key}"
 							th:text="${artistVocab.key}"></a></td>
-						<td class="col-xs-6"><span class="badge"
+						<td class="col-xs-6 text-center"><span class="badge"
 							th:text="${artistVocab.value}"></span></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		
+
 		<div th:if="${allVocabs != null}">
-			<table id="songs" class="table table-hover">
-			<thead>
-				<tr>
-					<th class="text-center">artist</th>
-					<th class="text-center">vocabulary size</th>
-					<th class="text-center">unique words/song</th>
-				</tr>
-			</thead>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th class="text-center">artist</th>
+						<th class="text-center">vocabulary size</th>
+						<th class="text-center">unique words/song</th>
+					</tr>
+				</thead>
 				<tbody>
 					<tr th:each="vocab : ${allVocabs}">
 						<td class="col-xs-6 text-center"><a

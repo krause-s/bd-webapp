@@ -98,26 +98,35 @@ public class AnalysisController {
 		return "frequencies";
 	}
 
-	
-	
 	/**
-	 * This method takes care of the raw frequencies concerning the artists vocabulary
-	 * @param artist the chosen Artist. If no Artist is chosen, there will be an overview.
-	 * @param model 
+	 * This method takes care of the raw frequencies concerning the artists
+	 * vocabulary
+	 * 
+	 * @param artist
+	 *            the chosen Artist. If no Artist is chosen, there will be an
+	 *            overview.
+	 * @param model
 	 * @throws ParseException
 	 * @throws IOException
 	 */
 	@RequestMapping(value = { "/artistvocab" })
 	public String artistsvocab(@RequestParam(value = "artist", required = false) Artist artist, Model model)
 			throws ParseException, IOException {
-		
+
 		if (artist != null) {
 			artist = corpusService.getArtistByName(artist.getName());
 			Map<String, Integer> vocab = artist.getVocabulary();
 			int wordsPerSong = 0;
 
-			if (artist.getSongs().size() != 0)
-				wordsPerSong = vocab.size() / artist.getSongs().size();
+			if (artist.getSongs().size() != 0){
+				List<Song> notCompilationSongs = artist.getNotCompilationSongs();
+				int uniqueWordsInSongs = 0;
+				for(Song song : notCompilationSongs){
+					Set<String> uniqueWords = new HashSet<String>(Arrays.asList(song.getTokens()));
+					uniqueWordsInSongs += uniqueWords.size();
+				}
+				wordsPerSong = uniqueWordsInSongs / artist.getNotCompilationSongs().size();		
+			}
 			model.addAttribute("chosenArtist", artist);
 			model.addAttribute("artistVocabs", vocab);
 			model.addAttribute("artistVocabsSize", vocab.size());
@@ -128,15 +137,39 @@ public class AnalysisController {
 				Map<String, Integer> currVocab = currArtist.getVocabulary();
 				int wordsPerSong = 0;
 				if (currArtist.getSongs().size() != 0) {
-					wordsPerSong = currVocab.size() / currArtist.getSongs().size();
+					List<Song> notCompilationSongs = currArtist.getNotCompilationSongs();
+					int uniqueWordsInSongs = 0;
+					for(Song song : notCompilationSongs){
+						Set<String> uniqueWords = new HashSet<String>(Arrays.asList(song.getTokens()));
+						uniqueWordsInSongs += uniqueWords.size();
+					}
+					wordsPerSong = uniqueWordsInSongs / currArtist.getNotCompilationSongs().size();	
 				}
-				vocabs.put(currArtist.getName(),
-						new Integer[] { currVocab.size(), wordsPerSong });
+				vocabs.put(currArtist.getName(), new Integer[] { currVocab.size(), wordsPerSong });
 			});
 			model.addAttribute("allVocabs", vocabs);
 		}
 		model.addAttribute("artistsList", corpusService.getArtistList());
 		return "artistvocab";
+	}
+
+	/**
+	 * This calculates the number of words used per song in average
+	 * 
+	 * @param model
+	 * @throws ParseException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = { "/songlenght" })
+	public String songlength(Model model) throws ParseException, IOException {
+		Map<String, Double> allSongLength = new TreeMap<>();
+		corpusService.getArtistList().forEach(currArtist -> {
+			double currSongLength = currArtist.getAverageSongLength();
+			allSongLength.put(currArtist.getName(), currSongLength);
+		});
+		model.addAttribute("allSongLengths", allSongLength);
+		model.addAttribute("artistsList", corpusService.getArtistList());
+		return "length";
 	}
 
 }
