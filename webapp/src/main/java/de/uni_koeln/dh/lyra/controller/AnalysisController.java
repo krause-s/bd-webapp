@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import de.uni_koeln.dh.lyra.data.Artist;
+import de.uni_koeln.dh.lyra.data.Song;
 import de.uni_koeln.dh.lyra.services.AnalysisService;
 import de.uni_koeln.dh.lyra.services.CorpusService;
 
@@ -172,6 +173,13 @@ public class AnalysisController {
 		model.addAttribute("allSongLengths", allSongLength);
 		model.addAttribute("artistsList", corpusService.getArtistList());
 		return "length";
+	}
+	
+	@RequestMapping(value = { "/similarlyrics" })
+	public String classifyByArtist(@RequestParam(value = "classifytext", required = false) String textToClassify, Model model) throws ParseException, IOException {
+		if(textToClassify != null)
+		model.addAttribute("similarSongs", analysisService.thisSoundsLike(textToClassify));
+		return "similarity";
 	}
 
 }

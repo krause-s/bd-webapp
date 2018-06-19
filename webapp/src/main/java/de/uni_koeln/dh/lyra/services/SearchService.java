@@ -12,6 +12,7 @@ import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexNotFoundException;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -33,8 +34,7 @@ import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.data.Song;
 
 /**
- * Contains methods to manage lucene index and
- * search queries
+ * Contains methods to manage lucene index and search queries
  *
  *
  */
@@ -61,12 +61,12 @@ public class SearchService {
 		Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
 		File folder = new File(indexDirPath);
 		folder.mkdirs();
-		
+
 		IndexWriterConfig writerConfig = new IndexWriterConfig(new StandardAnalyzer());
 		IndexWriter writer = new IndexWriter(dir, writerConfig);
-		
+
 		writer.deleteAll();
-		
+
 		for (Artist artist : corpusService.getArtistList()) {
 			for (Document doc : convertToLuceneDoc(artist)) {
 				writer.addDocument(doc);
@@ -201,7 +201,8 @@ public class SearchService {
 	 * @throws ParseException
 	 * @throws IOException
 	 * 
-	 * reads an index and returns all retrieved results as a list of songs
+	 *             reads an index and returns all retrieved results as a list of
+	 *             songs
 	 */
 	public List<Song> search() throws ParseException, IOException {
 		DirectoryReader dirReader;
@@ -215,7 +216,6 @@ public class SearchService {
 		}
 		TopDocs hits = is.search(buildQuery(), dirReader.numDocs());
 		List<Song> resultList = getSearchResults(is, hits);
-
 		resetQueries();
 		dirReader.close();
 		return resultList;
@@ -254,6 +254,17 @@ public class SearchService {
 		setSearchPhrase("");
 		years[0] = 0;
 		years[1] = 3000;
+	}
+
+	public IndexReader getIndexReader() {
+		IndexReader dirReader = null;
+		try {
+			Directory dir = new SimpleFSDirectory(new File(indexDirPath).toPath());
+			dirReader = DirectoryReader.open(dir);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return dirReader;
 	}
 
 }

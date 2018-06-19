@@ -8,8 +8,7 @@
 		th:replace="../fragments/core/navbar :: navbar(${#strings.unCapitalize('Browse')})"></nav>
 
 	<div class="container">
-		<div
-			th:replace="../fragments/core/heading :: heading(${song.title},${song.artist})"></div>
+		<div th:replace="../fragments/core/heading :: heading(${song.title},${song.artist})"></div>
 		<div th:replace="../fragments/title :: song"></div>
 	</div>
 	

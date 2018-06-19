@@ -59,6 +59,10 @@
 		<div class="col-md-7 col-md-pull-5 col-sm-12">
 			<p th:utext="${song.lyricsBR}"></p>
 		</div>
+		<a
+			th:href="@{/analytics/similarlyrics?classifytext=} + ${song.lyrics}">
+			<span class="glyphicon glyphicon-search"></span>Find similar songs
+		</a>
 	</div>
 	<!-- /fragment:song -->
 

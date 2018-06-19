@@ -54,9 +54,17 @@
 			<artifactId>lucene-core</artifactId>
 			<version>${lucene.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
+			<version>${lucene.version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-analyzers-common -->
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-common</artifactId>
 			<version>${lucene.version}</version>
 		</dependency>
 
@@ -87,7 +95,7 @@
 			<artifactId>datatables</artifactId>
 			<version>${datatables.version}</version>
 		</dependency>
-		
+
 		<!-- Slider -->
 		<dependency>
 			<groupId>org.webjars</groupId>

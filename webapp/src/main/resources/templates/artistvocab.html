@@ -4,7 +4,11 @@
 
 <head th:replace="../fragments/core/header :: header(${title})"></head>
 
-<body>
+<body  th:with="webjars='/webjars/datatables/js/'">
+	<script th:src="@{${webjars} + 'jquery.dataTables.min.js'}"></script>
+	<script th:src="@{${webjars} + 'dataTables.bootstrap.min.js'}"></script>
+
+	<script type="text/javascript" th:src="@{/js/browse.js}"></script>
 	<nav
 		th:replace="../fragments/core/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
 
@@ -36,7 +40,7 @@
 		<div th:if="${artistVocabs != null}">
 			<h3 class="text-center"
 				th:text="'Vocabulary size: ' + ${artistVocabsSize} + ' and average unique words per song: ' + ${wordsPerSong}"></h3>
-			<table class="table table-hover">
+			<table id="songs" class="table table-hover">
 				<thead>
 					<tr>
 						<th class="text-center">artist</th>
