@@ -8,19 +8,25 @@
 	<script th:src="@{${webjars} + 'jquery.dataTables.min.js'}"></script>
 	<script th:src="@{${webjars} + 'dataTables.bootstrap.min.js'}"></script>
 	<script type="text/javascript" th:src="@{/js/browse.js}"></script>
-	<nav th:replace="../fragments/core/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
+	<nav
+		th:replace="../fragments/core/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
 
 	<div class="container">
 		<div th:replace="../fragments/core/heading :: heading(${title},'')"></div>
-		<form th:action="@{/analytics/similarlyrics}" class="text-center">
+		<div class="panel-heading text-center">
+			<p class="row justify-content-md-center">Enter lyrics and get
+				similar ones from the given corpus</p>
+			<br />
+		</div>
+		<form th:action="@{/analytics/similarlyrics}" class="text-center" id="lyricsform">
 			<div class="row">
 				<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<div class="input-group">
 								<!-- search input -->
-								<input type="text" class="form-control" placeholder="..."
-									name="classifytext" title="Search" />
+								<textarea th:style="'overflow-y: scroll'" class="form-control" name="classifytext" 
+									title="inputlyrics" rows="5" th:text="${classifytext}" form = "lyricsform"></textarea>
 								<!-- submit button -->
 								<div class="input-group-btn">
 									<button class="btn btn-danger">
@@ -47,11 +53,10 @@
 				<tbody>
 					<tr th:each="similarSongs : ${similarSongs}">
 						<td class="col-xs-6 text-center"><div
-							th:text="${similarSongs.value}"></div></td>
+								th:text="${similarSongs.value}"></div></td>
 						<td class="col-xs-6 text-center"><a
 							th:text="${similarSongs.key.title}"
-							th:href="@{/browse/} + ${similarSongs.key.uuid}"
-							></a></td>
+							th:href="@{/browse/} + ${similarSongs.key.uuid}"></a></td>
 						<td class="col-xs-6 text-center"><span class="badge"
 							th:text="${similarSongs.key.artist}"></span></td>
 						<td class="col-xs-6 text-center"><span class="badge"

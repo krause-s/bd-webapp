@@ -128,7 +128,7 @@ public class AnalysisController {
 					Set<String> uniqueWords = new HashSet<String>(Arrays.asList(song.getTokens()));
 					uniqueWordsInSongs += uniqueWords.size();
 				}
-				wordsPerSong = uniqueWordsInSongs / artist.getNotCompilationSongs().size();		
+				wordsPerSong = uniqueWordsInSongs / notCompilationSongs.size();		
 			}
 			model.addAttribute("chosenArtist", artist);
 			model.addAttribute("artistVocabs", vocab);
@@ -138,17 +138,17 @@ public class AnalysisController {
 			Map<String, Integer[]> vocabs = new TreeMap<>();
 			corpusService.getArtistList().forEach(currArtist -> {
 				Map<String, Integer> currVocab = currArtist.getVocabulary();
+				List<Song> notCompilationSongs = currArtist.getNotCompilationSongs();
 				int wordsPerSong = 0;
-				if (currArtist.getSongs().size() != 0) {
-					List<Song> notCompilationSongs = currArtist.getNotCompilationSongs();
+				if (notCompilationSongs.size() != 0) {
 					int uniqueWordsInSongs = 0;
 					for(Song song : notCompilationSongs){
 						Set<String> uniqueWords = new HashSet<String>(Arrays.asList(song.getTokens()));
 						uniqueWordsInSongs += uniqueWords.size();
 					}
-					wordsPerSong = uniqueWordsInSongs / currArtist.getNotCompilationSongs().size();	
+					wordsPerSong = uniqueWordsInSongs / notCompilationSongs.size();	
 				}
-				vocabs.put(currArtist.getName(), new Integer[] { currVocab.size(), wordsPerSong });
+				vocabs.put(currArtist.getName(), new Integer[] { currVocab.size(), wordsPerSong, notCompilationSongs.size() });
 			});
 			model.addAttribute("allVocabs", vocabs);
 		}
@@ -179,6 +179,7 @@ public class AnalysisController {
 	public String classifyByArtist(@RequestParam(value = "classifytext", required = false) String textToClassify, Model model) throws ParseException, IOException {
 		if(textToClassify != null)
 		model.addAttribute("similarSongs", analysisService.thisSoundsLike(textToClassify));
+		model.addAttribute("classifytext", textToClassify);
 		return "similarity";
 	}
 

@@ -4,10 +4,9 @@
 
 <head th:replace="../fragments/core/header :: header(${title})"></head>
 
-<body  th:with="webjars='/webjars/datatables/js/'">
+<body th:with="webjars='/webjars/datatables/js/'">
 	<script th:src="@{${webjars} + 'jquery.dataTables.min.js'}"></script>
 	<script th:src="@{${webjars} + 'dataTables.bootstrap.min.js'}"></script>
-
 	<script type="text/javascript" th:src="@{/js/browse.js}"></script>
 	<nav
 		th:replace="../fragments/core/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
@@ -40,11 +39,11 @@
 		<div th:if="${artistVocabs != null}">
 			<h3 class="text-center"
 				th:text="'Vocabulary size: ' + ${artistVocabsSize} + ' and average unique words per song: ' + ${wordsPerSong}"></h3>
-			<table id="songs" class="table table-hover">
+			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th class="text-center">artist</th>
-						<th class="text-center">vocabulary size</th>
+						<th class="text-center">token</th>
+						<th class="text-center">occurrences</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -52,20 +51,22 @@
 						<td class="col-xs-6 text-center"><a
 							th:href="@{/result?fieldForm=lyrics} + '&amp;searchForm=' + ${artistVocab.key}"
 							th:text="${artistVocab.key}"></a></td>
-						<td class="col-xs-6 text-center"><span class="badge"
-							th:text="${artistVocab.value}"></span></td>
+						<td class="col-xs-6 text-center">
+							<div th:text="${artistVocab.value}"></div>
+						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 
-		<div th:if="${allVocabs != null}">
-			<table class="table table-hover">
+		<div th:if="${allVocabs}">
+			<table id="songs" class="table table-hover">
 				<thead>
 					<tr>
 						<th class="text-center">artist</th>
 						<th class="text-center">vocabulary size</th>
 						<th class="text-center">unique words/song</th>
+						<th class="text-center">number of songs (no compilations)</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -77,6 +78,8 @@
 							th:text="${vocab.value[0]}"></span></td>
 						<td class="col-xs-6 text-center"><span class="badge"
 							th:text="${vocab.value[1]}"></span></td>
+						<td class="col-xs-6 text-center"><span class="badge"
+							th:text="${vocab.value[2]}"></span></td>
 					</tr>
 				</tbody>
 			</table>

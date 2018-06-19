@@ -4,11 +4,7 @@
 
 <head th:replace="../fragments/core/header :: header(${title})"></head>
 
-<body th:with="webjars='/webjars/datatables/js/'">
-	<script th:src="@{${webjars} + 'jquery.dataTables.min.js'}"></script>
-	<script th:src="@{${webjars} + 'dataTables.bootstrap.min.js'}"></script>
-
-	<script type="text/javascript" th:src="@{/js/browse.js}"></script>>
+<body>
 	<nav
 		th:replace="../fragments/core/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
 
@@ -19,7 +15,7 @@
 				average number of words per song used by an artist</p>
 			<br/>
 		</div>
-		<div>
+		<div class="panel panel-default">
 			<table id="songs" class="table table-hover">
 				<thead>
 					<tr>
