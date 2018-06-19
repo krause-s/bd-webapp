@@ -31,6 +31,8 @@
 						<ul class="dropdown-menu">
 							<li th:class="${title == 'places'} ? ${state}"><a
 								th:href="@{/analytics/places}">Places</a></li>
+							<li th:class="${title == 'placesfrequency'} ? ${state}"><a
+								th:href="@{/analytics/placeswords}">Places word frequency</a></li>
 							<li th:class="${title == 'frequencies'} ? ${state}"><a
 								th:href="@{/analytics/frequencies}">Frequencies</a></li>
 							<li th:class="${title == 'vocabulary'} ? ${state}"><a

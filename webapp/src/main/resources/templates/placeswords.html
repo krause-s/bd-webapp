@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:with="title='Placesfrequency'">
+
+<head th:replace="../fragments/core/header :: header(${title})"></head>
+
+<body th:with="webjars='/webjars/datatables/js/'">
+	<script th:src="@{${webjars} + 'jquery.dataTables.min.js'}"></script>
+	<script th:src="@{${webjars} + 'dataTables.bootstrap.min.js'}"></script>
+	<script type="text/javascript" th:src="@{/js/browse.js}"></script>
+	<nav
+		th:replace="../fragments/core/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
+
+	<div class="container">
+		<div th:replace="../fragments/core/heading :: heading(${title},'')"></div>
+		<div class="panel-heading text-center">
+			<p class="row justify-content-md-center">Find out what words are
+				used in the conteXt of a place. The first row calculates the division of the 3rdand 4th row to rank the words.
+				Not marked numbers belong to stopwords.</p>
+			<br />
+		</div>
+		<form th:action="@{/analytics/placeswords}" class="text-center"
+			id="lyricsform">
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+					<div class="panel panel-default">
+						<div class="panel-heading text-center">
+							<label for="freqWordsPlaces">Places </label> <select
+								class="form-control" id="freqWordsPlaces" name="place">
+								<option>(NONE)</option>
+								<optgroup>
+									<span th:each="place : ${placesList}">
+										<option th:text="${place.popUps[0].placeName}"
+											th:value="${place.id}"
+											th:selected="${chosenPlace == place} ? 'selected'"></option>
+									</span>
+								</optgroup>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button class="btn btn-danger btn-block">
+				<span class="glyphicon glyphicon-stats"></span> OK
+			</button>
+		</form>
+		<div th:if="${placeWordList}">
+			<h3
+				th:text="${chosenPlace.popUps[0].placeName} + ' appears  ' + ${#lists.size(chosenPlace.popUps)} + ' times'"></h3>
+			<div th:each="placeName : ${placeNames}">
+				<span th:if="${chosenPlace.popUps[0].placeName != placeName}"
+					th:text="${placeName}"></span>
+			</div>
+			<table id="songs" class="table table-hover">
+				<thead>
+					<tr>
+						<th class="text-center">oipc*100 / oic</th>
+						<th class="text-center">word</th>
+						<th class="text-center">occurrences in place context (oipc)</th>
+						<th class="text-center">occurrences in corpus (oic)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="placeWord : ${placeWordList}">
+						<td class="col-xs-6 text-center"><span
+							th:if="${placeWord.value[1] != 0}" class="badge"
+							th:text="${(placeWord.value[0]*100) div placeWord.value[1]}">
+						</span> <span th:if="${placeWord.value[1] == 0}">0</span></td>
+						<td class="col-xs-6 text-center"><span
+							th:text="${placeWord.key}"></span></td>
+						<td class="col-xs-6 text-center"><span
+							th:if="${placeWord.value[1] != 0}" class="badge"
+							th:text="${placeWord.value[0]}"></span> <span
+							th:if="${placeWord.value[1] == 0}"
+							th:text="${placeWord.value[0]}"></span></td>
+						<td class="col-xs-6 text-center"><span
+							th:if="${placeWord.value[1] != 0}" class="badge"
+							th:text="${placeWord.value[1]}"></span><span
+							th:if="${placeWord.value[1] == 0}">0</span></td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<footer th:replace="../fragments/core/footer"></footer>
+</body>
+
+</html>

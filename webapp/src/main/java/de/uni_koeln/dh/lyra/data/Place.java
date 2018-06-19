@@ -17,6 +17,7 @@ public class Place implements Serializable{
 	double longitude;
 	double latitude;
 	List<PopUp> popUps = new ArrayList<PopUp>();
+	public String id;
 	private String meta;
 	
 	/**
@@ -28,6 +29,11 @@ public class Place implements Serializable{
 	public Place(double longitude, double latitude) {
 		this.longitude = longitude;
 		this.latitude = latitude;
+		this.id = latitude + "-" + longitude;
+	}
+	
+	public String getID(){
+		return id;
 	}
 
 	/**

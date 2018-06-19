@@ -2,8 +2,10 @@ package de.uni_koeln.dh.lyra.services;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -22,7 +24,10 @@ import de.uni_koeln.dh.lyra.data.Place;
 import de.uni_koeln.dh.lyra.data.PopUp;
 import de.uni_koeln.dh.lyra.data.Song;
 import de.uni_koeln.dh.lyra.processing.PlaceEvaluator;
+import de.uni_koeln.dh.lyra.util.Converter;
 import de.uni_koeln.dh.lyra.util.IO;
+import opennlp.tools.tokenize.TokenizerME;
+import opennlp.tools.tokenize.TokenizerModel;
 
 /**
  * @author Peter
@@ -37,6 +42,8 @@ public class CorpusService {
 	private static Map<String, Artist> artists = new HashMap<String, Artist>();
 
 	private List<Place> placesToEvaluate;
+	private TokenizerME tokenizer;
+	private List<Place> places;
 
 	/**
 	 * @author Peter
@@ -46,6 +53,8 @@ public class CorpusService {
 	@PostConstruct
 	public void initExistingData() {
 		readExistingCorpus();
+		initTokenizer();
+		loadAllPlaces();
 	}
 
 	/**
@@ -152,6 +161,46 @@ public class CorpusService {
 		return filteredArtists;
 	}
 
+	public List<Place> getPlaces() {
+		return this.places;
+	}
+
+	public void loadAllPlaces() {
+		List<Place> places = new ArrayList<>();
+		artists.forEach((artistName, artist) -> {
+			places.addAll(artist.getLyricsPlaces());
+		});
+		this.places = places;
+	}
+
+	public Map<String, Integer> calculateWordFrequencies(List<PopUp> poupUps) {
+		HashMap<String, Integer> wordFreq = new HashMap<>();
+		poupUps.forEach(popup -> {
+			for (String token : tokenizer.tokenize(popup.getContent().toLowerCase().replaceAll("\\[|\\]", ""))) {
+				int freq = 0;
+				if (wordFreq.containsKey(token)) {
+					freq = wordFreq.get(token);
+				}
+				wordFreq.put(token, freq + 1);
+			};
+		});
+		return Converter.sortMapByValue(wordFreq);
+	}
+
+	private void initTokenizer() {
+		InputStream modelIn = null;
+		TokenizerModel model = null;
+		try {
+			modelIn = new FileInputStream("src/main/resources/nlp/classifiers/en-token.bin");
+			model = new TokenizerModel(modelIn);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		tokenizer = new TokenizerME(model);
+	}
+
 	/**
 	 * serializes the corpus
 	 */
@@ -162,7 +211,7 @@ public class CorpusService {
 			for (int i = 0; i < d.listFiles().length; i++) {
 				d.listFiles()[i].delete();
 			}
-			
+
 			FileOutputStream fileOut = new FileOutputStream("data//corpus/corpus.ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(artists);
@@ -273,6 +322,15 @@ public class CorpusService {
 
 	public Artist getArtistByName(String artistName) {
 		return artists.get(artistName);
+	}
+
+	public Place getPlaceByID(String placeID) {
+		for (Place place : getPlaces()) {
+			if (place.getID().equals(placeID))
+				return place;
+		}
+		;
+		return null;
 	}
 
 }

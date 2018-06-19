@@ -12,11 +12,11 @@ public class PopUp implements Serializable{
 	 */
 	private String placeName;
 	/**
-	 * lyrics snippet or decription of bio data
+	 * lyrics snippet or description of bio data
 	 */
 	private String content;
 	/**
-	 * if popUp stores lyrics snippet: refered song object
+	 * if popUp stores lyrics snippet: referred song object
 	 */
 	private Song referredSong;
 	

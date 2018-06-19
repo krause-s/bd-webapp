@@ -3,12 +3,10 @@ package de.uni_koeln.dh.lyra.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import de.uni_koeln.dh.lyra.util.ColorGenerator;
+import de.uni_koeln.dh.lyra.util.Converter;
 
 /**
  * stores all information on an artist
@@ -136,15 +134,10 @@ public class Artist implements Serializable, Comparable<Artist> {
 				vocab.put(token, oldValue + 1);
 			}
 		});
-		return sortMapByValue(vocab);
+		return Converter.sortMapByValue(vocab);
 	}
 
-	private LinkedHashMap<String, Integer> sortMapByValue(HashMap<String, Integer> unsortedMap) {
-		return unsortedMap.entrySet().stream()
-				.sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue()))
-			    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
-			                              (e1, e2) -> e1, LinkedHashMap::new));
-	}
+
 
 	@Override
 	public boolean equals(Object obj) {
