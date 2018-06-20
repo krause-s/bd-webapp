@@ -28,7 +28,6 @@ public class BrowseController {
 	/**
 	 * @param songID
 	 * @param model
-	 * @return 
 	 * leads via an unique id to a certain song and presents it in the song template
 	 */
 	@RequestMapping(value = "/browse/{songID}")

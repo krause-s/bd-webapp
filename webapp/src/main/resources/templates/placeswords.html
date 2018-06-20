@@ -15,8 +15,9 @@
 		<div th:replace="../fragments/core/heading :: heading(${title},'')"></div>
 		<div class="panel-heading text-center">
 			<p class="row justify-content-md-center">Find out what words are
-				used in the conteXt of a place. The first row calculates the division of the 3rdand 4th row to rank the words.
-				Not marked numbers belong to stopwords.</p>
+				used in the conteXt of a place. The first row calculates the
+				division of the 3rdand 4th row to rank the words. Not marked numbers
+				belong to stopwords.</p>
 			<br />
 		</div>
 		<form th:action="@{/analytics/placeswords}" class="text-center"
@@ -44,18 +45,29 @@
 				<span class="glyphicon glyphicon-stats"></span> OK
 			</button>
 		</form>
-		<div th:if="${placeWordList}">
-			<h3
-				th:text="${chosenPlace.popUps[0].placeName} + ' appears  ' + ${#lists.size(chosenPlace.popUps)} + ' times'"></h3>
-			<div th:each="placeName : ${placeNames}">
-				<span th:if="${chosenPlace.popUps[0].placeName != placeName}"
-					th:text="${placeName}"></span>
+		<div class="row" th:if="${placeWordList}">
+			<div class="row">
+				<div class="col-md-8">
+					<h3
+						th:text="${chosenPlace.popUps[0].placeName} + ' appears  ' + ${#lists.size(chosenPlace.popUps)} + ' times'"></h3>
+					<div th:each="placeName : ${placeNames}">
+						<span th:if="${chosenPlace.popUps[0].placeName != placeName}"
+							th:text="${placeName}"></span>
+					</div>
+				</div>
+				<div class="col">
+					<div th:each="artistName : ${artistNames}">
+						<a class="col-md-2" th:text="${artistName}"
+							th:href="@{/analytics/placeswords?place=} + ${chosenPlace.id} + '&amp;artist=' + ${artistName}">
+						</a>
+					</div>
+				</div>
 			</div>
 			<table id="songs" class="table table-hover">
 				<thead>
 					<tr>
-						<th class="text-center">oipc*100 / oic</th>
 						<th class="text-center">word</th>
+						<th class="text-center">oipc*100 / oic</th>
 						<th class="text-center">occurrences in place context (oipc)</th>
 						<th class="text-center">occurrences in corpus (oic)</th>
 					</tr>
@@ -63,11 +75,11 @@
 				<tbody>
 					<tr th:each="placeWord : ${placeWordList}">
 						<td class="col-xs-6 text-center"><span
+							th:text="${placeWord.key}"></span></td>
+						<td class="col-xs-6 text-center"><span
 							th:if="${placeWord.value[1] != 0}" class="badge"
 							th:text="${(placeWord.value[0]*100) div placeWord.value[1]}">
 						</span> <span th:if="${placeWord.value[1] == 0}">0</span></td>
-						<td class="col-xs-6 text-center"><span
-							th:text="${placeWord.key}"></span></td>
 						<td class="col-xs-6 text-center"><span
 							th:if="${placeWord.value[1] != 0}" class="badge"
 							th:text="${placeWord.value[0]}"></span> <span
@@ -77,7 +89,6 @@
 							th:if="${placeWord.value[1] != 0}" class="badge"
 							th:text="${placeWord.value[1]}"></span><span
 							th:if="${placeWord.value[1] == 0}">0</span></td>
-
 					</tr>
 				</tbody>
 			</table>

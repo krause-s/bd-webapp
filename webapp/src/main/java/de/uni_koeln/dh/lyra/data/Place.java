@@ -32,6 +32,20 @@ public class Place implements Serializable{
 		this.id = latitude + "-" + longitude;
 	}
 	
+	/**
+	 * Copy constructor
+	 * @param longitude
+	 * @param latitude
+	 */
+	public Place(Place placeToCopy) {
+		this.longitude = placeToCopy.getLongitude();
+		this.latitude = placeToCopy.getLatitude();
+		this.id = latitude + "-" + longitude;
+		this.popUps = placeToCopy.getPopUps();
+		this.meta = placeToCopy.getMeta();
+	}
+	
+	
 	public String getID(){
 		return id;
 	}
@@ -117,7 +131,7 @@ public class Place implements Serializable{
 	public boolean equals(Object obj) {
 		Place place = (Place) obj;
 
-		return (place.getLatitude() == this.getLatitude() && place.getLongitude() == this.getLongitude());
+		return this.id.equals(place.id);
 	}
 
 }

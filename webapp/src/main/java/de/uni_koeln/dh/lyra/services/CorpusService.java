@@ -17,6 +17,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.stereotype.Service;
 
 import de.uni_koeln.dh.lyra.data.Artist;
@@ -24,7 +25,6 @@ import de.uni_koeln.dh.lyra.data.Place;
 import de.uni_koeln.dh.lyra.data.PopUp;
 import de.uni_koeln.dh.lyra.data.Song;
 import de.uni_koeln.dh.lyra.processing.PlaceEvaluator;
-import de.uni_koeln.dh.lyra.util.Converter;
 import de.uni_koeln.dh.lyra.util.IO;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
@@ -162,7 +162,15 @@ public class CorpusService {
 	}
 
 	public List<Place> getPlaces() {
-		return this.places;
+		return places;
+	}
+
+	public List<Place> getPlacesByArtist(Artist selectedArtist) {
+		return artists.get(selectedArtist.getName()).getLyricsPlaces();
+	}
+
+	public Artist getArtistByName(String artistName) {
+		return artists.get(artistName);
 	}
 
 	public void loadAllPlaces() {
@@ -182,9 +190,9 @@ public class CorpusService {
 					freq = wordFreq.get(token);
 				}
 				wordFreq.put(token, freq + 1);
-			};
+			}
 		});
-		return Converter.sortMapByValue(wordFreq);
+		return wordFreq;
 	}
 
 	private void initTokenizer() {
@@ -320,17 +328,20 @@ public class CorpusService {
 		return new int[] { min, max };
 	}
 
-	public Artist getArtistByName(String artistName) {
-		return artists.get(artistName);
-	}
-
 	public Place getPlaceByID(String placeID) {
+		Place mergedPlace = null;
 		for (Place place : getPlaces()) {
-			if (place.getID().equals(placeID))
-				return place;
+			if (place.getID().equals(placeID)) {
+				if (mergedPlace == null) {
+					mergedPlace = SerializationUtils.clone(place);
+				} else {
+					for (PopUp popUp : place.getPopUps()) {
+						mergedPlace.addPopUp(popUp);
+					}
+				}
+			}
 		}
-		;
-		return null;
+		return mergedPlace;
 	}
 
 }

@@ -35,7 +35,7 @@ public class AnalysisController {
 
 	@Autowired
 	private CorpusService corpusService;
-	
+
 	@Autowired
 	private SearchService searchService;
 
@@ -80,11 +80,22 @@ public class AnalysisController {
 	 */
 	@RequestMapping(value = { "/placeswords" })
 	public String specificWordsForPlaces(@RequestParam(value = "place", required = false) String placeID,
-			Model model) throws ParseException, IOException {
+			@RequestParam(value = "artist", required = false) String artistName, Model model)
+			throws ParseException, IOException {
 		model.addAttribute("placesList", corpusService.getPlaces());
 		if (placeID != null) {
-			
-			Place chosenPlace = corpusService.getPlaceByID(placeID);
+			Place chosenPlace = null;
+			if (artistName != null) {
+				Artist artist = corpusService.getArtistByName(artistName);
+				for (Place place : artist.getLyricsPlaces()) {
+					if (place.getID().equals(placeID)) {
+						chosenPlace = place;
+						break;
+					}
+				}
+			} else {
+				chosenPlace = corpusService.getPlaceByID(placeID);
+			}
 			if (chosenPlace != null) {
 				Map<String, Integer[]> placeWordList = new HashMap<String, Integer[]>();
 				Map<String, Integer> placeWordFreq = corpusService.calculateWordFrequencies(chosenPlace.getPopUps());
@@ -99,14 +110,17 @@ public class AnalysisController {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					placeWordList.put(word, new Integer[]{placeContextFreq, occurrences});
+					placeWordList.put(word, new Integer[] { placeContextFreq, occurrences });
 				});
-				
+
 				model.addAttribute("placeWordList", placeWordList);
 				Set<String> placeNames = new TreeSet<>();
-				chosenPlace.getPopUps().forEach(popUp ->{
+				Set<String> artistNames = new TreeSet<>();
+				chosenPlace.getPopUps().forEach(popUp -> {
 					placeNames.add(popUp.getPlaceName());
+					artistNames.add(popUp.getReferredSong().getArtist());
 				});
+				model.addAttribute("artistNames", artistNames);
 				model.addAttribute("placeNames", placeNames);
 				model.addAttribute("chosenPlace", chosenPlace);
 			}
