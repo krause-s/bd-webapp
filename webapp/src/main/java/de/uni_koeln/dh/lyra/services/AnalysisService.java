@@ -1,7 +1,6 @@
 package de.uni_koeln.dh.lyra.services;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -13,7 +12,6 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queries.mlt.MoreLikeThis;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +96,12 @@ public class AnalysisService {
 
 	/**
 	 * @author Peter
+	 * @param inputLyrics
+	 * @return
+	 * @throws IOException
+	 *             takes the inputLyrics and returns a map of songs and the
+	 *             belonging similarities (max 100 songs and no similarity less
+	 *             than 10%)
 	 */
 
 	// compares a given text to the corpus and find similar songs
@@ -106,13 +110,11 @@ public class AnalysisService {
 		IndexSearcher is = new IndexSearcher(indexReader);
 		MoreLikeThis mlt = new MoreLikeThis(indexReader);
 		mlt.setAnalyzer(new StandardAnalyzer());
-		Reader target = new StringReader(inputLyrics);
-		Query query = mlt.like("lyrics", target);
-		TopDocs tds = is.search(query, 50);
+		TopDocs tds = is.search(mlt.like("lyrics", new StringReader(inputLyrics)), 50);
 		LinkedHashMap<Song, Float> songs = new LinkedHashMap<>();
-		for(ScoreDoc scoreDoc : tds.scoreDocs){
-			Song currSong = corpusService.getSongByID(is.doc(scoreDoc.doc).get("uuid"));
-			songs.put(currSong, scoreDoc.score);
+		for (ScoreDoc scoreDoc : tds.scoreDocs) {
+			if (scoreDoc.score > 10)
+				songs.put(corpusService.getSongByID(is.doc(scoreDoc.doc).get("uuid")), scoreDoc.score);
 		}
 		return songs;
 	}

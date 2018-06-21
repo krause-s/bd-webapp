@@ -19,8 +19,9 @@ import opennlp.tools.tokenize.TokenizerModel;
 import opennlp.tools.util.Span;
 
 /**
- * class manages song preprocessing in terms of
- * tokenization and name entity recognition
+ * class manages song preprocessing in terms of tokenization and name entity
+ * recognition
+ * 
  * @author Johanna
  *
  */
@@ -39,13 +40,13 @@ public class SongPreprocessor {
 	 * contains all created places objects
 	 */
 	private List<Place> placesToEvaluate = new ArrayList<Place>();
-	
+
 	/**
 	 * contains all queried strings and their results
 	 */
-	private Map<String, Double[]> placeNameCoordinates = new HashMap<String, Double[]>(); 
-	//TODO serialize map for all lyra users
-	
+	private Map<String, Double[]> placeNameCoordinates = new HashMap<String, Double[]>();
+	// TODO serialize map for all lyra users
+
 	/**
 	 * initializes geo tagger, tokenizer and NER finder
 	 */
@@ -80,8 +81,9 @@ public class SongPreprocessor {
 	}
 
 	/**
-	 * searches for coordinates to the given place name. if name
-	 * has already been queried, gives back the stored coordinates
+	 * searches for coordinates to the given place name. if name has already
+	 * been queried, gives back the stored coordinates
+	 * 
 	 * @param placeName
 	 * @return GPS coordinates ( [0] = lat, [1] = lon )
 	 */
@@ -101,8 +103,9 @@ public class SongPreprocessor {
 	}
 
 	/**
-	 * tokenizes the lyrics of a song and sets the tokens
-	 * for the given song object
+	 * tokenizes the lyrics of a song and sets the tokens for the given song
+	 * object
+	 * 
 	 * @param song
 	 * @return
 	 */
@@ -118,10 +121,10 @@ public class SongPreprocessor {
 	}
 
 	/**
-	 * searches for places in the lyrics, searches for
-	 * coordinates for the found named entities.
-	 * adds the found place references and coordinates to
-	 * a placesToEvaluate list
+	 * searches for places in the lyrics, searches for coordinates for the found
+	 * named entities. adds the found place references and coordinates to a
+	 * placesToEvaluate list
+	 * 
 	 * @param song
 	 */
 	public void addPlaces(Song song) {
@@ -153,9 +156,8 @@ public class SongPreprocessor {
 
 	/**
 	 * searches in the lyrics with NER for place-references, creates for each
-	 * reference a popUp.
-	 * if one place name is references several times in the lyrics, the quotes
-	 * are contained in one pop up
+	 * reference a popUp. if one place name is references several times in the
+	 * lyrics, the quotes are contained in one pop up
 	 * 
 	 * @param song
 	 * @return
@@ -169,8 +171,9 @@ public class SongPreprocessor {
 
 		List<PopUp> annotatedPopUps;
 
-		if (lyricsWithPopUps.containsKey(song.getUuid())) { // lyrics are already
-													// processed with NER
+		if (lyricsWithPopUps.containsKey(song.getUuid())) { // lyrics are
+															// already
+			// processed with NER
 			annotatedPopUps = lyricsWithPopUps.get(song.getUuid());
 		} else { // process lyrics with NER
 
