@@ -136,7 +136,7 @@ public class SongPreprocessor {
 			Double[] latLon = getCoordinates(placeName);
 			String meta = "";
 			try {
-				meta = tagger.findMetaData();
+				meta = tagger.findMetaData(placeName, 0);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

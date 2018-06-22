@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:with="title='Placescorrection'">
+
+<head th:replace="../fragments/core/header :: header(${title})"></head>
+
+<body>
+	<nav
+		th:replace="../fragments/core/navbar :: navbar(${#strings.unCapitalize(title)})"></nav>
+
+	<div class="panel panel-default">
+		<div th:each="place : ${alternatePlacesList}">
+			<h3 th:text="${placeName}"></h3>
+			<form action="#" th:action="@{/analytics/placescorrection/set}"
+				method="post">
+				<input type="hidden" th:value="${placeName}" id="oldPlaceName" name="oldPlaceName"/>
+				<input type="hidden" th:value="${place.latitude}" id="latitude" name="latitude"/>
+				<input type="hidden" th:value="${place.longitude}" id="longitude" name="longitude"/>
+				<input type="hidden" th:value="${place.meta}" id="meta" name="meta"/>
+				<div class="panel panel-default" th:text="${place.latitude}"></div>
+				<div class="panel panel-default" th:text="${place.longitude}"></div>
+				<div class="panel panel-default" th:text="${place.meta}"></div>
+				<button class="btn btn-danger btn-block" type="submit">OK</button>
+			</form>
+		</div>
+
+	</div>
+	<!-- /.panel -->
+
+	<footer th:replace="../fragments/core/footer"></footer>
+</body>
+
+</html>

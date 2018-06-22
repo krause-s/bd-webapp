@@ -83,6 +83,8 @@ public class CorpusService {
 	public void completeCorpus(Map<Place, Set<String>> deletionMap) {
 		artists.putAll(PlaceEvaluator.evaluatePlaces(placesToEvaluate, deletionMap, artists));
 		serializeCorpus();
+		initTokenizer();
+		loadAllPlaces();
 	}
 
 	/**

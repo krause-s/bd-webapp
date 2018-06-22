@@ -20,6 +20,10 @@ public class Place implements Serializable{
 	public String id;
 	private String meta;
 	
+	public Place(){
+		
+	}
+	
 	/**
 	 * creates a geographical Place with the given latitude
 	 * and longitude

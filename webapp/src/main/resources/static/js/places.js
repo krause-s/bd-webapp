@@ -193,8 +193,10 @@ function buildPopUpContent(place) {
 		+ currentPlaceName
 		+ "</h3>"
 		+ "<p> \" " + place.popUps[m].content + " \" </p>";
-		content += place.popUps[m].referredSong ? '<p> <a href="/browse/' + place.popUps[m].referredSong.uuid + '">' + place.popUps[m].referredSong.title + " </a>(" + place.popUps[m].referredSong.year + ")</p>" : "";
-		content += "</div>";
+		content += '<p>';
+		content += place.popUps[m].referredSong ? '<a href="/browse/' + place.popUps[m].referredSong.uuid + '">' + place.popUps[m].referredSong.title + " </a>(" + place.popUps[m].referredSong.year + ")" : "";
+		content += '<a href="/analytics/placescorrection?place='  + place.popUps[m].placeName + '"><span title="change position" class="glyphicon glyphicon-pushpin"></span></a></div>';
+		content += '</p>';
 	}
 	return content;
 }

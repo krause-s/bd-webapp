@@ -16,12 +16,16 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import de.uni_koeln.dh.lyra.data.Artist;
 import de.uni_koeln.dh.lyra.data.Place;
+import de.uni_koeln.dh.lyra.data.PopUp;
 import de.uni_koeln.dh.lyra.data.Song;
+import de.uni_koeln.dh.lyra.processing.GeoTagger;
 import de.uni_koeln.dh.lyra.services.AnalysisService;
 import de.uni_koeln.dh.lyra.services.CorpusService;
 import de.uni_koeln.dh.lyra.services.SearchService;
@@ -126,6 +130,50 @@ public class AnalysisController {
 			}
 		}
 		return "placeswords";
+	}
+
+	
+	
+	/**
+	 * Method to change palces geodates 
+	 * @param placeName
+	 * @param model
+	 * @throws ParseException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = { "/placescorrection" })
+	public String placesCorrection(@RequestParam(value = "place", required = true) String placeName, Model model)
+			throws ParseException, IOException {
+		GeoTagger tagger = new GeoTagger();
+		List<Place> places = tagger.getAlternativePlaces(placeName);
+		model.addAttribute("placeName", placeName);
+		model.addAttribute("alternatePlacesList", places);
+		return "placescorrection";
+	}
+
+	/**
+	 * Sets new palces geodates  after changing and updates the serialized corpus
+	 * @param placeName
+	 * @param model
+	 * @throws ParseException
+	 * @throws IOException
+	 */
+	@PostMapping(value = { "/placescorrection/set" })
+	public String placesSetCorrection(@ModelAttribute(value = "latitude") String latitude,
+			@ModelAttribute(value = "longitude") String longitude, @ModelAttribute(value = "meta") String meta,
+			@ModelAttribute(value = "oldPlaceName") String oldPlaceName, Model model)
+			throws ParseException, IOException {
+		for (Place oldPlace : corpusService.getPlaces()) {
+			for (PopUp popup : oldPlace.getPopUps()) {
+				if (popup.getPlaceName().equals(oldPlaceName)) {
+					oldPlace.setLatitude(Double.valueOf(latitude));
+					oldPlace.setLongitude(Double.valueOf(longitude));
+					oldPlace.setMeta(meta);
+				}
+			}
+		}
+		corpusService.serializeCorpus();
+		return "index";
 	}
 
 	/**

@@ -6,13 +6,21 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.jsoup.Jsoup;
 import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import de.uni_koeln.dh.lyra.data.Place;
+import de.uni_koeln.dh.lyra.data.PopUp;
 
 /**
  * processes geo data for reference strings by using nominatim
@@ -38,37 +46,53 @@ public class GeoTagger {
 	 * @throws IOException
 	 */
 	public Double[] findGeoData(String query) throws IOException {
-
-		Double[] geoDates = new Double[2];
-		
 		if (nominatimResponses.containsKey(query)) {
 			nominatimJsonResponse = nominatimResponses.get(query);
 		} else {
 			nominatimJsonResponse = Jsoup.connect(
-					"http://nominatim.openstreetmap.org/search/" + query + "?format=json&addressdetails=1&limit=1")
+					"http://nominatim.openstreetmap.org/search/" + query + "?format=json&addressdetails=1&limit=5")
 					.ignoreContentType(true).execute().body();
 			nominatimResponses.put(query, nominatimJsonResponse);
 			serializePlaceCoordinates();
 		}
-		JsonFactory factory = new JsonFactory();
-		JsonParser parser = factory
-				.createParser(nominatimJsonResponse.substring(1, nominatimJsonResponse.length() - 1));
+		Double[] geoDates = parseJSON(nominatimJsonResponse, 0);
+		return geoDates;
+	}
 
-		while (!parser.isClosed()) {
-			JsonToken jsonToken = parser.nextToken();
-
-			if (JsonToken.FIELD_NAME.equals(jsonToken)) {
-				String fieldName = parser.getCurrentName();
-				jsonToken = parser.nextToken();
-				if ("lat".equals(fieldName)) {
-					geoDates[0] = parser.getValueAsDouble();
-				} else if ("lon".equals(fieldName)) {
-					geoDates[1] = parser.getValueAsDouble();
-					return geoDates;
+	public List<Place> getAlternativePlaces(String placeName) throws JsonParseException, IOException {
+		List<Place> places = new ArrayList<Place>();
+		for (int i = 0; i < 4; i++) {
+			if (parseJSON(nominatimResponses.get(placeName), i) != null) {
+				Double[] currCoordinates = parseJSON(nominatimResponses.get(placeName), i);
+				if (currCoordinates[0] != null && currCoordinates[1] != null && currCoordinates[0] != 0
+						&& currCoordinates[1] != 0) {
+					Place currPlace = new Place(currCoordinates[0], currCoordinates[1]);
+					currPlace.setMeta(findMetaData(placeName, i));
+					PopUp popUp = new PopUp(placeName, "");
+					currPlace.addPopUp(popUp );
+					places.add(currPlace);
 				}
 			}
 		}
-		return null;
+		return places;
+	}
+
+	private Double[] parseJSON(String jsonToParse, int jsonArrayIndex) throws JsonParseException, IOException {
+		Double[] geoDates = new Double[2];
+		Map<String, String>[] jsonMapMap;
+		ObjectMapper objectMapper = new ObjectMapper();
+		jsonMapMap = (Map<String, String>[]) objectMapper.readValue(jsonToParse, HashMap[].class);
+		if (jsonMapMap.length > jsonArrayIndex) {
+			if (jsonMapMap[jsonArrayIndex].get("lat") != null) {
+				geoDates[0] = Double.valueOf(jsonMapMap[jsonArrayIndex].get("lat"));
+			}
+			if (jsonMapMap[jsonArrayIndex].get("lon") != null) {
+				geoDates[1] = Double.valueOf(jsonMapMap[jsonArrayIndex].get("lon"));
+			}
+			return geoDates;
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -79,29 +103,37 @@ public class GeoTagger {
 	 * @return
 	 * @throws IOException
 	 */
-	public String findMetaData() throws IOException {
+	@SuppressWarnings("unchecked")
+	public String findMetaData(String placeName, int jsonArrayIndex) throws IOException {
+		String nominatimJsonResponse = nominatimResponses.get(placeName);
 		String meta = "";
-		JsonFactory factory = new JsonFactory();
-		JsonParser parser = factory
-				.createParser(nominatimJsonResponse.substring(1, nominatimJsonResponse.length() - 1));
-
-		while (!parser.isClosed()) {
-			JsonToken jsonToken = parser.nextToken();
-			if (JsonToken.FIELD_NAME.equals(jsonToken)) {
-				String fieldName = parser.getCurrentName();
-				jsonToken = parser.nextToken();
-				if ("country".equals(fieldName) || "county".equals(fieldName) || "state".equals(fieldName)
-						|| "town".equals(fieldName)) {
-					meta += parser.getText() + " ";
-				}
+		Map<String, LinkedHashMap<String, String>>[] jsonMap;
+		ObjectMapper objectMapper = new ObjectMapper();
+		jsonMap = (Map<String, LinkedHashMap<String, String>>[]) objectMapper.readValue(nominatimJsonResponse,
+				HashMap[].class);
+		if (jsonMap.length > jsonArrayIndex) {
+			Map<String, String> addressMap = jsonMap[jsonArrayIndex].get("address");
+			if (addressMap.get("country") != null) {
+				meta += addressMap.get("country");
 			}
+			if (addressMap.get("county") != null) {
+				meta += addressMap.get("county");
+			}
+			if (addressMap.get("state") != null) {
+				meta += addressMap.get("state");
+			}
+			if (addressMap.get("town") != null) {
+				meta += addressMap.get("town");
+			}
+			return meta;
+		} else {
+			return "";
 		}
-		return meta;
 	}
-	
-	
+
 	/**
-	 * serializes the found nominatim entries to avoid repeating the same requests to som-server
+	 * serializes the found nominatim entries to avoid repeating the same
+	 * requests to som-server
 	 */
 	public void serializePlaceCoordinates() {
 		try {
@@ -114,7 +146,7 @@ public class GeoTagger {
 			i.printStackTrace();
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void deserializeNominatimResponses() {
 		if (new File(filePath).exists()) {
@@ -133,6 +165,5 @@ public class GeoTagger {
 			}
 		}
 	}
-
 
 }
