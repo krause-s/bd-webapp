@@ -12,17 +12,59 @@
 		<div th:replace="../fragments/core/heading :: heading(${title},'')"></div>
 
 		<p>
-			<span>This application is made for an course at the</span>
-			<a href="http://www.uni-koeln.de">University of Cologne</a>.
+			<span>This application is made for an course at the</span> <a
+				href="http://www.uni-koeln.de">University of Cologne</a>.
 		</p>
+		<p>The site gives users the possibility to upload song lyrics and
+			analyze these. To make it easy to use, users just have to create an
+			excel table (an example is downloadable on the index page) and upload
+			it. It contains two sheets. One sheet is for the lyrics dates and the
+			other one should carry biographical information. After uploading the
+			data, an algorithm will detect mentioned places and find metadata for
+			these like longitude and latitude, which is necessary for showing the
+			places later on a map. This is a massive support for users, because
+			they don't have to annotate the corpus. But of course the generated
+			data contains mistakes. To prevent false positives the user is asked
+			to evaluate the found places after the analyzer is done. In this
+			Overlay the User can mark these false positives. Places that are true
+			positives but got the wrong metadata and so are shown on the wrong
+			spot on the map, can be corrected by the user in a section that can
+			be accessed by the places popups on the map. The source of the
+			geodata is nominatim (an api by open street maps). All responses of
+			this api are stored in the backend to prevent unnecessary api calls
+			and waiting time for the user.</p>
+
+		<p>Besides the map there are some analyzing tools for the uploaded
+			lyrics. Concerning the places the user can analyze the (ranked)
+			tokens used in the context of one place. This can be done using the
+			entire corpus or just the lyrics of one artist. The frequency area
+			allows you to see the ranked most relevant words of either two
+			artists or one artist in different periods. The vocabulary function
+			displays how many different tokens an artist uses (in corpus
+			and per song). Here it is also possible to get the absolute frequency
+			of the words occurrences. Besides this the user can have a look at
+			the average song length per artist. The last area is the similarity
+			calculation (which can also be found under the view of each song).
+			This functionality allows to retrieve text based similarity of songs.</p>
+			
+		<p>More functions that can be found is the distributional overview
+			over the given corpus at the index page, a browse and an (advanced)
+			search area.</p>
+			
+		<p>What comes next? It is planned to add a user management to the
+			application and to make it possible to annotate the lyrics if the
+			user finds places that were not recognized by the named entity
+			recognition. Furthermore the authors think about creating a poster
+			about the project.</p>
 		<p>
-			<b>Authors:</b>
-			<a href="mailto:binnewij@smail.uni-koeln.de?subject=lyra">Johanna Binnewitt</a>, 
-			<a href="mailto:skrause1@smail.uni-koeln.de?subject=lyra">Stefan Krause</a>, 
-			<a href="mailto:Pseipel@smail.uni-koeln.de?subject=lyra">Peter Seipel</a>.
+			<b>Authors:</b> <a
+				href="mailto:binnewij@smail.uni-koeln.de?subject=lyra">Johanna
+				Binnewitt</a>, <a href="mailto:skrause1@smail.uni-koeln.de?subject=lyra">Stefan
+				Krause</a>, <a href="mailto:Pseipel@smail.uni-koeln.de?subject=lyra">Peter
+				Seipel</a>.
 		</p>
 	</div>
-	
+
 	<footer th:replace="../fragments/core/footer"></footer>
 </body>
 
