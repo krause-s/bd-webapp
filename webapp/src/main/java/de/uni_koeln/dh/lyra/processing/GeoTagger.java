@@ -13,10 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.jsoup.Jsoup;
-import com.fasterxml.jackson.core.JsonFactory;
+
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.uni_koeln.dh.lyra.data.Place;
@@ -45,13 +43,14 @@ public class GeoTagger {
 	 * @return Array with lat[0] and lon[1]
 	 * @throws IOException
 	 */
+	@SuppressWarnings("deprecation")
 	public Double[] findGeoData(String query) throws IOException {
 		if (nominatimResponses.containsKey(query)) {
 			nominatimJsonResponse = nominatimResponses.get(query);
 		} else {
 			nominatimJsonResponse = Jsoup.connect(
 					"http://nominatim.openstreetmap.org/search/" + query + "?format=json&addressdetails=1&limit=5")
-					.ignoreContentType(true).execute().body();
+					.ignoreContentType(true).validateTLSCertificates(false).execute().body();		// TODO remove deprecation (call required for connecting)
 			nominatimResponses.put(query, nominatimJsonResponse);
 			serializePlaceCoordinates();
 		}
